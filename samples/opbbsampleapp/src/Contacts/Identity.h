@@ -1,6 +1,6 @@
 /*
  
- Copyright (c) 2012, SMB Phone Inc.
+ Copyright (c) 2013, SMB Phone Inc.
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -28,35 +28,43 @@
  either expressed or implied, of the FreeBSD Project.
  
  */
+ 
+#ifndef OPBBSAMPLEAPP_IDENTITY_H
+#define OPBBSAMPLEAPP_IDENTITY_H
 
-#include "Session.h"
-#include "Contact.h"
+#include <string>
 
-@implementation Session
+namespace hookflash {
+  namespace blackberry {
+    namespace app {
 
-- (id) initWithContact:(Contact*) inContact conversationThread:(HOPConversationThread*) inConverationThread
-{
-    self = [super init];
-    if (self)
-    {
-        self.participantsArray = [[[NSMutableArray alloc] init] autorelease];
-        [self.participantsArray addObject:inContact];
+      class Identity {
+      public:
+
+        typedef enum {
+            None,
+            Email,
+            PhoneNumber,
+            LinkedInID,
+            FacebookID,
+            FacebookUsername,
+            TwitterID,
+            TwitterUsername,
+            AddressBook
+        } ProvisioningAccountIdentityType;
+
+        Identity(ProvisioningAccountIdentityType idType, const std::wstring& identityContactId) : mIdType(idType), mIdentityContactId(identityContactId) {}
+
+        ProvisioningAccountIdentityType GetIdType() { return mIdType; }
+        std::wstring GetIdentityContactId() { return mIdentityContactId; }
+
+      private:
+
+        ProvisioningAccountIdentityType mIdType;
+        std::wstring mIdentityContactId;
+      };
     }
-    self.conversationThread = inConverationThread;
-    return self;
+  }
 }
 
-- (id) initWithContacts:(NSArray*) inContacts conversationThread:(HOPConversationThread*) inConverationThread
-{
-    self = [super init];
-    if (self)
-    {
-        self.participantsArray = [[[NSMutableArray alloc] init] autorelease];
-        if (inContacts)
-            [self.participantsArray addObjectsFromArray:inContacts];
-    }
-    self.conversationThread = inConverationThread;
-    return self;
-}
-
-@end
+#endif // OPBBSAMPLEAPP_IDENTITY_H

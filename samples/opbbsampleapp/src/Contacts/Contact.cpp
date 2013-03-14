@@ -29,41 +29,20 @@
  
  */
 
-#import "Contact.h"
-#import <OpenpeerSDK/HOPTypes.h>
-#import <OpenpeerSDK/HOPIdentity.h>
+#include "Contact.h"
 
-@implementation Contact
+using namespace hookflash::blackberry::app;
 
-- (id) initWithFullName:(NSString*) inFullName profession:(NSString*) inProfession avatarUrl:(NSString*) inAvatarUrl identityProvider:(HOPProvisioningAccountIdentityTypes) identityProvider identityContactId:(NSString*) identityContactId
+Contact::Contact(const std::wstring& fullName,
+                 const std::wstring& profession,
+                 const std::wstring& avatarUrl,
+                 Identity::ProvisioningAccountIdentityType idType,
+                 const std::wstring& identityContactId) :
+                 mFullName(fullName),
+                 mProfession(profession),
+                 mAvatarUrl(avatarUrl)
 {
-    self = [super init];
-    if (self)
-    {
-        self.fullName = inFullName;
-        self.profession = inProfession;
-        self.avatarUrl = inAvatarUrl;
-        self.identities = [[[NSMutableArray alloc] init] autorelease];
-        
-        if ([identityContactId length] > 0)
-        {
-            HOPIdentity* identity = [[HOPIdentity alloc] init];
-            identity.identityType = identityProvider;
-            identity.identityId = identityContactId;
-            [self.identities addObject:identity];
-            [identity release];
-        }
-    }
-    return self;
+  if(identityContactId.size() > 0) {
+    mIdentities.push_back(Identity(idType, identityContactId));
+  }
 }
-
-- (void)dealloc
-{
-    [_fullName release];
-    [_profession release];
-    [_avatarUrl release];
-    [_identities release];
-    [_hopContact release];
-    [super dealloc];
-}
-@end

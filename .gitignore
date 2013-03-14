@@ -1,0 +1,2 @@
+*.o
+/samples/opbbsampleapp/Device-Debug/src/main.o
