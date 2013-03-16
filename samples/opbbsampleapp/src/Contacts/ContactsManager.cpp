@@ -29,7 +29,13 @@
  
  */
 
-#import "ContactsManager.h"
+#include "Contacts/ContactsManager.h"
+
+using namespace hookflash::blackberry::app;
+
+boost::shared_ptr<ContactsManager> ContactsManager::sSharedManager;
+
+/*
 #import "MainViewController.h"
 #import "ContactsTableViewController.h"
 #import "OpenPeer.h"
@@ -43,24 +49,22 @@
 #import <OpenpeerSDK/HOPLookupProfileInfo.h>
 #import <OpenpeerSDK/HOPProvisioningAccountPeerFileLookupQuery.h>
 
-@interface ContactsManager ()
-{
-    NSString* keyJSONContactFirstName;
-    NSString* keyJSONContacLastName;
-    NSString* keyJSONContactId;
-    NSString* keyJSONContactProfession;
-    NSString* keyJSONContactPictureURL;
-    NSString* keyJSONContactFullName;
+ContactsManager::ContactsManager() {
+  keyJSONContacLastName     = L"firstName";
+  keyJSONContactFirstName   = L"lastName";
+  keyJSONContactId          = L"id";
+  keyJSONContactProfession  = L"headline";
+  keyJSONContactPictureURL  = L"pictureUrl";
+  keyJSONContactFullName    = L"fullName";
+
+  self.linkedinContactsWebView = [[[UIWebView alloc] init] autorelease];
+  self.linkedinContactsWebView.delegate = self;
+
+  self.mContacts = [[[NSMutableArray alloc] init] autorelease];
+  self.contactsDictionaryByProvider = [[[NSMutableDictionary alloc] init] autorelease];
 }
-- (id) initSingleton;
-
-@end
-@implementation ContactsManager
-
-/**
- Retrieves singleton object of the Contacts Manager.
- @return Singleton object of the Contacts Manager.
- */
+      //-----------------------------------------------------------------------
+      // Retrieves singleton object of the Contacts Manager.
 + (id) sharedContactsManager
 {
     static dispatch_once_t pred = 0;
@@ -71,34 +75,20 @@
     return _sharedObject;
 }
 
-/**
- Initialize singleton object of the Contacts Manager.
- @return Singleton object of the Contacts Manager.
- */
+      //-----------------------------------------------------------------------
+      // Initialize singleton object of the Contacts Manager.
 - (id) initSingleton
 {
     self = [super init];
     if (self)
     {
-        keyJSONContacLastName = @"firstName";
-        keyJSONContactFirstName = @"lastName";
-        keyJSONContactId          = @"id";
-        keyJSONContactProfession  = @"headline";
-        keyJSONContactPictureURL  = @"pictureUrl";
-        keyJSONContactFullName    = @"fullName";
-        
-        self.linkedinContactsWebView = [[[UIWebView alloc] init] autorelease];
-        self.linkedinContactsWebView.delegate = self;
-        
-        self.contactArray = [[[NSMutableArray alloc] init] autorelease];
-        self.contactsDictionaryByProvider = [[[NSMutableDictionary alloc] init] autorelease];
     }
     return self;
 }
 
-/**
- Initiates contacts loading procedure.
- */
+      //-----------------------------------------------------------------------
+      // Initiates contacts loading procedure.
+
 - (void) loadContacts
 {
     [[[OpenPeer sharedOpenPeer] mainViewController] showContactsTable];
@@ -117,9 +107,9 @@
     [self.linkedinContactsWebView loadRequest:requestObj];
 }
 
-/**
- Web view which will perform contacts loading procedure.
- */
+      //-----------------------------------------------------------------------
+      // Web view which will perform contacts loading procedure.
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *requestString = [[request URL] absoluteString];
@@ -143,10 +133,8 @@
     return YES;
 }
 
-/**
- Parse JSON to get the profile for logged user.
- @param input NSString JSON input for processing.
- */
+      //-----------------------------------------------------------------------
+      // Parse JSON to get the profile for logged user.
 - (void)proccessMyProfile:(NSString*)input
 {
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -180,10 +168,9 @@
     [self.linkedinContactsWebView performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsMethodName waitUntilDone:NO];
 }
 
-/**
- Process connections.
- @param input NSString JSON input for processing.
- */
+      //-----------------------------------------------------------------------
+      // Process connections.
+
 - (void)proccessConnections:(NSString*)input
 {
     //Parse JSON to get the contacts
@@ -211,7 +198,7 @@
                    
                    Contact* contact = [[Contact alloc] initWithFullName:fullName profession:profession avatarUrl:avatarUrl identityProvider:HOPProvisioningAccountIdentityTypeLinkedInID identityContactId:providerContactId];
             
-                   [self.contactArray addObject:contact];
+                   [self.mContacts addObject:contact];
                    [contacts setObject:contact forKey:providerContactId];
                    [contact release];
                }
@@ -223,20 +210,19 @@
     
     [[[[OpenPeer sharedOpenPeer] mainViewController] contactsTableViewController] onContactsLoaded];
     
-    [self contactsLookupQuery:self.contactArray];
+    [self contactsLookupQuery:self.mContacts];
     [[[[OpenPeer sharedOpenPeer] mainViewController] contactsTableViewController] onContactsPeerFilesLoadingStarted];
 }
 
-/**
- Check contact identites against openpeer database.
- @param contacts NSArray List of contacts.
- */
+      //-----------------------------------------------------------------------
+      // Check contact identites against openpeer database.
+
 - (void)contactsLookupQuery:(NSArray *)contacts
 {
     NSMutableArray* identities = [[NSMutableArray alloc] init];
     
     
-    for (Contact* contact in self.contactArray)
+    for (Contact* contact in self.mContacts)
     {
         //Add all associated contact identities
         for (HOPIdentity* identity in contact.identities)
@@ -251,10 +237,9 @@
     [identities release];
 }
 
-/**
- Does JSON response parsing to get user facebook profile.
- @param input NSString JSON input for processing.
- */
+      //-----------------------------------------------------------------------
+      // Does JSON response parsing to get user Facebook profile.
+
 - (void)proccessMyFBProfile:(NSString*)input
 {
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -279,10 +264,9 @@
     }
 }
 
-/**
- Does JSON response parsing to get the list of facebook contacts 
- @param input NSString JSON input for processing.
- */
+      //-----------------------------------------------------------------------
+      // Does JSON response parsing to get the list of Facebook contacts
+
 - (void)proccessFbFriends:(NSString*)input
 {
     //Parse JSON to get the contacts
@@ -314,7 +298,7 @@
                     //HOP_TODO: Try to get contact for identites, or create it
                     Contact* contact = [[Contact alloc] initWithFullName:fullName profession:@"" avatarUrl:avatarUrl identityProvider:HOPProvisioningAccountIdentityTypeFacebookID identityContactId:providerContactId];
                     
-                    [self.contactArray addObject:contact];
+                    [self.mContacts addObject:contact];
                     [contacts setObject:contact forKey:providerContactId];
                     [contact release];
                 }
@@ -326,20 +310,19 @@
     
     [[[[OpenPeer sharedOpenPeer] mainViewController] contactsTableViewController] onContactsLoaded];
     
-    [self contactsLookupQuery:self.contactArray];
+    [self contactsLookupQuery:self.mContacts];
     [[[[OpenPeer sharedOpenPeer] mainViewController] contactsTableViewController] onContactsPeerFilesLoadingStarted];
 }
 
-/**
- Send request to get the peer files for specified list of contacts
- @param contacts NSArray List of contacts.
- */
+      //-----------------------------------------------------------------------
+      // Send request to get the peer files for specified list of contacts
+
 - (void)peerFileLookupQuery:(NSArray *)contacts
 {
     NSMutableArray* hopContacts = [[NSMutableArray alloc] init];
     
     //Create list of hopContact objects
-    for (Contact* contact in self.contactArray)
+    for (Contact* contact in self.mContacts)
     {
         if (contact.hopContact)
             [hopContacts addObject:contact.hopContact];
@@ -351,11 +334,11 @@
     [hopContacts release];
 }
 
-/**
- Retrieves contact for passed list of identities.
- @param identities NSArray List of identities.
- @return Contact with specified identities.
- */
+      //-----------------------------------------------------------------------
+      // Retrieves contact for passed list of identities.
+      // IN: identities NSArray List of identities.
+      // RETURN Contact with specified identities.
+
 - (Contact*) getContactForIdentities:(NSArray*) identities
 {
     Contact* contact = nil;
@@ -369,7 +352,8 @@
     return contact;
 }
 
-#pragma mark - HOPProvisioningAccountIdentityLookupQueryDelegate
+      //-----------------------------------------------------------------------
+
 - (void) onAccountIdentityLookupQueryComplete:(HOPProvisioningAccountIdentityLookupQuery*) query
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -383,19 +367,17 @@
             
             [[[[OpenPeer sharedOpenPeer] mainViewController] contactsTableViewController] onContactsLoaded];
             
-            [self peerFileLookupQuery:self.contactArray];
+            [self peerFileLookupQuery:self.mContacts];
         }
     });
 }
 
+      //-----------------------------------------------------------------------
 
-#pragma mark - HOPProvisioningAccountPeerFileLookupQueryDelegate
 - (void) onAccountPeerFileLookupQueryComplete:(HOPProvisioningAccountPeerFileLookupQuery*) query
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [[[[OpenPeer sharedOpenPeer] mainViewController] contactsTableViewController] onContactsLoaded];
     });
 }
-
-
-@end
+*/

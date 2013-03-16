@@ -1,2 +1,3 @@
 *.o
 /samples/opbbsampleapp/Device-Debug/src/main.o
+/hookflash-libs/.DS_Store

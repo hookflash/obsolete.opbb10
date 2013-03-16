@@ -29,18 +29,31 @@
  
  */
 
-#import <Foundation/Foundation.h>
-#import <OpenpeerSDK/HOPProtocols.h>
+#include "boost/smart_ptr.hpp"
 
-@class Contact;
+namespace hookflash {
+  namespace blackberry {
+    namespace app {
 
-@interface ContactsManager : NSObject<UIWebViewDelegate,HOPProvisioningAccountIdentityLookupQueryDelegate,HOPProvisioningAccountPeerFileLookupQueryDelegate>
+      class Contact;
 
-@property (retain, nonatomic) NSMutableArray *contactArray;
-@property (retain, nonatomic) NSMutableDictionary *contactsDictionaryByProvider; //This is dictionary of dictionaries. Each provider has its own dictionary with contacts whose keys are contact provider id
-@property (retain, nonatomic) UIWebView *linkedinContactsWebView;
+      class ContactsManager {
+      public:
+        static boost::shared_ptr<ContactsManager> SharedContactsManager();
+        void LoadContacts();
 
-+ (id) sharedContactsManager;
+        - (void)contactsLookupQuery:(NSArray *)contacts;
+        - (void)peerFileLookupQuery:(NSArray *)contacts;
+
+        - (Contact*) getContactForIdentities:(NSArray*) identities;
+      private:
+
+        ContactsManager();
+
+        static boost::shared_ptr<ContactsManager> sSharedManager;
+
+        std::vector< boost::shared_ptr<Contact> > mContacts;
+        std::map< std::wstring, boost::shared_ptr<Contact> > mContactsByProvider;
 
 - (void) loadContacts;
 
@@ -49,3 +62,8 @@
 
 - (Contact*) getContactForIdentities:(NSArray*) identities;
 @end
+*/
+      };
+    }
+  }
+}

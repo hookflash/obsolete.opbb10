@@ -1,6 +1,6 @@
 /*
  
- Copyright (c) 2013, SMB Phone Inc.
+ Copyright (c) 2012, SMB Phone Inc.
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -28,50 +28,26 @@
  either expressed or implied, of the FreeBSD Project.
  
  */
- 
-#include "Contacts/Identity.h"
-#include <vector>
-#include "hookflash/core/IContact.h"
 
-namespace hookflash {
-  namespace blackberry {
-    namespace app {
+#import <Foundation/Foundation.h>
 
-      class Contact {
-      public:
-        Contact(const std::wstring& fullName,
-                const std::wstring& profession,
-                const std::wstring& avatarUrl,
-                Identity::ProvisioningAccountIdentityType idType,
-                const std::wstring& identityContactId);
+@interface OpenPeerUser : NSObject
 
-        std::wstring GetFullName() { return mFullName; }
-        std::wstring GetProfession() { return mProfession; }
-        std::wstring GetAvatarUrl() { return mAvatarUrl; }
+@property (nonatomic, copy) NSString* fullName;
+@property (nonatomic, copy) NSString* userId;
+@property (nonatomic, copy) NSString* contactId;
+@property (nonatomic, copy) NSString *accountSalt;
+@property (nonatomic, copy) NSString *passwordNonce;
+@property (nonatomic, copy) NSString *peerFilePassword;
+@property (nonatomic, copy) NSString *privatePeerFile;
+@property (nonatomic, copy) NSNumber *providerKey;
+@property (nonatomic, copy) NSString *contactProviderId;
+@property (nonatomic, assign) NSTimeInterval lastProfileUpdateTimestamp;
 
-        hookflash::core::IContactPtr GetContact() { return mContact; }
-        void SetContact(hookflash::core::IContactPtr contact) { mContact = contact; }
++ (id) sharedOpenPeerUser;
 
-        std::wstring GetUserId() { return mUserId; }
-        std::wstring GetContactId() { return mContactId; }
-        long GetLastProfileUpdateTimestamp() { return mLastProfileUpdateTimestamp; }
+- (void) saveUserData;
+- (void) deleteUserData;
+- (NSString*) createProfileBundle;
 
-        std::vector<Identity> GetIdentities() { return mIdentities; }
-
-
-      private:
-
-        std::wstring mFullName;
-        std::wstring mProfession;
-        std::wstring mAvatarUrl;
-        hookflash::core::IContactPtr mContact;
-
-        std::wstring mUserId;
-        std::wstring mContactId;
-        long mLastProfileUpdateTimestamp;
-
-        std::vector<Identity> mIdentities;
-      };
-    }
-  }
-}
+@end
