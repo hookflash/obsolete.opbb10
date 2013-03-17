@@ -4,52 +4,47 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="7"/>
-        <source>Tab 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="13"/>
+        <location filename="../assets/main.qml" line="16"/>
         <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="19"/>
+        <location filename="../assets/main.qml" line="22"/>
         <source>Break</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="28"/>
-        <source>Tab 1 title</source>
+        <location filename="../assets/main.qml" line="8"/>
+        <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="49"/>
-        <source>Tab 2</source>
+        <location filename="../assets/main.qml" line="81"/>
+        <source>Contacts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="55"/>
+        <location filename="../assets/main.qml" line="138"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="88"/>
         <source>Raise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="65"/>
+        <location filename="../assets/main.qml" line="98"/>
         <source>Tab 2 title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="94"/>
-        <source>Tab 3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="100"/>
+        <location filename="../assets/main.qml" line="144"/>
         <source>Tab 3 title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="114"/>
+        <location filename="../assets/main.qml" line="158"/>
         <source>Tab 3 content</source>
         <translation type="unfinished"></translation>
     </message>
