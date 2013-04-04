@@ -11,6 +11,7 @@
 #include <Qt/qdeclarativedebug.h>
 
 using namespace bb::cascades;
+using namespace hookflash::blackberry;
 
 Q_DECL_EXPORT int main(int argc, char **argv)
 {

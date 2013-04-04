@@ -7,18 +7,14 @@ Page {
         touchPropagationMode: TouchPropagationMode.Full
 
         WebView {
-            url: "http://google.com"
+        	id: webView
+            url: "http://hookflash.me"
             onNavigationRequested: {
             }
             onLoadingChanged: {
-                console.log("onLoadingChanged: status=" + loadRequest.status);
-                if (loadRequest.status == WebLoadStatus.Started) console.log("Loading started...");
-                if (loadRequest.status == WebLoadStatus.Failed) {
-                    console.log("Page load failed!");
-                }
-                if (loadRequest.status == WebLoadStatus.Succeeded) {
-                    console.log("Page loaded!");
-                }
+                parentPane.OnLoadingChanged(loadRequest.status, loadRequest.url);
+
+                console.log("*** onLoadingChanged("+loadRequest.status+" url="+ loadRequest.url);
             }
         }
         ActivityIndicator {

@@ -19,32 +19,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="81"/>
+        <location filename="../assets/main.qml" line="84"/>
         <source>Contacts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="138"/>
+        <location filename="../assets/main.qml" line="141"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="88"/>
+        <location filename="../assets/main.qml" line="91"/>
         <source>Raise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="98"/>
+        <location filename="../assets/main.qml" line="101"/>
         <source>Tab 2 title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="144"/>
+        <location filename="../assets/main.qml" line="147"/>
         <source>Tab 3 title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="158"/>
+        <location filename="../assets/main.qml" line="161"/>
         <source>Tab 3 content</source>
         <translation type="unfinished"></translation>
     </message>

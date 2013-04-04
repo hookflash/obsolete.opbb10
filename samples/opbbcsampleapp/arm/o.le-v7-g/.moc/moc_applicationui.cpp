@@ -16,7 +16,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_ApplicationUI[] = {
+static const uint qt_meta_data_hookflash__blackberry__ApplicationUI[] = {
 
  // content:
        6,       // revision
@@ -32,11 +32,11 @@ static const uint qt_meta_data_ApplicationUI[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_ApplicationUI[] = {
-    "ApplicationUI\0"
+static const char qt_meta_stringdata_hookflash__blackberry__ApplicationUI[] = {
+    "hookflash::blackberry::ApplicationUI\0"
 };
 
-void ApplicationUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void hookflash::blackberry::ApplicationUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
     Q_UNUSED(_id);
@@ -44,33 +44,33 @@ void ApplicationUI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
     Q_UNUSED(_a);
 }
 
-const QMetaObjectExtraData ApplicationUI::staticMetaObjectExtraData = {
+const QMetaObjectExtraData hookflash::blackberry::ApplicationUI::staticMetaObjectExtraData = {
     0,  qt_static_metacall 
 };
 
-const QMetaObject ApplicationUI::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_ApplicationUI,
-      qt_meta_data_ApplicationUI, &staticMetaObjectExtraData }
+const QMetaObject hookflash::blackberry::ApplicationUI::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_hookflash__blackberry__ApplicationUI,
+      qt_meta_data_hookflash__blackberry__ApplicationUI, &staticMetaObjectExtraData }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &ApplicationUI::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &hookflash::blackberry::ApplicationUI::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *ApplicationUI::metaObject() const
+const QMetaObject *hookflash::blackberry::ApplicationUI::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *ApplicationUI::qt_metacast(const char *_clname)
+void *hookflash::blackberry::ApplicationUI::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_ApplicationUI))
+    if (!strcmp(_clname, qt_meta_stringdata_hookflash__blackberry__ApplicationUI))
         return static_cast<void*>(const_cast< ApplicationUI*>(this));
     return QObject::qt_metacast(_clname);
 }
 
-int ApplicationUI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int hookflash::blackberry::ApplicationUI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)

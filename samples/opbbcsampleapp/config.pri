@@ -4,17 +4,25 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 device {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
-                 $$quote($$BASEDIR/src/main.cpp)
+                 $$quote($$BASEDIR/src/loginPane.cpp) \
+                 $$quote($$BASEDIR/src/main.cpp) \
+                 $$quote($$BASEDIR/src/rootPane.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/loginPane.hpp) \
+                 $$quote($$BASEDIR/src/rootPane.hpp)
 
     }
 
     CONFIG(release, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
-                 $$quote($$BASEDIR/src/main.cpp)
+                 $$quote($$BASEDIR/src/loginPane.cpp) \
+                 $$quote($$BASEDIR/src/main.cpp) \
+                 $$quote($$BASEDIR/src/rootPane.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/loginPane.hpp) \
+                 $$quote($$BASEDIR/src/rootPane.hpp)
 
     }
 
@@ -23,9 +31,13 @@ device {
 simulator {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
-                 $$quote($$BASEDIR/src/main.cpp)
+                 $$quote($$BASEDIR/src/loginPane.cpp) \
+                 $$quote($$BASEDIR/src/main.cpp) \
+                 $$quote($$BASEDIR/src/rootPane.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/loginPane.hpp) \
+                 $$quote($$BASEDIR/src/rootPane.hpp)
 
     }
 

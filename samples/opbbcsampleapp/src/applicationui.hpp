@@ -1,22 +1,28 @@
-// Tabbed pane project template
 #ifndef ApplicationUI_HPP_
 #define ApplicationUI_HPP_
 
 #include <QObject>
+#include <bb/cascades/Application>
 
-namespace bb { namespace cascades { class Application; }}
+namespace hookflash {
+  namespace blackberry {
 
-/*!
- * @brief Application pane object
- *
- *Use this object to create and init app UI, to create context objects, to register the new meta types etc.
- */
-class ApplicationUI : public QObject
-{
-    Q_OBJECT
-public:
-    ApplicationUI(bb::cascades::Application *app);
-    virtual ~ApplicationUI() {}
+    class RootPane;
+
+    class ApplicationUI : public QObject
+    {
+        Q_OBJECT
+    public:
+        ApplicationUI(bb::cascades::Application* app);
+        virtual ~ApplicationUI() {}
+
+        bb::cascades::Application* GetApplication() { return mApp; }
+    private:
+        //-------------------------------------------------------------------------
+        bb::cascades::Application* mApp;
+        RootPane* mRootPane;
+    };
+  };
 };
 
-#endif /* ApplicationUI_HPP_ */
+#endif // ApplicationUI_HPP_
