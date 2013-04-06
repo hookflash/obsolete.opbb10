@@ -23,6 +23,14 @@ environment/project/com.qnx.qcc.toolChain.1927626450/EXCLUDE_VARIANTLIST/operati
 environment/project/com.qnx.qcc.toolChain.1927626450/EXCLUDE_VARIANTLIST/value=p
 environment/project/com.qnx.qcc.toolChain.1927626450/append=true
 environment/project/com.qnx.qcc.toolChain.1927626450/appendContributed=true
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/CPULIST/delimiter=,
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/CPULIST/operation=append
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/CPULIST/value=arm
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/VARIANTLIST/delimiter=,
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/VARIANTLIST/operation=append
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/VARIANTLIST/value=g
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/append=true
+environment/project/com.qnx.qcc.toolChain.1980597582.400287305/appendContributed=true
 environment/project/com.qnx.qcc.toolChain.1980597582/CPULIST/delimiter=,
 environment/project/com.qnx.qcc.toolChain.1980597582/CPULIST/operation=append
 environment/project/com.qnx.qcc.toolChain.1980597582/CPULIST/value=arm

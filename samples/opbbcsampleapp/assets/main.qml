@@ -60,8 +60,8 @@ TabbedPane {
 	                    topMargin: 200.0
 	                    topPadding: 400.0
 	                    onClicked: {
-	                        var loginPage = weblogin.createObject();
-	                        navPane1.push(loginPage);
+	                        // var loginPage = weblogin.createObject();
+	                        // navPane1.push(loginPage);
                             btnLoginViaFB.text = "Hi1";
 	                        paneParent.OnLoginClick(navPane1);
                             btnLoginViaFB.text = "Hi2";

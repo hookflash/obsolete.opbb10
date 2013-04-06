@@ -19,6 +19,8 @@ namespace hookflash {
         virtual ~RootPane() {}
 
         Q_INVOKABLE void OnLoginClick(QObject* page);
+        Q_INVOKABLE void OnOnLoadingChanged(int status, QString url);
+
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }

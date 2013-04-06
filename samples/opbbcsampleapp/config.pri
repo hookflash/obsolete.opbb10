@@ -3,6 +3,16 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 
 device {
     CONFIG(debug, debug|release) {
+        INCLUDEPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-core) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+
+        DEPENDPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-core) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
@@ -15,6 +25,14 @@ device {
     }
 
     CONFIG(release, debug|release) {
+        INCLUDEPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+
+        DEPENDPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
@@ -30,6 +48,14 @@ device {
 
 simulator {
     CONFIG(debug, debug|release) {
+        INCLUDEPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+
+        DEPENDPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
+                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \

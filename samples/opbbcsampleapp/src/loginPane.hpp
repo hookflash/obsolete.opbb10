@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <bb/cascades/Page>
+#include <bb/cascades/NavigationPane>
+#include <bb/cascades/WebView>
 
 namespace hookflash {
   namespace blackberry {
@@ -13,14 +15,15 @@ namespace hookflash {
     {
         Q_OBJECT
     public:
-        LoginPane(RootPane* rootPane, bb::cascades::Page* loginPage);
+        LoginPane(RootPane* rootPane, bb::cascades::NavigationPane* navigationPane);
         virtual ~LoginPane() {}
 
         Q_INVOKABLE void OnLoginClick();
-        Q_INVOKABLE void OnOnLoadingChanged(int status, QString url);
+        Q_INVOKABLE void OnLoadingChanged(int status, QUrl url);
+        Q_INVOKABLE void TestCallback();
     private:
         RootPane* mRootPane;
-        bb::cascades::Page* mLoginPage;
+        bb::cascades::WebView* mWebView;
     };
   };
 };
