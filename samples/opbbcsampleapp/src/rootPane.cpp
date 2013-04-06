@@ -1,6 +1,6 @@
-#include "rootPane.hpp"
-#include "loginPane.hpp"
-#include "applicationui.hpp"
+#include "rootPane.h"
+#include "loginPane.h"
+#include "applicationui.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -40,7 +40,7 @@ void RootPane::OnLoginClick(QObject* navigationPaneObj)
 //  Page* page = qobject_cast<Page*>(pageObject);
   if(navigationPane != NULL)
   {
-    mLoginPane = new LoginPane(this, navigationPane);
+    mLoginPane = new LoginPane(mAppUI->GetSession(), this, navigationPane);
     qDebug() << "***************** RootPane::OnLoginClick YES";
   }
   qDebug() << "***************** RootPane::OnLoginClick";

@@ -1,5 +1,6 @@
-#include "applicationui.hpp"
-#include "rootPane.hpp"
+#include "applicationui.h"
+#include "rootPane.h"
+#include "session.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -10,5 +11,6 @@ using namespace hookflash::blackberry;
 
 ApplicationUI::ApplicationUI(Application *app) : QObject(app), mApp(app)
 {
-    mRootPane = new RootPane(this);
+  mSession = Session::CreateInstance();
+  mRootPane = new RootPane(this);
 }

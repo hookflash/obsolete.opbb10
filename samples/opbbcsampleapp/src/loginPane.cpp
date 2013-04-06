@@ -1,20 +1,23 @@
-#include "loginPane.hpp"
-#include "rootPane.hpp"
-#include "applicationui.hpp"
+#include "loginPane.h"
+#include "rootPane.h"
+#include "applicationui.h"
+#include "identity.h"
+#include "session.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/Page>
-#include <hookflash/core/IAccount.h>
 #include <QDebug>
 #include <iostream>
 
 using namespace bb::cascades;
 using namespace hookflash::blackberry;
+using namespace boost;
 
-LoginPane::LoginPane(RootPane* rootPane, NavigationPane* navigationPane) : QObject(rootPane), mRootPane(rootPane)
+LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane, NavigationPane* navigationPane) : QObject(rootPane), mRootPane(rootPane)
 {
-  qDebug() << "********* Hi ***********";
+  mIdentity = session->GetIdentity();
+
   QmlDocument* qml = QmlDocument::create("asset:///weblogin.qml").parent(this);
   qml->setContextProperty("paneParent", this);
 
@@ -22,8 +25,6 @@ LoginPane::LoginPane(RootPane* rootPane, NavigationPane* navigationPane) : QObje
   Page* root = qml->createRootObject<Page>();
 
   navigationPane->push(root);
-
-  qDebug() << "***************** LoginPane";
 }
 
 void LoginPane::OnLoginClick()

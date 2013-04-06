@@ -13,14 +13,20 @@ device {
                  $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
                  $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
 
-        SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/account.cpp) \
+                 $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/identity.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
-                 $$quote($$BASEDIR/src/rootPane.cpp)
+                 $$quote($$BASEDIR/src/rootPane.cpp) \
+                 $$quote($$BASEDIR/src/session.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
-                 $$quote($$BASEDIR/src/loginPane.hpp) \
-                 $$quote($$BASEDIR/src/rootPane.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/account.h) \
+                 $$quote($$BASEDIR/src/applicationui.h) \
+                 $$quote($$BASEDIR/src/identity.h) \
+                 $$quote($$BASEDIR/src/loginPane.h) \
+                 $$quote($$BASEDIR/src/rootPane.h) \
+                 $$quote($$BASEDIR/src/session.h)
 
     }
 
@@ -33,14 +39,20 @@ device {
                  $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
                  $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
 
-        SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/account.cpp) \
+                 $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/identity.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
-                 $$quote($$BASEDIR/src/rootPane.cpp)
+                 $$quote($$BASEDIR/src/rootPane.cpp) \
+                 $$quote($$BASEDIR/src/session.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
-                 $$quote($$BASEDIR/src/loginPane.hpp) \
-                 $$quote($$BASEDIR/src/rootPane.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/account.h) \
+                 $$quote($$BASEDIR/src/applicationui.h) \
+                 $$quote($$BASEDIR/src/identity.h) \
+                 $$quote($$BASEDIR/src/loginPane.h) \
+                 $$quote($$BASEDIR/src/rootPane.h) \
+                 $$quote($$BASEDIR/src/session.h)
 
     }
 
@@ -56,14 +68,20 @@ simulator {
                  $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/cryptopp) \
                  $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
 
-        SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/account.cpp) \
+                 $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/identity.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
-                 $$quote($$BASEDIR/src/rootPane.cpp)
+                 $$quote($$BASEDIR/src/rootPane.cpp) \
+                 $$quote($$BASEDIR/src/session.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
-                 $$quote($$BASEDIR/src/loginPane.hpp) \
-                 $$quote($$BASEDIR/src/rootPane.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/account.h) \
+                 $$quote($$BASEDIR/src/applicationui.h) \
+                 $$quote($$BASEDIR/src/identity.h) \
+                 $$quote($$BASEDIR/src/loginPane.h) \
+                 $$quote($$BASEDIR/src/rootPane.h) \
+                 $$quote($$BASEDIR/src/session.h)
 
     }
 
