@@ -12,7 +12,7 @@ namespace hookflash {
 
     class RootPane;
     class Session;
-    class Identity;
+    class UserIdentity;
 
     class LoginPane : public QObject
     {
@@ -27,7 +27,7 @@ namespace hookflash {
     private:
         RootPane* mRootPane;
         bb::cascades::WebView* mWebView;
-        boost::shared_ptr<Identity> mIdentity;
+        boost::shared_ptr<UserIdentity> mIdentity;
     };
   };
 };

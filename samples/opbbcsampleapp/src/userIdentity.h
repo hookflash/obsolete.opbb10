@@ -6,38 +6,46 @@
 namespace hookflash {
   namespace blackberry {
 
-    class IdentityDelegate;
+    class UserIdentityDelegate;
 
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
 
-    class Identity
+    class UserIdentity
     {
     public:
-        Identity();
-        virtual ~Identity() {}
+      static boost::shared_ptr<UserIdentity> CreateInstance();
+
+      virtual ~UserIdentity();
+
+      virtual void BeginLogin(const std::string& identityURI);
+      std::string GetRedirectAfterLoginCompleteURL() { return mRedirectAfterLoginCompleteURL; }
 
     private:
-        boost::shared_ptr<hookflash::core::IIdentity> mOpIdentity;
-        boost::shared_ptr<IdentityDelegate> mDelegate;
+      UserIdentity();
+
+      boost::weak_ptr<UserIdentity> mWeakThis;
+      boost::shared_ptr<hookflash::core::IIdentity> mOpIdentity;
+      boost::shared_ptr<UserIdentityDelegate> mDelegate;
+      std::string mRedirectAfterLoginCompleteURL;
     };
 
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
 
-    class IdentityDelegate : public hookflash::core::IIdentityDelegate
+    class UserIdentityDelegate : public hookflash::core::IIdentityDelegate
     {
     public:
-      IdentityDelegate(boost::shared_ptr<Identity> parentIdentity);
-      virtual ~IdentityDelegate() {}
+      UserIdentityDelegate(boost::shared_ptr<UserIdentity> parentIdentity);
+      virtual ~UserIdentityDelegate();
 
       virtual void onIdentityStateChanged(hookflash::core::IIdentityPtr identity, IdentityStates state);
       virtual void onIdentityPendingMessageForInnerBrowserWindowFrame(hookflash::core::IIdentityPtr identity);
 
     private:
-      boost::weak_ptr<Identity> mParentIdentity;
+      boost::weak_ptr<UserIdentity> mParentIdentity;
     };
 
   };

@@ -1,6 +1,14 @@
+
 *.o
 *.a
 *.so
+*.gch
 moc_*.cpp
-/samples/opbbsampleapp/Device-Debug/src/main.o
 /hookflash-libs/.DS_Store
+/Simulator
+/Simulator-Coverage
+/Simulator-Profile
+/Device-Coverage
+/Device-Debug
+/Device-Profile
+/Device-Release

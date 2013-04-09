@@ -1,7 +1,7 @@
 #include "loginPane.h"
 #include "rootPane.h"
 #include "applicationui.h"
-#include "identity.h"
+#include "userIdentity.h"
 #include "session.h"
 
 #include <bb/cascades/Application>
@@ -17,6 +17,9 @@ using namespace boost;
 LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane, NavigationPane* navigationPane) : QObject(rootPane), mRootPane(rootPane)
 {
   mIdentity = session->GetIdentity();
+  std::string uri = session->GetIdentityURI();
+  std::string url = mIdentity->GetRedirectAfterLoginCompleteURL();
+  mIdentity->BeginLogin(uri);
 
   QmlDocument* qml = QmlDocument::create("asset:///weblogin.qml").parent(this);
   qml->setContextProperty("paneParent", this);

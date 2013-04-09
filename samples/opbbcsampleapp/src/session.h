@@ -6,7 +6,7 @@
 namespace hookflash {
   namespace blackberry {
 
-    class Identity;
+    class UserIdentity;
 
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
@@ -19,14 +19,16 @@ namespace hookflash {
 
       virtual ~Session() {}
 
-      boost::shared_ptr<Identity> GetIdentity() { return mIdentity; }
+      boost::shared_ptr<UserIdentity> GetIdentity() { return mIdentity; }
+      std::string GetIdentityURI() { return mIdentityURI; }
 
     private:
         Session();
         void Initialize();
 
         boost::weak_ptr<Session> mWeakThis;
-        boost::shared_ptr<Identity> mIdentity;
+        boost::shared_ptr<UserIdentity> mIdentity;
+        std::string mIdentityURI;
     };
 
   };
