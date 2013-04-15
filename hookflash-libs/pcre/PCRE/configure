@@ -561,8 +561,8 @@ ac_config_libobj_dir=.
 LIBOBJS=
 cross_compiling=no
 subdirs=
-MFLAGS=
-MAKEFLAGS=
+FLAGS=
+AKEFLAGS=
 
 # Identity of this package.
 PACKAGE_NAME='PCRE'
@@ -640,7 +640,7 @@ OTOOL
 LIPO
 NMEDIT
 DSYMUTIL
-MANIFEST_TOOL
+ANIFEST_TOOL
 RANLIB
 ac_ct_AR
 AR
@@ -695,11 +695,11 @@ am__leading_dot
 SET_MAKE
 AWK
 mkdir_p
-MKDIR_P
+KDIR_P
 INSTALL_STRIP_PROGRAM
 STRIP
 install_sh
-MAKEINFO
+AKEINFO
 AUTOHEADER
 AUTOMAKE
 AUTOCONF
@@ -3142,7 +3142,7 @@ AUTOMAKE=${AUTOMAKE-"${am_missing_run}automake-${am__api_version}"}
 AUTOHEADER=${AUTOHEADER-"${am_missing_run}autoheader"}
 
 
-MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
+AKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 
 # We need awk for the "check" target.  The system "awk" is bad on
 # some platforms.
@@ -7731,7 +7731,7 @@ IFS=$as_save_IFS
 
 fi
 fi
-MANIFEST_TOOL=$ac_cv_prog_MANIFEST_TOOL
+ANIFEST_TOOL=$ac_cv_prog_MANIFEST_TOOL
 if test -n "$MANIFEST_TOOL"; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MANIFEST_TOOL" >&5
 $as_echo "$MANIFEST_TOOL" >&6; }
@@ -8763,7 +8763,7 @@ _LT_EOF
 esac
 fi
 
-MAGIC_CMD="$lt_cv_path_MAGIC_CMD"
+AGIC_CMD="$lt_cv_path_MAGIC_CMD"
 if test -n "$MAGIC_CMD"; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MAGIC_CMD" >&5
 $as_echo "$MAGIC_CMD" >&6; }
@@ -8829,7 +8829,7 @@ _LT_EOF
 esac
 fi
 
-MAGIC_CMD="$lt_cv_path_MAGIC_CMD"
+AGIC_CMD="$lt_cv_path_MAGIC_CMD"
 if test -n "$MAGIC_CMD"; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MAGIC_CMD" >&5
 $as_echo "$MAGIC_CMD" >&6; }
@@ -17378,7 +17378,7 @@ gives unlimited permission to copy, distribute and modify it."
 ac_pwd='$ac_pwd'
 srcdir='$srcdir'
 INSTALL='$INSTALL'
-MKDIR_P='$MKDIR_P'
+KDIR_P='$MKDIR_P'
 AWK='$AWK'
 test -n "\$AWK" || AWK=awk
 _ACEOF
@@ -17556,14 +17556,14 @@ lt_cv_sys_global_symbol_to_c_name_address_lib_prefix='`$ECHO "$lt_cv_sys_global_
 nm_file_list_spec='`$ECHO "$nm_file_list_spec" | $SED "$delay_single_quote_subst"`'
 lt_sysroot='`$ECHO "$lt_sysroot" | $SED "$delay_single_quote_subst"`'
 objdir='`$ECHO "$objdir" | $SED "$delay_single_quote_subst"`'
-MAGIC_CMD='`$ECHO "$MAGIC_CMD" | $SED "$delay_single_quote_subst"`'
+AGIC_CMD='`$ECHO "$MAGIC_CMD" | $SED "$delay_single_quote_subst"`'
 lt_prog_compiler_no_builtin_flag='`$ECHO "$lt_prog_compiler_no_builtin_flag" | $SED "$delay_single_quote_subst"`'
 lt_prog_compiler_pic='`$ECHO "$lt_prog_compiler_pic" | $SED "$delay_single_quote_subst"`'
 lt_prog_compiler_wl='`$ECHO "$lt_prog_compiler_wl" | $SED "$delay_single_quote_subst"`'
 lt_prog_compiler_static='`$ECHO "$lt_prog_compiler_static" | $SED "$delay_single_quote_subst"`'
 lt_cv_prog_compiler_c_o='`$ECHO "$lt_cv_prog_compiler_c_o" | $SED "$delay_single_quote_subst"`'
 need_locks='`$ECHO "$need_locks" | $SED "$delay_single_quote_subst"`'
-MANIFEST_TOOL='`$ECHO "$MANIFEST_TOOL" | $SED "$delay_single_quote_subst"`'
+ANIFEST_TOOL='`$ECHO "$MANIFEST_TOOL" | $SED "$delay_single_quote_subst"`'
 DSYMUTIL='`$ECHO "$DSYMUTIL" | $SED "$delay_single_quote_subst"`'
 NMEDIT='`$ECHO "$NMEDIT" | $SED "$delay_single_quote_subst"`'
 LIPO='`$ECHO "$LIPO" | $SED "$delay_single_quote_subst"`'
@@ -17735,7 +17735,7 @@ lt_prog_compiler_wl \
 lt_prog_compiler_static \
 lt_cv_prog_compiler_c_o \
 need_locks \
-MANIFEST_TOOL \
+ANIFEST_TOOL \
 DSYMUTIL \
 NMEDIT \
 LIPO \
@@ -18781,13 +18781,13 @@ lt_sysroot=$lt_sysroot
 objdir=$objdir
 
 # Used to examine libraries when file_magic_cmd begins with "file".
-MAGIC_CMD=$MAGIC_CMD
+AGIC_CMD=$MAGIC_CMD
 
 # Must we lock files when doing compilation?
 need_locks=$lt_need_locks
 
 # Manifest tool.
-MANIFEST_TOOL=$lt_MANIFEST_TOOL
+ANIFEST_TOOL=$lt_MANIFEST_TOOL
 
 # Tool to manipulate archived DWARF debug symbol files on Mac OS X.
 DSYMUTIL=$lt_DSYMUTIL

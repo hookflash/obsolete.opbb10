@@ -69,9 +69,9 @@ them both to 0; an emulation function will be used. */
 #endif
 
 /* Define to 1 if the system has the type `long long'. */
-//#ifndef HAVE_LONG_LONG
-//#define HAVE_LONG_LONG 1
-//#endif
+#ifndef HAVE_LONG_LONG
+#define HAVE_LONG_LONG 1
+#endif
 
 /* Define to 1 if you have the `memmove' function. */
 #ifndef HAVE_MEMMOVE
@@ -127,7 +127,7 @@ them both to 0; an emulation function will be used. */
 /* #undef HAVE_STRTOIMAX */
 
 /* Define to 1 if you have `strtoll'. */
-/* #undef HAVE_STRTOLL */
+#define HAVE_STRTOLL 1
 
 /* Define to 1 if you have `strtoq'. */
 //#ifndef HAVE_STRTOQ
@@ -153,9 +153,9 @@ them both to 0; an emulation function will be used. */
 #endif
 
 /* Define to 1 if the system has the type `unsigned long long'. */
-//#ifndef HAVE_UNSIGNED_LONG_LONG
-//#define HAVE_UNSIGNED_LONG_LONG 1
-//#endif
+#ifndef HAVE_UNSIGNED_LONG_LONG
+#define HAVE_UNSIGNED_LONG_LONG 1
+#endif
 
 /* Define to 1 if you have the <windows.h> header file. */
 /* #undef HAVE_WINDOWS_H */

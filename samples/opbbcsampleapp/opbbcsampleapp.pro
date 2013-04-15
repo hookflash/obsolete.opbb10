@@ -19,11 +19,11 @@ LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-core/projects/bb/bbWebRTCL
 LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-core/projects/bb/bbcryptopp/Device-Debug -lbbcryptopp
 LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-core/projects/bb/bbudns/Device-Debug -lbbudns
 LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-core/projects/bb/bbzsLib/Device-Debug -lbbzslib
+LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-libs/pcre/PCRE/Device-Debug -lpcre
 LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-libs/bbBoost/bin.v2/libs/date_time/build/qcc/debug/architecture-arm/link-static/target-os-qnxnto/threading-multi -lboost_date_time
 LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-libs/bbBoost/bin.v2/libs/thread/build/qcc/debug/architecture-arm/link-static/target-os-qnxnto/threading-multi -lboost_thread
 LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-libs/bbBoost/bin.v2/libs/system/build/qcc/debug/architecture-arm/link-static/target-os-qnxnto/threading-multi -lboost_system
-LIBS += -L/Users/lawrence.gunn/Documents/op/hookflash-libs/bbBoost/bin.v2/libs/regex/build/qcc/debug/architecture-arm/link-static/target-os-qnxnto/threading-multi -lboost_regex
-LIBS += -lcurl -lsocket -lbps -lm -lc -lcpp -lstdc++ -ljpeg -lGLESv2
+LIBS += -lcamapi -laudio_manager -lasound -lcurl -lsocket -lbps -lm -lc -lcpp -lstdc++ -ljpeg -lGLESv2
 
 include(config.pri)
 

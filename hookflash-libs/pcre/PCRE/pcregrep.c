@@ -570,7 +570,6 @@ return FALSE;
 #endif
 
 
-
 #ifndef HAVE_STRERROR
 /*************************************************
 *     Provide strerror() for non-ANSI libraries  *
@@ -580,8 +579,8 @@ return FALSE;
 in their libraries, but can provide the same facility by this simple
 alternative function. */
 
-extern int   sys_nerr;
-extern char *sys_errlist[];
+extern const int   sys_nerr;
+extern const char * const sys_errlist[];
 
 char *
 strerror(int n)

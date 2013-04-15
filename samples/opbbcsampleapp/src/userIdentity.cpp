@@ -37,15 +37,15 @@ UserIdentity::~UserIdentity()
 
 void UserIdentity::BeginLogin(const std::string& identityURI)
 {
-  QRegExp reg("^identity:[a-zA-Z0-9\\-_]{0,61}:.*$");
-  int ind = reg.indexIn(QString(identityURI.c_str()));
-  qDebug() << "******* index = " << ind;
   mDelegate = shared_ptr<UserIdentityDelegate>(new UserIdentityDelegate(mWeakThis.lock()));
   shared_ptr<IIdentityDelegate> identityDelegate = mDelegate;
   const char* str = IIdentity::toString(IIdentity::IdentityState_Pending);
   qDebug() << "******* test = " << str;
 
   mOpIdentity = IIdentity::login(identityDelegate, mRedirectAfterLoginCompleteURL.c_str(), identityURI.c_str());
+  if(mOpIdentity) {
+    qDebug() << "******** valid identity";
+  }
 }
 
   //-------------------------------------------------------------------------
