@@ -6,7 +6,7 @@ using namespace hookflash::core;
 using namespace boost;
 
 namespace {
-  const char* DEFAULT_IDENTITY_URI = "identity://hookflash.me";
+  const char* DEFAULT_IDENTITY_URI = "identity://hookflash.me/lawrence";
 };
 
   //-------------------------------------------------------------------------
