@@ -12,3 +12,5 @@ moc_*.cpp
 /Device-Debug
 /Device-Profile
 /Device-Release
+samples/opbbcsampleapp/arm
+samples/opbbcsampleapp/.settings
