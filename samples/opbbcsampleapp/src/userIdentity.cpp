@@ -38,11 +38,9 @@ UserIdentity::~UserIdentity()
 void UserIdentity::BeginLogin(const std::string& identityURI)
 {
   mDelegate = shared_ptr<UserIdentityDelegate>(new UserIdentityDelegate(mWeakThis.lock()));
-  shared_ptr<IIdentityDelegate> identityDelegate = mDelegate;
-  const char* str = IIdentity::toString(IIdentity::IdentityState_Pending);
-  qDebug() << "******* test = " << str;
 
-  mOpIdentity = IIdentity::login(identityDelegate, mRedirectAfterLoginCompleteURL.c_str(), identityURI.c_str());
+//  mOpIdentity = IIdentity::login(identityDelegate, mRedirectAfterLoginCompleteURL.c_str(), identityURI.c_str(), "hookflash.me");
+  mOpIdentity = IIdentity::login(mDelegate, mRedirectAfterLoginCompleteURL.c_str(), "identity://unstable.hookflash.me/"); //, "unstable.hookflash.me");
   if(mOpIdentity) {
     qDebug() << "******** valid identity";
   }
@@ -67,13 +65,16 @@ UserIdentityDelegate::~UserIdentityDelegate()
 
 void UserIdentityDelegate::onIdentityStateChanged(hookflash::core::IIdentityPtr identity, IdentityStates state)
 {
-//  qDebug() << "********** onIdentityStateChanged = " << IIdentity::toString(state);
+  qDebug() << "********** onIdentityStateChanged = " << IIdentity::toString(state);
+  qDebug() << "********** URL = " << identity->getIdentityLoginURL();
 }
 
   //-------------------------------------------------------------------------
 
 void UserIdentityDelegate::onIdentityPendingMessageForInnerBrowserWindowFrame(hookflash::core::IIdentityPtr identity)
 {
+  ElementPtr element = identity->getNextMessageForInnerBrowerWindowFrame();
+  qDebug() << "********** onIdentityPendingMessageForInnerBrowserWindowFrame";
 }
 
 

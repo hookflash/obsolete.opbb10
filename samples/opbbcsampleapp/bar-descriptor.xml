@@ -68,7 +68,6 @@
     <configuration name="Device-Debug">
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="arm/o.le-v7-g/opbbcsampleapp" entry="true" type="Qnx/Elf">opbbcsampleapp</asset>
-       <asset path="${workspace_loc:/OpenPeer10/Device-Debug/libOpenPeer10.so}" type="Qnx/Elf">lib/libOpenPeer10.so</asset>
     </configuration>
     <configuration name="Device-Release">
        <entryPointType>Qnx/Cascades</entryPointType>
