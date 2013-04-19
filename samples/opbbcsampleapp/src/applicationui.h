@@ -4,12 +4,16 @@
 #include <QObject>
 #include <bb/cascades/Application>
 #include "boost/smart_ptr.hpp"
+#include <zsLib/Log.h>
 
 namespace hookflash {
   namespace blackberry {
 
     class RootPane;
     class Session;
+    class LogDelegate;
+
+    //-------------------------------------------------------------------------
 
     class ApplicationUI : public QObject
     {
@@ -25,6 +29,23 @@ namespace hookflash {
         bb::cascades::Application* mApp;
         RootPane* mRootPane;
         boost::shared_ptr<Session> mSession;
+        boost::shared_ptr<LogDelegate> mLog;
+    };
+
+    //-------------------------------------------------------------------------
+
+    class LogDelegate : public zsLib::ILogDelegate {
+    public:
+      LogDelegate();
+      virtual void onNewSubsystem(zsLib::Subsystem &inSubsystem);
+      virtual void log(
+                       const zsLib::Subsystem &inSubsystem,
+                       zsLib::Log::Severity inSeverity,
+                       zsLib::Log::Level inLevel,
+                       zsLib::CSTR inMessage,
+                       zsLib::CSTR inFunction,
+                       zsLib::CSTR inFilePath,
+                       zsLib::ULONG inLineNumber);
     };
   };
 };

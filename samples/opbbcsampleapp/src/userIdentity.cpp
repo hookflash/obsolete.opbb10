@@ -40,7 +40,7 @@ void UserIdentity::BeginLogin(const std::string& identityURI)
   mDelegate = shared_ptr<UserIdentityDelegate>(new UserIdentityDelegate(mWeakThis.lock()));
 
 //  mOpIdentity = IIdentity::login(identityDelegate, mRedirectAfterLoginCompleteURL.c_str(), identityURI.c_str(), "hookflash.me");
-  mOpIdentity = IIdentity::login(mDelegate, mRedirectAfterLoginCompleteURL.c_str(), "identity://unstable.hookflash.me/"); //, "unstable.hookflash.me");
+  mOpIdentity = IIdentity::login(mDelegate, mRedirectAfterLoginCompleteURL.c_str(), "identity://unstable.hookflash.me/lawrence", "unstable.hookflash.me");
   if(mOpIdentity) {
     qDebug() << "******** valid identity";
   }
