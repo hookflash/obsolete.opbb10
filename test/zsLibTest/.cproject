@@ -26,8 +26,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.436642462" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.1911780432" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.382605923" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1274857794" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -87,8 +87,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.1869382551" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.1191420248" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.165074273" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1043135121" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -148,8 +148,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.349972195" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.887509196" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.1076588773" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.2066543542" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -209,8 +209,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.1982812076" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.895451829" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.500133580" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
+									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.848725754" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>

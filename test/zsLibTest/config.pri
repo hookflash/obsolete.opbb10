@@ -3,11 +3,11 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 
 device {
     CONFIG(debug, debug|release) {
-        INCLUDEPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
-                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+        INCLUDEPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/bbBoost)
 
-        DEPENDPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
-                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+        DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/bbBoost)
 
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
@@ -29,11 +29,11 @@ device {
     }
 
     CONFIG(release, debug|release) {
-        INCLUDEPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
-                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+        INCLUDEPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/bbBoost)
 
-        DEPENDPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
-                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+        DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/bbBoost)
 
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
@@ -58,11 +58,11 @@ device {
 
 simulator {
     CONFIG(debug, debug|release) {
-        INCLUDEPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
-                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+        INCLUDEPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/bbBoost)
 
-        DEPENDPATH +=  $$quote(/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost) \
-                 $$quote(/Users/lawrence.gunn/Documents/op/hookflash-libs/zsLib)
+        DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/bbBoost)
 
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
