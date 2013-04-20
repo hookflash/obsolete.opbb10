@@ -25,7 +25,7 @@ them both to 0; an emulation function will be used. */
    changed so that backslash-R matches only CR, LF, or CRLF. The build- time
    default can be overridden by the user of PCRE at runtime. On systems that
    support it, "configure" can be used to override the default. */
-#undef BSR_ANYCRLF
+/* #undef BSR_ANYCRLF */
 
 /* If you are compiling for a system that uses EBCDIC instead of ASCII
    character codes, define this macro as 1. On systems that can use
@@ -33,94 +33,140 @@ them both to 0; an emulation function will be used. */
    that all input strings are in EBCDIC. If you do not define this macro, PCRE
    will assume input strings are ASCII or UTF-8 Unicode. It is not possible to
    build a version of PCRE that supports both EBCDIC and UTF-8. */
-#undef EBCDIC
+/* #undef EBCDIC */
 
 /* Define to 1 if you have the `bcopy' function. */
-#undef HAVE_BCOPY
+#ifndef HAVE_BCOPY
+#define HAVE_BCOPY 1
+#endif
 
 /* Define to 1 if you have the <bits/type_traits.h> header file. */
-#undef HAVE_BITS_TYPE_TRAITS_H
+/* #undef HAVE_BITS_TYPE_TRAITS_H */
 
 /* Define to 1 if you have the <bzlib.h> header file. */
-#undef HAVE_BZLIB_H
+#ifndef HAVE_BZLIB_H
+#define HAVE_BZLIB_H 1
+#endif
 
 /* Define to 1 if you have the <dirent.h> header file. */
-#undef HAVE_DIRENT_H
+#ifndef HAVE_DIRENT_H
+#define HAVE_DIRENT_H 1
+#endif
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-#undef HAVE_DLFCN_H
+#ifndef HAVE_DLFCN_H
+#define HAVE_DLFCN_H 1
+#endif
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#undef HAVE_INTTYPES_H
+#ifndef HAVE_INTTYPES_H
+#define HAVE_INTTYPES_H 1
+#endif
 
 /* Define to 1 if you have the <limits.h> header file. */
-#undef HAVE_LIMITS_H
+#ifndef HAVE_LIMITS_H
+#define HAVE_LIMITS_H 1
+#endif
 
 /* Define to 1 if the system has the type `long long'. */
-#undef HAVE_LONG_LONG
+#ifndef HAVE_LONG_LONG
+#define HAVE_LONG_LONG 1
+#endif
 
 /* Define to 1 if you have the `memmove' function. */
-#undef HAVE_MEMMOVE
+#ifndef HAVE_MEMMOVE
+#define HAVE_MEMMOVE 1
+#endif
 
 /* Define to 1 if you have the <memory.h> header file. */
-#undef HAVE_MEMORY_H
+#ifndef HAVE_MEMORY_H
+#define HAVE_MEMORY_H 1
+#endif
 
 /* Define to 1 if you have the <readline/history.h> header file. */
-#undef HAVE_READLINE_HISTORY_H
+#ifndef HAVE_READLINE_HISTORY_H
+#define HAVE_READLINE_HISTORY_H 1
+#endif
 
 /* Define to 1 if you have the <readline/readline.h> header file. */
-#undef HAVE_READLINE_READLINE_H
+#ifndef HAVE_READLINE_READLINE_H
+#define HAVE_READLINE_READLINE_H 1
+#endif
 
 /* Define to 1 if you have the <stdint.h> header file. */
-#undef HAVE_STDINT_H
+#ifndef HAVE_STDINT_H
+#define HAVE_STDINT_H 1
+#endif
 
 /* Define to 1 if you have the <stdlib.h> header file. */
-#undef HAVE_STDLIB_H
+#ifndef HAVE_STDLIB_H
+#define HAVE_STDLIB_H 1
+#endif
 
 /* Define to 1 if you have the `strerror' function. */
-#undef HAVE_STRERROR
+#ifndef HAVE_STRERROR
+#define HAVE_STRERROR 1
+#endif
 
 /* Define to 1 if you have the <string> header file. */
-#undef HAVE_STRING
+#ifndef HAVE_STRING
+#define HAVE_STRING 1
+#endif
 
 /* Define to 1 if you have the <strings.h> header file. */
-#undef HAVE_STRINGS_H
+#ifndef HAVE_STRINGS_H
+#define HAVE_STRINGS_H 1
+#endif
 
 /* Define to 1 if you have the <string.h> header file. */
-#undef HAVE_STRING_H
+#ifndef HAVE_STRING_H
+#define HAVE_STRING_H 1
+#endif
 
 /* Define to 1 if you have `strtoimax'. */
-#undef HAVE_STRTOIMAX
+/* #undef HAVE_STRTOIMAX */
 
 /* Define to 1 if you have `strtoll'. */
-#undef HAVE_STRTOLL
+#define HAVE_STRTOLL 1
 
 /* Define to 1 if you have `strtoq'. */
-#undef HAVE_STRTOQ
+//#ifndef HAVE_STRTOQ
+//#define HAVE_STRTOQ 1
+//#endif
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
-#undef HAVE_SYS_STAT_H
+#ifndef HAVE_SYS_STAT_H
+#define HAVE_SYS_STAT_H 1
+#endif
 
 /* Define to 1 if you have the <sys/types.h> header file. */
-#undef HAVE_SYS_TYPES_H
+#ifndef HAVE_SYS_TYPES_H
+#define HAVE_SYS_TYPES_H 1
+#endif
 
 /* Define to 1 if you have the <type_traits.h> header file. */
-#undef HAVE_TYPE_TRAITS_H
+/* #undef HAVE_TYPE_TRAITS_H */
 
 /* Define to 1 if you have the <unistd.h> header file. */
-#undef HAVE_UNISTD_H
+#ifndef HAVE_UNISTD_H
+#define HAVE_UNISTD_H 1
+#endif
 
 /* Define to 1 if the system has the type `unsigned long long'. */
-#undef HAVE_UNSIGNED_LONG_LONG
+#ifndef HAVE_UNSIGNED_LONG_LONG
+#define HAVE_UNSIGNED_LONG_LONG 1
+#endif
 
 /* Define to 1 if you have the <windows.h> header file. */
-#undef HAVE_WINDOWS_H
+/* #undef HAVE_WINDOWS_H */
 
 /* Define to 1 if you have the <zlib.h> header file. */
-#undef HAVE_ZLIB_H
+#ifndef HAVE_ZLIB_H
+#define HAVE_ZLIB_H 1
+#endif
 
 /* Define to 1 if you have `_strtoi64'. */
-#undef HAVE__STRTOI64
+/* #undef HAVE__STRTOI64 */
 
 /* The value of LINK_SIZE determines the number of bytes used to store links
    as offsets within the compiled regex. The default is 2, which allows for
@@ -128,11 +174,15 @@ them both to 0; an emulation function will be used. */
    However, PCRE can also be compiled to use 3 or 4 bytes instead. This allows
    for longer patterns in extreme cases. On systems that support it,
    "configure" can be used to override this default. */
-#undef LINK_SIZE
+#ifndef LINK_SIZE
+#define LINK_SIZE 2
+#endif
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
-#undef LT_OBJDIR
+#ifndef LT_OBJDIR
+#define LT_OBJDIR ".libs/"
+#endif
 
 /* The value of MATCH_LIMIT determines the default number of times the
    internal match() function can be called during a single execution of
@@ -141,7 +191,9 @@ them both to 0; an emulation function will be used. */
    for ever to determine that they do not match. The default is set very large
    so that it does not accidentally catch legitimate cases. On systems that
    support it, "configure" can be used to override this default default. */
-#undef MATCH_LIMIT
+#ifndef MATCH_LIMIT
+#define MATCH_LIMIT 10000000
+#endif
 
 /* The above limit applies to all calls of match(), whether or not they
    increase the recursion depth. In some environments it is desirable to limit
@@ -152,23 +204,31 @@ them both to 0; an emulation function will be used. */
    MATCH_LIMIT. The default is to use the same value as MATCH_LIMIT. There is
    a runtime method for setting a different limit. On systems that support it,
    "configure" can be used to override the default. */
-#undef MATCH_LIMIT_RECURSION
+#ifndef MATCH_LIMIT_RECURSION
+#define MATCH_LIMIT_RECURSION MATCH_LIMIT
+#endif
 
 /* This limit is parameterized just in case anybody ever wants to change it.
    Care must be taken if it is increased, because it guards against integer
    overflow caused by enormously large patterns. */
-#undef MAX_NAME_COUNT
+#ifndef MAX_NAME_COUNT
+#define MAX_NAME_COUNT 10000
+#endif
 
 /* This limit is parameterized just in case anybody ever wants to change it.
    Care must be taken if it is increased, because it guards against integer
    overflow caused by enormously large patterns. */
-#undef MAX_NAME_SIZE
+#ifndef MAX_NAME_SIZE
+#define MAX_NAME_SIZE 32
+#endif
 
 /* The value of NEWLINE determines the newline character sequence. On systems
    that support it, "configure" can be used to override the default, which is
    10. The possible values are 10 (LF), 13 (CR), 3338 (CRLF), -1 (ANY), or -2
    (ANYCRLF). */
-#undef NEWLINE
+#ifndef NEWLINE
+#define NEWLINE 10
+#endif
 
 /* PCRE uses recursive function calls to handle backtracking while matching.
    This can sometimes be a problem on systems that have stacks of limited
@@ -178,28 +238,28 @@ them both to 0; an emulation function will be used. */
    the comments and other stuff just above the match() function. On systems
    that support it, "configure" can be used to set this in the Makefile (use
    --disable-stack-for-recursion). */
-#undef NO_RECURSE
+/* #undef NO_RECURSE */
 
 /* Name of package */
-#undef PACKAGE
+#define PACKAGE "pcre"
 
 /* Define to the address where bug reports for this package should be sent. */
-#undef PACKAGE_BUGREPORT
+#define PACKAGE_BUGREPORT ""
 
 /* Define to the full name of this package. */
-#undef PACKAGE_NAME
+#define PACKAGE_NAME "PCRE"
 
 /* Define to the full name and version of this package. */
-#undef PACKAGE_STRING
+#define PACKAGE_STRING "PCRE 8.13"
 
 /* Define to the one symbol short name of this package. */
-#undef PACKAGE_TARNAME
+#define PACKAGE_TARNAME "pcre"
 
 /* Define to the home page for this package. */
-#undef PACKAGE_URL
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#undef PACKAGE_VERSION
+#define PACKAGE_VERSION "8.13"
 
 /* The value of PCREGREP_BUFSIZE determines the size of buffer used by
    pcregrep to hold parts of the file it is searching. On systems that support
@@ -207,7 +267,9 @@ them both to 0; an emulation function will be used. */
    also the minimum value. The actual amount of memory used by pcregrep is
    three times this number, because it allows for the buffering of "before"
    and "after" lines. */
-#undef PCREGREP_BUFSIZE
+#ifndef PCREGREP_BUFSIZE
+#define PCREGREP_BUFSIZE 20480
+#endif
 
 
 /* If you are compiling for a system other than a Unix-like system or
@@ -219,10 +281,10 @@ them both to 0; an emulation function will be used. */
    every exported function that is part of the external API. It does
    not appear on functions that are "external" in the C sense, but
    which are internal to the library. */
-#undef PCRE_EXP_DEFN
+/* #undef PCRE_EXP_DEFN */
 
 /* Define if linking statically (TODO: make nice with Libtool) */
-#undef PCRE_STATIC
+/* #undef PCRE_STATIC */
 
 /* When calling PCRE via the POSIX interface, additional working storage is
    required for holding the pointers to capturing substrings because PCRE
@@ -232,40 +294,46 @@ them both to 0; an emulation function will be used. */
    malloc() for each call. The threshold above which the stack is no longer
    used is defined by POSIX_MALLOC_THRESHOLD. On systems that support it,
    "configure" can be used to override this default. */
-#undef POSIX_MALLOC_THRESHOLD
+#ifndef POSIX_MALLOC_THRESHOLD
+#define POSIX_MALLOC_THRESHOLD 10
+#endif
 
 /* Define to 1 if you have the ANSI C header files. */
-#undef STDC_HEADERS
+#ifndef STDC_HEADERS
+#define STDC_HEADERS 1
+#endif
 
 /* Define to allow pcregrep to be linked with libbz2, so that it is able to
    handle .bz2 files. */
-#undef SUPPORT_LIBBZ2
+/* #undef SUPPORT_LIBBZ2 */
 
 /* Define to allow pcretest to be linked with libreadline. */
-#undef SUPPORT_LIBREADLINE
+/* #undef SUPPORT_LIBREADLINE */
 
 /* Define to allow pcregrep to be linked with libz, so that it is able to
    handle .gz files. */
-#undef SUPPORT_LIBZ
+/* #undef SUPPORT_LIBZ */
 
 /* Define to enable support for Unicode properties */
-#undef SUPPORT_UCP
+/* #undef SUPPORT_UCP */
 
 /* Define to enable support for the UTF-8 Unicode encoding. This will work
    even in an EBCDIC environment, but it is incompatible with the EBCDIC
    macro. That is, PCRE can support *either* EBCDIC code *or* ASCII/UTF-8, but
    not both at once. */
-#undef SUPPORT_UTF8
+/* #undef SUPPORT_UTF8 */
 
 /* Version number of package */
-#undef VERSION
+#ifndef VERSION
+#define VERSION "8.13"
+#endif
 
 /* Define to empty if `const' does not conform to ANSI C. */
-#undef const
+/* #undef const */
 
 /* Define to the type of a signed integer type of width exactly 64 bits if
    such a type exists and the standard includes do not define it. */
-#undef int64_t
+/* #undef int64_t */
 
 /* Define to `unsigned int' if <sys/types.h> does not define. */
-#undef size_t
+/* #undef size_t */
