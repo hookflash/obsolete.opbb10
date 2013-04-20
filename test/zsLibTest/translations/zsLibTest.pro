@@ -1,0 +1,1 @@
+include (../zsLibTest.pro)
