@@ -6,9 +6,6 @@
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/AbstractPane>
 
-// TESTING
-#include "zsLib/RegEx.h"
-
 using namespace bb::cascades;
 using namespace hookflash::blackberry;
 

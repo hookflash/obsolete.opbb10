@@ -28,6 +28,7 @@
 //#include <boost/test/test_tools.hpp>
 
 #include "boost_replacement.h"
+#include <QDebug>
 
 using zsLib::ULONG;
 
@@ -50,7 +51,7 @@ public:
   virtual void onTimer(zsLib::TimerPtr timer)
   {
     ++mCount;
-    std::cout << "ONTIMER:      " << ((zsLib::PTRNUMBER)timer.get()) << "\n";
+    qDebug() << "ONTIMER:      " << ((zsLib::PTRNUMBER)timer.get()) << "\n";
   }
 
   ~TestTimerCallback()
@@ -91,7 +92,7 @@ BOOST_AUTO_TEST_SUITE(zsLibTimer)
     BOOST_EQUAL(testObject3->mCount, 0);
     BOOST_EQUAL(testObject4->mCount, 1);
 
-    std::cout << "WAITING:      To ensure the timers have truly stopped firing events.\n";
+    qDebug() << "WAITING:      To ensure the timers have truly stopped firing events.\n";
     boost::this_thread::sleep(zsLib::Seconds(10));
 
     timer1.reset();
