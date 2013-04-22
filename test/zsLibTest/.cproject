@@ -57,8 +57,11 @@
 							<tool id="com.qnx.qcc.tool.archiver.640579525" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.723891373"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.qnx.qcc.toolChain.1005788229.620209525" name="main.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/main.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1071027461.1111947047">
+						<tool id="com.qnx.qcc.tool.compiler.1071027461.1111947047" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1071027461"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="zsLibTest/TestProxyUsingGUIThread.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="zsLibTest/main.cpp|zsLibTest/TestProxyUsingGUIThread.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
