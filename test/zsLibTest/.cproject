@@ -57,11 +57,11 @@
 							<tool id="com.qnx.qcc.tool.archiver.640579525" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.723891373"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.qnx.qcc.toolChain.1005788229.620209525" name="main.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/main.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1071027461.1111947047">
-						<tool id="com.qnx.qcc.tool.compiler.1071027461.1111947047" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1071027461"/>
+					<fileInfo id="com.qnx.qcc.toolChain.1005788229.761769601" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1071027461.1800335479">
+						<tool id="com.qnx.qcc.tool.compiler.1071027461.1800335479" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1071027461"/>
 					</fileInfo>
 					<sourceEntries>
-						<entry excluding="zsLibTest/main.cpp|zsLibTest/TestProxyUsingGUIThread.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="zsLibTest/main.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -121,8 +121,11 @@
 							<tool id="com.qnx.qcc.tool.archiver.1595936713" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.1944482032"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.qnx.qcc.toolChain.1955481239.365577101" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1868246304.200314030">
+						<tool id="com.qnx.qcc.tool.compiler.1868246304.200314030" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1868246304"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="zsLibTest/TestProxyUsingGUIThread.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -182,8 +185,11 @@
 							<tool id="com.qnx.qcc.tool.archiver.251021994" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.756710620"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.qnx.qcc.toolChain.1344814260.893102153" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.989909272.756443612">
+						<tool id="com.qnx.qcc.tool.compiler.989909272.756443612" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.989909272"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="zsLibTest/TestProxyUsingGUIThread.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -243,8 +249,11 @@
 							<tool id="com.qnx.qcc.tool.archiver.972103430" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.712887899"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.qnx.qcc.toolChain.982466006.2136902579" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.799104187.1481767306">
+						<tool id="com.qnx.qcc.tool.compiler.799104187.1481767306" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.799104187"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="zsLibTest/TestProxyUsingGUIThread.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

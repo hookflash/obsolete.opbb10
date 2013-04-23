@@ -11,8 +11,7 @@
 
 using namespace bb::cascades;
 
-ApplicationUI::ApplicationUI(bb::cascades::Application *app)
-: QObject(app)
+ApplicationUI::ApplicationUI(bb::cascades::Application *app) : QObject(app)
 {
     // create scene document from main.qml asset
     // set parent to created document to ensure it exists for the whole application lifetime

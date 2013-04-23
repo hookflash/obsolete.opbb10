@@ -9,12 +9,14 @@ device {
         DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
                  $$quote(../../../../op/hookflash-libs/bbBoost)
 
-        SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
+                 $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestHelper.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestIPAddress.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestNumeric.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestProxy.cpp) \
+                 $$quote($$BASEDIR/src/zsLibTest/TestProxyUsingGUIThread.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestSocket.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestSocketAsync.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestString.cpp) \
@@ -23,7 +25,8 @@ device {
                  $$quote($$BASEDIR/src/zsLibTest/TestXML.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/boost_replacement.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+        HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
+                 $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/zsLibTest/boost_replacement.h)
 
     }
@@ -35,21 +38,25 @@ device {
         DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
                  $$quote(../../../../op/hookflash-libs/bbBoost)
 
-        SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
+                 $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestHelper.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestIPAddress.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestNumeric.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestProxy.cpp) \
+                 $$quote($$BASEDIR/src/zsLibTest/TestProxyUsingGUIThread.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestSocket.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestSocketAsync.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestString.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestStringize.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestTimer.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestXML.cpp) \
-                 $$quote($$BASEDIR/src/zsLibTest/boost_replacement.cpp)
+                 $$quote($$BASEDIR/src/zsLibTest/boost_replacement.cpp) \
+                 $$quote($$BASEDIR/src/zsLibTest/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+        HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
+                 $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/zsLibTest/boost_replacement.h)
 
     }
@@ -64,21 +71,25 @@ simulator {
         DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
                  $$quote(../../../../op/hookflash-libs/bbBoost)
 
-        SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
+                 $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestHelper.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestIPAddress.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestNumeric.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestProxy.cpp) \
+                 $$quote($$BASEDIR/src/zsLibTest/TestProxyUsingGUIThread.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestSocket.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestSocketAsync.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestString.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestStringize.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestTimer.cpp) \
                  $$quote($$BASEDIR/src/zsLibTest/TestXML.cpp) \
-                 $$quote($$BASEDIR/src/zsLibTest/boost_replacement.cpp)
+                 $$quote($$BASEDIR/src/zsLibTest/boost_replacement.cpp) \
+                 $$quote($$BASEDIR/src/zsLibTest/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+        HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
+                 $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/zsLibTest/boost_replacement.h)
 
     }
