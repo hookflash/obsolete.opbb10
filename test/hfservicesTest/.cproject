@@ -41,8 +41,11 @@
 							<tool id="com.qnx.qcc.tool.archiver.1154909802" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.qnx.qcc.toolChain.2069327922.1752405675" name="main.cpp" rcbsApplicability="disable" resourcePath="src/test/main.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1690273609.1428478715">
+						<tool id="com.qnx.qcc.tool.compiler.1690273609.1428478715" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1690273609"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="test/main.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -201,5 +204,8 @@
 		<scannerConfigBuildInfo instanceId="com.qnx.qcc.toolChain.2121048634">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/hfservicesTest"/>
 	</storageModule>
 </cproject>
