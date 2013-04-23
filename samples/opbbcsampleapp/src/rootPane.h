@@ -21,6 +21,8 @@ namespace hookflash {
         Q_INVOKABLE void OnLoginClick(QObject* page);
         Q_INVOKABLE void OnOnLoadingChanged(int status, QString url);
 
+        Q_INVOKABLE void OnMediaTestButton1Click();
+        Q_INVOKABLE void OnMediaTestButton2Click();
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }

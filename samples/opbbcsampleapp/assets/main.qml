@@ -169,6 +169,48 @@ TabbedPane {
             }
         }
     }
+    Tab {
+        title: qsTr("Media Test")
+        Page {
+            id: tab4
+            Container {
+                Container {
+                    layout: AbsoluteLayout {
+
+                    }
+                    layoutProperties: StackLayoutProperties {
+                        spaceQuota: 1.0
+                    }
+                    verticalAlignment: VerticalAlignment.Fill
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    Button {
+                        id: btnMediaTest1
+                        text: "1"
+                        onClicked: {
+                            paneParent.OnMediaTestButton1Click();
+                        }
+                        layoutProperties: AbsoluteLayoutProperties {
+                            positionX: 20.0
+                            positionY: 1000.0
+
+                        }
+                    }
+                    Button {
+                        id: btnMediaTest2
+                        text: "2"
+                        onClicked: {
+                            paneParent.OnMediaTestButton2Click();
+                        }
+                        layoutProperties: AbsoluteLayoutProperties {
+                            positionX: 390.0
+                            positionY: 1000.0
+
+                        }
+                    }
+                }
+            }
+        }
+    }
     onCreationCompleted: {
         // this slot is called when declarative scene is created
         // write post creation initialization here

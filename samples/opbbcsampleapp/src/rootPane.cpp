@@ -10,6 +10,9 @@
 #include <QDebug>
 #include <iostream>
 
+//#include <hookflash/core/internal/core_MediaEngine.h>
+//#include <hookflash/core/test/TestMediaEngine.h>
+
 using namespace bb::cascades;
 using namespace hookflash::blackberry;
 
@@ -53,3 +56,52 @@ void RootPane::OnOnLoadingChanged(int status, QString url)
 }
 
 
+void RootPane::OnMediaTestButton1Click()
+{
+  qDebug() << "***************** RootPane::OnMediaTestButton1Click";
+/*
+  hookflash::core::IMediaEngineDelegatePtr mediaEngineDelegatePtr;
+  hookflash::core::test::TestMediaEngineFactoryPtr overrideFactory(new hookflash::core::test::TestMediaEngineFactory);
+  hookflash::core::internal::Factory::override(overrideFactory);
+  hookflash::core::internal::IMediaEngineForStack::setup(mediaEngineDelegatePtr);
+
+  hookflash::core::internal::MediaEnginePtr mediaEngineInternal = hookflash::core::internal::IMediaEngineForCallTransport::singleton();
+  hookflash::core::test::TestMediaEnginePtr testMediaEngineInternal = boost::dynamic_pointer_cast<hookflash::core::test::TestMediaEngine>(mediaEngineInternal);
+  hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
+
+  mediaEngine->setEcEnabled(true);
+  mediaEngine->setAgcEnabled(true);
+  mediaEngine->setNsEnabled(false);
+  mediaEngine->setMuteEnabled(false);
+  mediaEngine->setLoudspeakerEnabled(false);
+  mediaEngine->setContinuousVideoCapture(true);
+  mediaEngine->setDefaultVideoOrientation(hookflash::core::IMediaEngine::VideoOrientation_Portrait);
+  mediaEngine->setRecordVideoOrientation(hookflash::core::IMediaEngine::VideoOrientation_LandscapeRight);
+  mediaEngine->setFaceDetection(false);
+
+  mediaEngine->setCaptureRenderView(NULL);
+  mediaEngine->setChannelRenderView(NULL);
+
+  mediaEngine->startVideoCapture();
+
+  testMediaEngineInternal->setReceiverAddress("127.0.0.1");
+
+  mediaEngineInternal->forCallTransport().startVoice();
+  mediaEngineInternal->forCallTransport().startVideoChannel();
+*/
+}
+
+void RootPane::OnMediaTestButton2Click()
+{
+  qDebug() << "***************** RootPane::OnMediaTestButton2Click";
+/*
+  hookflash::core::internal::MediaEnginePtr mediaEngineInternal = hookflash::core::internal::IMediaEngineForCallTransport::singleton();
+  hookflash::core::test::TestMediaEnginePtr testMediaEngineInternal = boost::dynamic_pointer_cast<hookflash::core::test::TestMediaEngine>(mediaEngineInternal);
+  hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
+
+  mediaEngineInternal->forCallTransport().stopVoice();
+  mediaEngineInternal->forCallTransport().stopVideoChannel();
+
+  mediaEngine->stopVideoCapture();
+*/
+}
