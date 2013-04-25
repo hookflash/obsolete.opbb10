@@ -59,6 +59,12 @@ void RootPane::OnOnLoadingChanged(int status, QString url)
 void RootPane::OnMediaTestButton1Click()
 {
   qDebug() << "***************** RootPane::OnMediaTestButton1Click";
+//  NavigationPane* navigationPane = qobject_cast<NavigationPane*>(navigationPaneObj);
+//  m_pForeignWindowControl = navigationPane->findChild<ForeignWindowControl*>("foreignWindow");
+
+  // Create a wrapper.
+//  BlackberryWindowWrapper* wrapper = new BlackberryWindowWrapper(m_pForeignWindowControl, Context????, GroupID???);
+
 /*
   hookflash::core::IMediaEngineDelegatePtr mediaEngineDelegatePtr;
   hookflash::core::test::TestMediaEngineFactoryPtr overrideFactory(new hookflash::core::test::TestMediaEngineFactory);
