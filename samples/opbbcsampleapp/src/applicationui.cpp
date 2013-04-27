@@ -6,8 +6,11 @@
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/AbstractPane>
 
+#include <hookflash/core/ILogger.h>
+
 using namespace bb::cascades;
 using namespace hookflash::blackberry;
+using hookflash::core::ILogger;
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
@@ -16,8 +19,11 @@ using namespace hookflash::blackberry;
 ApplicationUI::ApplicationUI(Application *app) : QObject(app), mApp(app)
 {
   // Add a log listener and pipe the output through qDebug.
-  mLog = boost::shared_ptr<LogDelegate>(new LogDelegate());
-  zsLib::Log::singleton()->addListener(mLog);
+//  mLog = boost::shared_ptr<LogDelegate>(new LogDelegate());
+//  zsLib::Log::singleton()->addListener(mLog);
+  ILogger::setLogLevel(ILogger::Trace);
+  ILogger::installTelnetLogger(59999, 60, true);
+  ILogger::installDebuggerLogger();
 
   mSession = Session::CreateInstance();
   mRootPane = new RootPane(this);

@@ -10,9 +10,12 @@ Page {
         WebView {
         	id: "webView"
         	objectName: "webView"
-            url: "http://app.unstable.hookflash.me/outer.html"
+            url: "https://app-unstable.hookflash.me/outer.html"
+            settings.customHttpHeaders: {
+                "Pragma": "no-cache"
+            }
             onNavigationRequested: {
-                cancel = paneParent.OnNavigationRequested(request.url);
+                paneParent.OnNavigationRequested(request.url);
 
                 console.log("*** onNavigationRequested(" + request.navigationType + " url=" + request.url);
                 request.action = WebNavigationRequestAction.Accept

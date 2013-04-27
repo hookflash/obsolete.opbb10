@@ -13,13 +13,11 @@
 // this feature is enabled by default in the debug build only
 #include <Qt/qdeclarativedebug.h>
 
-namespace hookflash { namespace services { namespace test { ZS_IMPLEMENT_SUBSYSTEM(hookflash_services_test) } } }
-
 using namespace bb::cascades;
 
 Q_DECL_EXPORT int main(int argc, char **argv)
 {
-  std::cout << "TEST NOW STARTING...\n\n";
+  BOOST_STDOUT() << "TEST NOW STARTING...\n\n";
 
   BoostReplacement::runAllTests();
   BoostReplacement::output();
