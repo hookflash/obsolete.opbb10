@@ -3,23 +3,36 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 
 device {
     CONFIG(debug, debug|release) {
-        INCLUDEPATH +=  $$quote(../../../../op/hookflash-libs/cryptopp) \
-                 $$quote(../../../../op/hookflash-libs/zsLib) \
+        INCLUDEPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/include) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/) \
+                 $$quote(../../../../op/hookflash-libs/cryptopp) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry) \
                  $$quote(../../../../op/hookflash-core/) \
                  $$quote(../../../../op/hookflash-libs/webRTC/src/video_engine/include/) \
                  $$quote(../../../../op/hookflash-libs/webRTC/src/) \
-                 $$quote(../../../hookflash-libs/boost) \
-                 $$quote(../../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/)
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/interface) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/system_wrappers/interface) \
+                 $$quote(../../../hookflash-libs/boost)
 
-        DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/cryptopp) \
-                 $$quote(../../../../op/hookflash-libs/zsLib) \
+        DEPENDPATH +=  $$quote(../../../../op/hookflash-libs/zsLib) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/include) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/) \
+                 $$quote(../../../../op/hookflash-libs/cryptopp) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry) \
                  $$quote(../../../../op/hookflash-core/) \
                  $$quote(../../../../op/hookflash-libs/webRTC/src/video_engine/include/) \
                  $$quote(../../../../op/hookflash-libs/webRTC/src/) \
-                 $$quote(../../../hookflash-libs/boost) \
-                 $$quote(../../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/)
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/modules/interface) \
+                 $$quote(../../../../op/hookflash-libs/webRTC/src/system_wrappers/interface) \
+                 $$quote(../../../hookflash-libs/boost)
 
-        SOURCES +=  $$quote($$BASEDIR/src/account.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
+                 $$quote($$BASEDIR/src/account.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
@@ -27,7 +40,8 @@ device {
                  $$quote($$BASEDIR/src/session.cpp) \
                  $$quote($$BASEDIR/src/userIdentity.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/account.h) \
+        HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
+                 $$quote($$BASEDIR/src/account.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \
                  $$quote($$BASEDIR/src/loginPane.h) \
                  $$quote($$BASEDIR/src/rootPane.h) \
@@ -37,7 +51,8 @@ device {
     }
 
     CONFIG(release, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/account.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
+                 $$quote($$BASEDIR/src/account.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
@@ -45,7 +60,8 @@ device {
                  $$quote($$BASEDIR/src/session.cpp) \
                  $$quote($$BASEDIR/src/userIdentity.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/account.h) \
+        HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
+                 $$quote($$BASEDIR/src/account.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \
                  $$quote($$BASEDIR/src/loginPane.h) \
                  $$quote($$BASEDIR/src/rootPane.h) \
@@ -58,7 +74,8 @@ device {
 
 simulator {
     CONFIG(debug, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/account.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
+                 $$quote($$BASEDIR/src/account.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
@@ -66,7 +83,8 @@ simulator {
                  $$quote($$BASEDIR/src/session.cpp) \
                  $$quote($$BASEDIR/src/userIdentity.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/account.h) \
+        HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
+                 $$quote($$BASEDIR/src/account.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \
                  $$quote($$BASEDIR/src/loginPane.h) \
                  $$quote($$BASEDIR/src/rootPane.h) \
@@ -77,7 +95,8 @@ simulator {
 
 }
 
-INCLUDEPATH +=  $$quote($$BASEDIR/src)
+INCLUDEPATH +=  $$quote($$BASEDIR/src/contacts) \
+         $$quote($$BASEDIR/src)
 
 CONFIG += precompile_header
 

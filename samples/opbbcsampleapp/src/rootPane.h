@@ -5,6 +5,11 @@
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/Page>
 
+#include "video_render_bb_impl.h"
+#include "bb_window_wrapper.h"
+#include "video_render.h"
+#include "boost/smart_ptr.hpp"
+
 namespace hookflash {
   namespace blackberry {
 
@@ -21,15 +26,26 @@ namespace hookflash {
         Q_INVOKABLE void OnLoginClick(QObject* page);
         Q_INVOKABLE void OnOnLoadingChanged(int status, QString url);
 
+        Q_INVOKABLE void OnCallWindowOpened(QObject* callPageObj);
+
         Q_INVOKABLE void OnMediaTestButton1Click();
         Q_INVOKABLE void OnMediaTestButton2Click();
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
+
+    public Q_SLOTS:
+        void onLayoutFrameChanged(const QRectF &layoutFrame);
+
     private:
+        void CreateVideoRenderer();
+
         ApplicationUI* mAppUI;
         LoginPane* mLoginPane;
         bb::cascades::QmlDocument* mQml;
+        boost::shared_ptr<webrtc::VideoRenderBlackBerry> mVideoRenderer;
+        QRectF mVideoWindowSize;
+        bool mCallWindowIsOpen;
     };
   };
 };

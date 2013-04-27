@@ -39,12 +39,30 @@ void UserIdentity::BeginLogin(const std::string& identityURI)
 {
   mDelegate = shared_ptr<UserIdentityDelegate>(new UserIdentityDelegate(mWeakThis.lock()));
 
-//  mOpIdentity = IIdentity::login(identityDelegate, mRedirectAfterLoginCompleteURL.c_str(), identityURI.c_str(), "hookflash.me");
-  mOpIdentity = IIdentity::login(mDelegate, mRedirectAfterLoginCompleteURL.c_str(), "identity://unstable.hookflash.me/lawrence", "unstable.hookflash.me");
+//  mOpIdentity = IIdentity::login(mDelegate, mRedirectAfterLoginCompleteURL.c_str(), "identity://unstable.hookflash.me/lawrence", "unstable.hookflash.me");
+  mOpIdentity = IIdentity::login(
+      mDelegate,
+      mRedirectAfterLoginCompleteURL.c_str(),
+      "identity://facebook.com/",
+      "unstable.hookflash.me");
   if(mOpIdentity) {
     qDebug() << "******** valid identity";
   }
 }
+
+void UserIdentity::OnWebBrowserPageLoaded(const std::string& url)
+{
+
+}
+
+void UserIdentity::OnWaitingToLoadBrowserWindow()
+{
+  std::string js = "initInnerFrame('";
+  js += mOpIdentity->getIdentityLoginURL();
+  js += "')";
+  mLoginUIDelegate->CallJavaScript(js);
+}
+
 
   //-------------------------------------------------------------------------
   //-------------------------------------------------------------------------
@@ -66,7 +84,11 @@ UserIdentityDelegate::~UserIdentityDelegate()
 void UserIdentityDelegate::onIdentityStateChanged(hookflash::core::IIdentityPtr identity, IdentityStates state)
 {
   qDebug() << "********** onIdentityStateChanged = " << IIdentity::toString(state);
-  qDebug() << "********** URL = " << identity->getIdentityLoginURL();
+
+  if(state == IIdentity::IdentityState_WaitingToLoadBrowserWindow) {
+    mParentIdentity.lock()->OnWaitingToLoadBrowserWindow();
+  }
+//  qDebug() << "********** URL = " << identity->getIdentityLoginURL();
 }
 
   //-------------------------------------------------------------------------

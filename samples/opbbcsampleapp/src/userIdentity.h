@@ -8,6 +8,12 @@ namespace hookflash {
 
     class UserIdentityDelegate;
 
+    class ILoginUIDelegate {
+    public:
+      virtual ~ILoginUIDelegate() {}
+      virtual void CallJavaScript(const std::string& js) = 0;
+    };
+
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
@@ -22,12 +28,20 @@ namespace hookflash {
       virtual void BeginLogin(const std::string& identityURI);
       std::string GetRedirectAfterLoginCompleteURL() { return mRedirectAfterLoginCompleteURL; }
 
+      // Called by ILoginUIDelegate...
+      void SetLoginUIDelegate(boost::shared_ptr<ILoginUIDelegate> delegate) { mLoginUIDelegate = delegate; }
+      void OnWebBrowserPageLoaded(const std::string& url);
+
+      // Called by IdentityDelegate...
+      void OnWaitingToLoadBrowserWindow();
+
     private:
       UserIdentity();
 
       boost::weak_ptr<UserIdentity> mWeakThis;
       boost::shared_ptr<hookflash::core::IIdentity> mOpIdentity;
       boost::shared_ptr<UserIdentityDelegate> mDelegate;
+      boost::shared_ptr<ILoginUIDelegate> mLoginUIDelegate;
       std::string mRedirectAfterLoginCompleteURL;
     };
 

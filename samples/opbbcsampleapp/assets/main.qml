@@ -52,19 +52,15 @@ TabbedPane {
 	                    maxHeight: 50.0
 	                    topMargin: 200.0
 	                    topPadding: 200.0
-	                }
-	                Button {
+                    }
+                    Button {
 	                    id: btnLoginViaFB
 	                    text: "Login through Facebook"
 	                    horizontalAlignment: HorizontalAlignment.Center
 	                    topMargin: 200.0
 	                    topPadding: 400.0
 	                    onClicked: {
-	                        // var loginPage = weblogin.createObject();
-	                        // navPane1.push(loginPage);
-                            btnLoginViaFB.text = "Hi1";
 	                        paneParent.OnLoginClick(navPane1);
-                            btnLoginViaFB.text = "Hi2";
                         }
 	                    attachedObjects: [
 	                        ComponentDefinition {
@@ -170,10 +166,22 @@ TabbedPane {
         }
     }
     Tab {
-        title: qsTr("Media Test")
+        title: qsTr("Call")
+        onTriggered: {
+            paneParent.OnCallWindowOpened(callTab);
+        }
         Page {
-            id: tab4
+            id: callTab
+            onCreationCompleted: {
+            }
             Container {
+                ForeignWindowControl {
+                    id: foreignWindow
+                    objectName: "foreignWindow"
+                    visible: true
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    verticalAlignment: VerticalAlignment.Fill
+                }
                 Container {
                     layout: AbsoluteLayout {
 

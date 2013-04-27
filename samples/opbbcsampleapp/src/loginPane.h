@@ -6,6 +6,7 @@
 #include <bb/cascades/NavigationPane>
 #include <bb/cascades/WebView>
 #include "boost/smart_ptr.hpp"
+#include <userIdentity.h>
 
 namespace hookflash {
   namespace blackberry {
@@ -13,8 +14,9 @@ namespace hookflash {
     class RootPane;
     class Session;
     class UserIdentity;
+    class LoginPaneLoginUIDelegate;
 
-    class LoginPane : public QObject
+    class LoginPane : public QObject, public ILoginUIDelegate
     {
         Q_OBJECT
     public:
@@ -22,12 +24,30 @@ namespace hookflash {
         virtual ~LoginPane() {}
 
         Q_INVOKABLE void OnLoginClick();
+        Q_INVOKABLE bool OnNavigationRequested(QUrl url);
         Q_INVOKABLE void OnLoadingChanged(int status, QUrl url);
         Q_INVOKABLE void TestCallback();
+
+        void CallJavaScript(const std::string& js);
+
     private:
         RootPane* mRootPane;
+        bb::cascades::Page* mPage;
         bb::cascades::WebView* mWebView;
         boost::shared_ptr<UserIdentity> mIdentity;
+        boost::shared_ptr<LoginPaneLoginUIDelegate> mLoginUIDelegate;
+    };
+
+    class LoginPaneLoginUIDelegate : public ILoginUIDelegate
+    {
+    public:
+        LoginPaneLoginUIDelegate(LoginPane* parentPane) : mParentPane(parentPane) {}
+        virtual ~LoginPaneLoginUIDelegate() {}
+
+        virtual void CallJavaScript(const std::string& js) { mParentPane->CallJavaScript(js); }
+
+    private:
+        LoginPane* mParentPane;
     };
   };
 };

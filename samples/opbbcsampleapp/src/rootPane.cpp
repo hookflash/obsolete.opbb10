@@ -7,6 +7,9 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/NavigationPane>
 #include <bb/cascades/Control>
+#include <bb/cascades/ForeignWindowControl>
+#include <bb/cascades/Window>
+#include <bb/cascades/LayoutUpdateHandler>
 #include <QDebug>
 #include <iostream>
 
@@ -16,7 +19,10 @@
 using namespace bb::cascades;
 using namespace hookflash::blackberry;
 
-RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(NULL)
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(NULL), mCallWindowIsOpen(false)
 {
 
   // create scene document from main.qml asset
@@ -31,9 +37,19 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
   // set created root object as a scene
   mAppUI->GetApplication()->setScene(root);
 
-  qDebug() << "***************** RootPane";
+  ForeignWindowControl* foreignWindow = root->findChild<ForeignWindowControl*>("foreignWindow");
+  if(foreignWindow == NULL) {
+    qDebug() << "SA[RootPane::RootPane] Foreign window not found";
+    return;
+  }
+
+  LayoutUpdateHandler* handler = LayoutUpdateHandler::create(foreignWindow).onLayoutFrameChanged(
+    this,
+    SLOT(onLayoutFrameChanged(const QRectF &)));
+  mVideoWindowSize = handler->layoutFrame();
 }
 
+//-----------------------------------------------------------------
 void RootPane::OnLoginClick(QObject* navigationPaneObj)
 {
 //  const QMetaObject* meta = pageObject->metaObject();
@@ -50,21 +66,25 @@ void RootPane::OnLoginClick(QObject* navigationPaneObj)
   return;
 }
 
+//-----------------------------------------------------------------
 void RootPane::OnOnLoadingChanged(int status, QString url)
 {
   qDebug() << "***************** RootPane::OnLoginClick";
 }
 
 
+//-----------------------------------------------------------------
+void RootPane::OnCallWindowOpened(QObject* callPageObj)
+{
+  mCallWindowIsOpen = true;
+  if(!mVideoRenderer && !mVideoWindowSize.isNull()) {
+    CreateVideoRenderer();
+  }
+}
+
+//-----------------------------------------------------------------
 void RootPane::OnMediaTestButton1Click()
 {
-  qDebug() << "***************** RootPane::OnMediaTestButton1Click";
-//  NavigationPane* navigationPane = qobject_cast<NavigationPane*>(navigationPaneObj);
-//  m_pForeignWindowControl = navigationPane->findChild<ForeignWindowControl*>("foreignWindow");
-
-  // Create a wrapper.
-//  BlackberryWindowWrapper* wrapper = new BlackberryWindowWrapper(m_pForeignWindowControl, Context????, GroupID???);
-
 /*
   hookflash::core::IMediaEngineDelegatePtr mediaEngineDelegatePtr;
   hookflash::core::test::TestMediaEngineFactoryPtr overrideFactory(new hookflash::core::test::TestMediaEngineFactory);
@@ -97,6 +117,7 @@ void RootPane::OnMediaTestButton1Click()
 */
 }
 
+//-----------------------------------------------------------------
 void RootPane::OnMediaTestButton2Click()
 {
   qDebug() << "***************** RootPane::OnMediaTestButton2Click";
@@ -110,4 +131,28 @@ void RootPane::OnMediaTestButton2Click()
 
   mediaEngine->stopVideoCapture();
 */
+}
+
+//-----------------------------------------------------------------
+void RootPane::onLayoutFrameChanged(const QRectF &layoutFrame) {
+  if(!mVideoRenderer) {
+    mVideoWindowSize = layoutFrame;
+    CreateVideoRenderer();
+  }
+}
+
+//-----------------------------------------------------------------
+void RootPane::CreateVideoRenderer() {
+  QString mainWindowGroupId = Application::instance()->mainWindow()->groupId();
+  const char* id = mainWindowGroupId.toAscii();
+
+  webrtc::BlackberryWindowWrapper* wrapper = new webrtc::BlackberryWindowWrapper("BlackberryVideoRenderWindow",
+                                                                                 id,
+                                                                                 mVideoWindowSize.width(),
+                                                                                 mVideoWindowSize.height());
+
+  mVideoRenderer = boost::shared_ptr<webrtc::VideoRenderBlackBerry>(
+      new webrtc::VideoRenderBlackBerry(42,
+                                        webrtc::kRenderDefault,
+                                        (void*) wrapper, true));
 }
