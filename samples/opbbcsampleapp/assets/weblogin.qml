@@ -10,7 +10,7 @@ Page {
         WebView {
         	id: "webView"
         	objectName: "webView"
-            url: "https://app-tmp.hookflash.me/index.html"
+            url: "https://app-light.hookflash.me/outer.html"
             settings.customHttpHeaders: {
                 "Pragma": "no-cache"
             }
