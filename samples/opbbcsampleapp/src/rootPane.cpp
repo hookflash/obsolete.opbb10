@@ -7,7 +7,6 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/NavigationPane>
 #include <bb/cascades/Control>
-#include <bb/cascades/ForeignWindowControl>
 #include <bb/cascades/Window>
 #include <bb/cascades/LayoutUpdateHandler>
 #include <QDebug>
@@ -37,13 +36,13 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
   // set created root object as a scene
   mAppUI->GetApplication()->setScene(root);
 
-  ForeignWindowControl* foreignWindow = root->findChild<ForeignWindowControl*>("foreignWindow");
-  if(foreignWindow == NULL) {
+  mForeignWindow = root->findChild<ForeignWindowControl*>("foreignWindow");
+  if(mForeignWindow == NULL) {
     qDebug() << "SA[RootPane::RootPane] Foreign window not found";
     return;
   }
 
-  LayoutUpdateHandler* handler = LayoutUpdateHandler::create(foreignWindow).onLayoutFrameChanged(
+  LayoutUpdateHandler* handler = LayoutUpdateHandler::create(mForeignWindow).onLayoutFrameChanged(
     this,
     SLOT(onLayoutFrameChanged(const QRectF &)));
   mVideoWindowSize = handler->layoutFrame();
@@ -143,11 +142,14 @@ void RootPane::onLayoutFrameChanged(const QRectF &layoutFrame) {
 
 //-----------------------------------------------------------------
 void RootPane::CreateVideoRenderer() {
-  QString mainWindowGroupId = Application::instance()->mainWindow()->groupId();
-  const char* id = mainWindowGroupId.toAscii();
+  QString groupIdQ = mForeignWindow->windowGroup();
+  const char* groupId = groupIdQ.toAscii();
 
-  webrtc::BlackberryWindowWrapper* wrapper = new webrtc::BlackberryWindowWrapper("BlackberryVideoRenderWindow",
-                                                                                 id,
+  QString windowIdQ = mForeignWindow->windowId();
+  const char* windowId = windowIdQ.toAscii();
+
+  webrtc::BlackberryWindowWrapper* wrapper = new webrtc::BlackberryWindowWrapper(windowId,
+                                                                                 groupId,
                                                                                  mVideoWindowSize.width(),
                                                                                  mVideoWindowSize.height());
 

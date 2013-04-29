@@ -8,6 +8,7 @@
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/Page>
 #include <bb/cascades/Container>
+#include <bb/cascades/WebStorage>
 #include <QDebug>
 #include <iostream>
 
@@ -32,6 +33,10 @@ LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane, Navigation
   mPage = qml->createRootObject<Page>();
 
   navigationPane->push(mPage);
+
+  bb::cascades::Container* containerObj = mPage->findChild<bb::cascades::Container*>("containerObj");
+  mWebView = containerObj->findChild<WebView*>("webView");
+  mWebView->storage()->clearCache();
 }
 
 void LoginPane::OnLoginClick()
@@ -40,14 +45,12 @@ void LoginPane::OnLoginClick()
   return;
 }
 
-bool LoginPane::OnNavigationRequested(QUrl url)
+void LoginPane::OnNavigationRequested(QUrl url)
 {
   QString urlFull = url.toString();
   std::string urlAsStdString = urlFull.toUtf8().constData();
   mIdentity->OnWebBrowserPageLoaded(urlAsStdString);
   qDebug() << "******** OnNavigationRequested = " << urlAsStdString.c_str();
-  return false;
-
 }
 
 void LoginPane::OnLoadingChanged(int status, QUrl url)
@@ -69,6 +72,7 @@ void LoginPane::CallJavaScript(const std::string& js)
 {
   bb::cascades::Container* containerObj = mPage->findChild<bb::cascades::Container*>("containerObj");
   mWebView = containerObj->findChild<WebView*>("webView");
+  mWebView->storage()->clearCache();
 
   qDebug() << "********* LoginPane::CallJavaScript = " << js.c_str();
 

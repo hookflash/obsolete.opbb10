@@ -1,11 +1,13 @@
 // Tabbed Pane project template
 import bb.cascades 1.0
-    
+import "Common"
+
 TabbedPane {
     id: pageMain
     showTabsOnActionBar: true
     Tab {
         title: qsTr("Connect")
+        imageSource: "asset:///images/icon_home.png"
         NavigationPane {
             id: navPane1
 	        Page {
@@ -76,100 +78,76 @@ TabbedPane {
             }
         }
     }
+
     Tab {
         title: qsTr("Contacts")
         enabled: true
-        Page {
-            id: tab2
-            actions: [
-                // define the actions for tab here
-                ActionItem {
-                    title: qsTr("Raise")
-                    onTriggered: {
-                        // run the image animation
-                        raiseAnimation.play();
-                    }
-                }
-            ]
-            Container {
-                // define tab content here
-                Label {
-                    text: qsTr("Tab 2 title")
-                    horizontalAlignment: HorizontalAlignment.Center
-                    textStyle {
-                        base: SystemDefaults.TextStyles.TitleText
-                    }
-                }
-                ImageView {
-                    id: imgTab2
-                    imageSource: "asset:///images/picture1.png"
-                    verticalAlignment: VerticalAlignment.Center
-                    horizontalAlignment: HorizontalAlignment.Center
-                    layoutProperties: StackLayoutProperties {
-                        spaceQuota: 1.0
-                    }
-                    scalingMethod: ScalingMethod.AspectFit
-                    opacity: 0.2
-                    animations: [
-                        // define animations for image here
-                        ParallelAnimation {
-                            id: raiseAnimation
-                            FadeTransition {
-                                fromOpacity: 0.2
-                                toOpacity: 1
-                                duration: 1000
-                            }
-                            ScaleTransition {
-                                fromX: 1
-                                fromY: 1
-                                toX: 1.5
-                                toY: 1.5
-                                duration: 1000
-                                easingCurve: StockCurve.DoubleElasticOut
-                            }
-                        }
-                    ]
-                }
+        imageSource: "asset:///images/contacts.png"
+        NavigationPane {
+            id: contactsNavPane
+            onCreationCompleted: {
+                consule.log("**** onCreationCompleted of...");
             }
+            objectName: "contactsNavPane"
+            Page {
+	            id: contactsPage
+	            actions: [
+	                // define the actions for tab here
+	                ActionItem {
+	                    title: qsTr("Raise")
+	                    onTriggered: {
+	                        // run the image animation
+	                        raiseAnimation.play();
+	                    }
+	                }
+	            ]
+	            Container {
+	                // define tab content here
+	                ListView {
+	                    id: contactList
+	                    dataModel: XmlDataModel {
+	
+	                        source: "models/contactModel.xml"
+	                    }
+	
+	                    listItemComponents: [
+	                        ListItemComponent {
+	                            type: "contactitem"
+	                            ContactItem {
+	                            }
+	                        }
+	                    ]
+	                    onTriggered: {
+	                        // When an item is selected, we push the contact action Page in the chosenItem file attribute.
+	                        console.log("*** contactList.onTriggered");
+	                        var chosenItem = dataModel.data(indexPath);
+	                        console.log("*** chosenItem.userId = " + chosenItem.userid);
+	
+	                        // Set the correct file source on the ComponentDefinition, create the Page, and set its title.
+	//                        contactAction.id = chosenItem.userid;
+	                        var page = contactActionPage.createObject();
+	
+	                        // Push the new Page.
+	                        contactsNavPane.push(page);
+	                    }
+	
+	                } // ListView
+	            } // Container
+            } // NavigationPane
         }
     }
-    Tab {
-        title: qsTr("Settings")
-        Page {
-            id: tab3
-            Container {
-                // define tab content here
-                Label {
-                    text: qsTr("Tab 3 title")
-                    horizontalAlignment: HorizontalAlignment.Center
-                    textStyle {
-                        base: SystemDefaults.TextStyles.TitleText
-                    }
-                }
-                Container {
-                    layout: DockLayout { }
-                    layoutProperties: StackLayoutProperties {
-                        spaceQuota: 1.0
-                    }
-                    verticalAlignment: VerticalAlignment.Fill
-                    horizontalAlignment: HorizontalAlignment.Fill
-                    Label {
-                        text: qsTr ("Tab 3 content")
-                        verticalAlignment: VerticalAlignment.Center
-                        horizontalAlignment: HorizontalAlignment.Center
-                        textStyle {
-                            base: SystemDefaults.TextStyles.BodyText
-                        }
-                    }
-                }
-            }
+    attachedObjects: [
+        ComponentDefinition {
+            id: contactActionPage
+            source: "Common/ContactAction.qml"
         }
-    }
+    ]
     Tab {
         title: qsTr("Call")
         onTriggered: {
             paneParent.OnCallWindowOpened(callTab);
         }
+        imageSource: "asset:///images/videocall.png"
         Page {
             id: callTab
             onCreationCompleted: {
@@ -182,6 +160,7 @@ TabbedPane {
                     horizontalAlignment: HorizontalAlignment.Fill
                     verticalAlignment: VerticalAlignment.Fill
                 }
+/*
                 Container {
                     layout: AbsoluteLayout {
 
@@ -213,6 +192,41 @@ TabbedPane {
                             positionX: 390.0
                             positionY: 1000.0
 
+                        }
+                    }
+                }
+*/
+            }
+        }
+    }
+    Tab {
+        title: qsTr("Settings")
+
+        Page {
+            id: tab3
+            Container {
+                // define tab content here
+                Label {
+                    text: qsTr("Tab 3 title")
+                    horizontalAlignment: HorizontalAlignment.Center
+                    textStyle {
+                        base: SystemDefaults.TextStyles.TitleText
+                    }
+                }
+                Container {
+                    layout: DockLayout {
+                    }
+                    layoutProperties: StackLayoutProperties {
+                        spaceQuota: 1.0
+                    }
+                    verticalAlignment: VerticalAlignment.Fill
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    Label {
+                        text: qsTr("Tab 3 content")
+                        verticalAlignment: VerticalAlignment.Center
+                        horizontalAlignment: HorizontalAlignment.Center
+                        textStyle {
+                            base: SystemDefaults.TextStyles.BodyText
                         }
                     }
                 }

@@ -10,7 +10,7 @@ Page {
         WebView {
         	id: "webView"
         	objectName: "webView"
-            url: "https://app-unstable.hookflash.me/outer.html"
+            url: "https://app-tmp.hookflash.me/index.html"
             settings.customHttpHeaders: {
                 "Pragma": "no-cache"
             }
@@ -21,9 +21,8 @@ Page {
                 request.action = WebNavigationRequestAction.Accept
             }
             onLoadingChanged: {
-            	paneParent.OnLoadingChanged(loadRequest.status, loadRequest.url);
-
-                console.log("*** onLoadingChanged("+loadRequest.status+" url="+ loadRequest.url);
+                console.log("*** onLoadingChanged(" + loadRequest.status + " url=" + loadRequest.url);
+                paneParent.OnLoadingChanged(loadRequest.status, loadRequest.url);
             }
 
             function setLoginPane(cppParent) {

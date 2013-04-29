@@ -4,6 +4,7 @@
 #include <QObject>
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/Page>
+#include <bb/cascades/ForeignWindowControl>
 
 #include "video_render_bb_impl.h"
 #include "bb_window_wrapper.h"
@@ -43,6 +44,7 @@ namespace hookflash {
         ApplicationUI* mAppUI;
         LoginPane* mLoginPane;
         bb::cascades::QmlDocument* mQml;
+        bb::cascades::ForeignWindowControl* mForeignWindow;
         boost::shared_ptr<webrtc::VideoRenderBlackBerry> mVideoRenderer;
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;

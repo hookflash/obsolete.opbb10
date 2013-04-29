@@ -24,7 +24,7 @@ namespace hookflash {
         virtual ~LoginPane() {}
 
         Q_INVOKABLE void OnLoginClick();
-        Q_INVOKABLE bool OnNavigationRequested(QUrl url);
+        Q_INVOKABLE void OnNavigationRequested(QUrl url);
         Q_INVOKABLE void OnLoadingChanged(int status, QUrl url);
         Q_INVOKABLE void TestCallback();
 
