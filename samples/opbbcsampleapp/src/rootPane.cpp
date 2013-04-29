@@ -12,8 +12,8 @@
 #include <QDebug>
 #include <iostream>
 
-//#include <hookflash/core/internal/core_MediaEngine.h>
-//#include <hookflash/core/test/TestMediaEngine.h>
+#include <hookflash/core/internal/core_MediaEngine.h>
+#include <hookflash/core/test/TestMediaEngine.h>
 
 using namespace bb::cascades;
 using namespace hookflash::blackberry;
@@ -35,6 +35,7 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
 
   // set created root object as a scene
   mAppUI->GetApplication()->setScene(root);
+
 
   mForeignWindow = root->findChild<ForeignWindowControl*>("foreignWindow");
   if(mForeignWindow == NULL) {
@@ -84,7 +85,8 @@ void RootPane::OnCallWindowOpened(QObject* callPageObj)
 //-----------------------------------------------------------------
 void RootPane::OnMediaTestButton1Click()
 {
-/*
+  qDebug() << "***************** RootPane::OnMediaTestButton1Click";
+
   hookflash::core::IMediaEngineDelegatePtr mediaEngineDelegatePtr;
   hookflash::core::test::TestMediaEngineFactoryPtr overrideFactory(new hookflash::core::test::TestMediaEngineFactory);
   hookflash::core::internal::Factory::override(overrideFactory);
@@ -94,26 +96,26 @@ void RootPane::OnMediaTestButton1Click()
   hookflash::core::test::TestMediaEnginePtr testMediaEngineInternal = boost::dynamic_pointer_cast<hookflash::core::test::TestMediaEngine>(mediaEngineInternal);
   hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
 
-  mediaEngine->setEcEnabled(true);
-  mediaEngine->setAgcEnabled(true);
-  mediaEngine->setNsEnabled(false);
-  mediaEngine->setMuteEnabled(false);
-  mediaEngine->setLoudspeakerEnabled(false);
+//  mediaEngine->setEcEnabled(true);
+//  mediaEngine->setAgcEnabled(true);
+//  mediaEngine->setNsEnabled(false);
+//  mediaEngine->setMuteEnabled(false);
+//  mediaEngine->setLoudspeakerEnabled(false);
   mediaEngine->setContinuousVideoCapture(true);
-  mediaEngine->setDefaultVideoOrientation(hookflash::core::IMediaEngine::VideoOrientation_Portrait);
-  mediaEngine->setRecordVideoOrientation(hookflash::core::IMediaEngine::VideoOrientation_LandscapeRight);
-  mediaEngine->setFaceDetection(false);
+//  mediaEngine->setDefaultVideoOrientation(hookflash::core::IMediaEngine::VideoOrientation_Portrait);
+//  mediaEngine->setRecordVideoOrientation(hookflash::core::IMediaEngine::VideoOrientation_LandscapeRight);
+//  mediaEngine->setFaceDetection(false);
 
-  mediaEngine->setCaptureRenderView(NULL);
-  mediaEngine->setChannelRenderView(NULL);
+//  mediaEngine->setCaptureRenderView(mVideoRenderer.get());
+  mediaEngine->setChannelRenderView(mVideoRenderer.get());
 
   mediaEngine->startVideoCapture();
 
   testMediaEngineInternal->setReceiverAddress("127.0.0.1");
 
-  mediaEngineInternal->forCallTransport().startVoice();
+//  mediaEngineInternal->forCallTransport().startVoice();
   mediaEngineInternal->forCallTransport().startVideoChannel();
-*/
+
 }
 
 //-----------------------------------------------------------------
@@ -137,6 +139,7 @@ void RootPane::onLayoutFrameChanged(const QRectF &layoutFrame) {
   if(!mVideoRenderer) {
     mVideoWindowSize = layoutFrame;
     CreateVideoRenderer();
+    //OnMediaTestButton1Click();
   }
 }
 
@@ -148,13 +151,9 @@ void RootPane::CreateVideoRenderer() {
   QString windowIdQ = mForeignWindow->windowId();
   const char* windowId = windowIdQ.toAscii();
 
-  webrtc::BlackberryWindowWrapper* wrapper = new webrtc::BlackberryWindowWrapper(windowId,
-                                                                                 groupId,
-                                                                                 mVideoWindowSize.width(),
-                                                                                 mVideoWindowSize.height());
-
-  mVideoRenderer = boost::shared_ptr<webrtc::VideoRenderBlackBerry>(
-      new webrtc::VideoRenderBlackBerry(42,
-                                        webrtc::kRenderDefault,
-                                        (void*) wrapper, true));
+  mVideoRenderer = boost::shared_ptr<webrtc::BlackberryWindowWrapper>(
+		  new webrtc::BlackberryWindowWrapper(windowId,
+				  	  	  	  	  	  	  	   groupId,
+											   mVideoWindowSize.width(),
+											   mVideoWindowSize.height()));
 }

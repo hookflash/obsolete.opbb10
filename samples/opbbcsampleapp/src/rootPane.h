@@ -45,7 +45,7 @@ namespace hookflash {
         LoginPane* mLoginPane;
         bb::cascades::QmlDocument* mQml;
         bb::cascades::ForeignWindowControl* mForeignWindow;
-        boost::shared_ptr<webrtc::VideoRenderBlackBerry> mVideoRenderer;
+        boost::shared_ptr<webrtc::BlackberryWindowWrapper> mVideoRenderer;
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;
     };
