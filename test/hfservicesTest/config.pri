@@ -59,7 +59,8 @@ device {
                  $$quote($$BASEDIR/src/test/TestRUDPListener.cpp) \
                  $$quote($$BASEDIR/src/test/TestSTUNDiscovery.cpp) \
                  $$quote($$BASEDIR/src/test/TestTURNSocket.cpp) \
-                 $$quote($$BASEDIR/src/test/boost_replacement.cpp)
+                 $$quote($$BASEDIR/src/test/boost_replacement.cpp) \
+                 $$quote($$BASEDIR/src/test/main.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \
@@ -95,7 +96,8 @@ simulator {
                  $$quote($$BASEDIR/src/test/TestRUDPListener.cpp) \
                  $$quote($$BASEDIR/src/test/TestSTUNDiscovery.cpp) \
                  $$quote($$BASEDIR/src/test/TestTURNSocket.cpp) \
-                 $$quote($$BASEDIR/src/test/boost_replacement.cpp)
+                 $$quote($$BASEDIR/src/test/boost_replacement.cpp) \
+                 $$quote($$BASEDIR/src/test/main.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \

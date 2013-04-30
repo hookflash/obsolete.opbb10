@@ -5,6 +5,7 @@
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/Page>
 #include <bb/cascades/ForeignWindowControl>
+#include <bb/cascades/ListView>
 
 #include "video_render_bb_impl.h"
 #include "bb_window_wrapper.h"
@@ -32,6 +33,8 @@ namespace hookflash {
         Q_INVOKABLE void OnMediaTestButton1Click();
         Q_INVOKABLE void OnMediaTestButton2Click();
 
+        void ProcessFbFriends(const QString& data);
+
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
 
@@ -45,6 +48,7 @@ namespace hookflash {
         LoginPane* mLoginPane;
         bb::cascades::QmlDocument* mQml;
         bb::cascades::ForeignWindowControl* mForeignWindow;
+        bb::cascades::ListView* mContactsListView;
         boost::shared_ptr<webrtc::BlackberryWindowWrapper> mVideoRenderer;
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;

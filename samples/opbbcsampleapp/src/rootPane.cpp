@@ -9,6 +9,9 @@
 #include <bb/cascades/Control>
 #include <bb/cascades/Window>
 #include <bb/cascades/LayoutUpdateHandler>
+#include <bb/cascades/GroupDataModel>
+#include <bb/cascades/ListView>
+#include <bb/data/JsonDataAccess>
 #include <QDebug>
 #include <QTimer>
 #include <iostream>
@@ -17,6 +20,7 @@
 #include <hookflash/core/test/TestMediaEngine.h>
 
 using namespace bb::cascades;
+using namespace bb::data;
 using namespace hookflash::blackberry;
 
 //-----------------------------------------------------------------
@@ -38,6 +42,11 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
   mAppUI->GetApplication()->setScene(root);
 
 
+  mContactsListView = root->findChild<ListView*>("contactList");
+  if(mContactsListView != NULL) {
+    qDebug() << "SA[RootPane::RootPane] List view not found";
+  }
+
   mForeignWindow = root->findChild<ForeignWindowControl*>("foreignWindow");
   if(mForeignWindow == NULL) {
     qDebug() << "SA[RootPane::RootPane] Foreign window not found";
@@ -48,6 +57,8 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
     this,
     SLOT(onLayoutFrameChanged(const QRectF &)));
   mVideoWindowSize = handler->layoutFrame();
+
+  ProcessFbFriends(QString(""));
 }
 
 //-----------------------------------------------------------------
@@ -135,6 +146,29 @@ void RootPane::OnMediaTestButton2Click()
 
   mediaEngine->stopVideoCapture();
 
+}
+
+//-----------------------------------------------------------------
+void RootPane::ProcessFbFriends(const QString& data)
+{
+  QString json = "[{'id': '100003985703380','fullName': 'Boris Ikodinovic','pictureUrl': 'https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/yo/r/UlIqmHJn-SK.gif'},{'id': '100004075097369','fullName': 'Nenad Nastasic','pictureUrl':'https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/yo/r/UlIqmHJn-SK.gif'},{'id': '100004281043574','fullName': 'Sergio Trifunovic','pictureUrl': 'https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/yo/r/UlIqmHJn-SK.gif'}]";
+
+  // Create the data model, specifying sorting keys of "firstName" and "lastName"
+  GroupDataModel *model = new GroupDataModel(QStringList() << "fullName");
+
+  // Create a JsonDataAccess object and load the .json file. The
+  // QDir::currentPath() function returns the current working
+  // directory for the app.
+  JsonDataAccess jda;
+  QVariant list = jda.load(json);
+
+  // Insert the data into the data model. Because the root of the .json file
+  // is an array, a QVariant(QVariantList) is returned from load(). You can
+  // provide a QVariantList to a data model directly by using insertList().
+  model->insertList(list.value<QVariantList>());
+
+  // Set the data model for the list view
+//  mContactsListView->setDataModel(model);
 }
 
 //-----------------------------------------------------------------

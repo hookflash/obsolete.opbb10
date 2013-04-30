@@ -86,7 +86,7 @@ TabbedPane {
         NavigationPane {
             id: contactsNavPane
             onCreationCompleted: {
-                consule.log("**** onCreationCompleted of...");
+                console.log("**** onCreationCompleted of...");
             }
             objectName: "contactsNavPane"
             Page {
@@ -105,12 +105,11 @@ TabbedPane {
 	                // define tab content here
 	                ListView {
 	                    id: contactList
-	                    dataModel: XmlDataModel {
-	
-	                        source: "models/contactModel.xml"
-	                    }
-	
-	                    listItemComponents: [
+	                    dataModel: GroupDataModel {
+
+                        }
+
+                        listItemComponents: [
 	                        ListItemComponent {
 	                            type: "contactitem"
 	                            ContactItem {
@@ -139,10 +138,11 @@ TabbedPane {
     attachedObjects: [
         ComponentDefinition {
             id: contactActionPage
-            source: "Common/ContactAction.qml"
+            source: "ContactAction.qml"
         }
     ]
     Tab {
+        id: videoCallTab
         title: qsTr("Call")
         onTriggered: {
             paneParent.OnCallWindowOpened(callTab);
