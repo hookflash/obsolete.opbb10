@@ -1,5 +1,6 @@
 #include "session.h"
 #include "userIdentity.h"
+#include "account.h"
 
 
 using namespace hookflash::blackberry;
@@ -47,6 +48,7 @@ void Session::Initialize()
                 OS,
                 SYSTEM);
 
-  mIdentity = UserIdentity::CreateInstance();
+  mIdentity = UserIdentity::CreateInstance(mWeakThis.lock());
+  mAccount  = Account::CreateInstance(mWeakThis.lock());
   mIdentityURI = DEFAULT_IDENTITY_URI;
 }

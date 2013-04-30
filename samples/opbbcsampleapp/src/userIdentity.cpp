@@ -1,29 +1,33 @@
 #include "userIdentity.h"
+#include "session.h"
+#include "account.h"
 #include <QDebug>
 #include <QRegExp>
+#include <zsLib/XML.h>
+#include <hookflash/core/IHelper.h>
 
 using namespace hookflash::blackberry;
 using namespace hookflash::core;
 using namespace boost;
 
 namespace {
-  const char* REDIRECT_URL = "http://bogusredirecturl.hookflash.com";
+  const char* REDIRECT_URL = "http://bogusredirecturl.hookflash.com/";
 };
 
   //-------------------------------------------------------------------------
   //-------------------------------------------------------------------------
   //-------------------------------------------------------------------------
 
-shared_ptr<UserIdentity> UserIdentity::CreateInstance()
+shared_ptr<UserIdentity> UserIdentity::CreateInstance(boost::shared_ptr<Session> session)
 {
-  shared_ptr<UserIdentity> instance(new UserIdentity());
+  shared_ptr<UserIdentity> instance(new UserIdentity(session));
   instance->mWeakThis = instance;
   return instance;
 }
 
   //-------------------------------------------------------------------------
 
-UserIdentity::UserIdentity() : mRedirectAfterLoginCompleteURL(REDIRECT_URL)
+UserIdentity::UserIdentity(boost::shared_ptr<Session> session) : mSession(session), mRedirectAfterLoginCompleteURL(REDIRECT_URL)
 {
 }
 
@@ -39,7 +43,6 @@ void UserIdentity::BeginLogin(const std::string& identityURI)
 {
   mDelegate = shared_ptr<UserIdentityDelegate>(new UserIdentityDelegate(mWeakThis.lock()));
 
-//  mOpIdentity = IIdentity::login(mDelegate, mRedirectAfterLoginCompleteURL.c_str(), "identity://unstable.hookflash.me/lawrence", "unstable.hookflash.me");
   mOpIdentity = IIdentity::login(
       mDelegate,
       mRedirectAfterLoginCompleteURL.c_str(),
@@ -50,9 +53,24 @@ void UserIdentity::BeginLogin(const std::string& identityURI)
   }
 }
 
-void UserIdentity::OnWebBrowserPageLoaded(const std::string& url)
+void UserIdentity::OnNotifyClient(const std::string& data)
 {
+  mOpIdentity->handleMessageFromInnerBrowserWindowFrame(hookflash::core::IHelper::createFromString(data));
+}
 
+bool UserIdentity::OnWebBrowserPageNavigation(const std::string& url)
+{
+  if(url == mRedirectAfterLoginCompleteURL) {
+    mOpIdentity->notifyLoginCompleteBrowserWindowRedirection();
+    return true;
+  }
+  return false;
+}
+
+void UserIdentity::OnWaitingToMakeBrowserWindowVisible()
+{
+  // TODO: mLoginUIDelegate->MakeBrowserWindowVisible();
+  mOpIdentity->notifyBrowserWindowVisible();
 }
 
 void UserIdentity::OnWaitingToLoadBrowserWindow()
@@ -63,6 +81,18 @@ void UserIdentity::OnWaitingToLoadBrowserWindow()
   mLoginUIDelegate->CallJavaScript(js);
 }
 
+void UserIdentity::OnWaitingAssociation()
+{
+  mSession->GetAccount()->Login();
+}
+
+void UserIdentity::OnMessageForInnerBrowserWindowFrame(const std::string& message)
+{
+  std::string js = "sendNotifyBundleToInnerFrame('";
+  js += message;
+  js += "')";
+  mLoginUIDelegate->CallJavaScript(js);
+}
 
   //-------------------------------------------------------------------------
   //-------------------------------------------------------------------------
@@ -88,15 +118,21 @@ void UserIdentityDelegate::onIdentityStateChanged(hookflash::core::IIdentityPtr 
   if(state == IIdentity::IdentityState_WaitingToLoadBrowserWindow) {
     mParentIdentity.lock()->OnWaitingToLoadBrowserWindow();
   }
-//  qDebug() << "********** URL = " << identity->getIdentityLoginURL();
+  else if(state == IIdentity::IdentityState_WaitingToMakeBrowserWindowVisible) {
+    mParentIdentity.lock()->OnWaitingToMakeBrowserWindowVisible();
+  }
+  else if(state == IIdentity::IdentityState_WaitingAssociation) {
+    mParentIdentity.lock()->OnWaitingAssociation();
+  }
 }
 
   //-------------------------------------------------------------------------
 
 void UserIdentityDelegate::onIdentityPendingMessageForInnerBrowserWindowFrame(hookflash::core::IIdentityPtr identity)
 {
-  ElementPtr element = identity->getNextMessageForInnerBrowerWindowFrame();
-  qDebug() << "********** onIdentityPendingMessageForInnerBrowserWindowFrame";
+  std::string message =  hookflash::core::IHelper::convertToString(identity->getNextMessageForInnerBrowerWindowFrame());
+  mParentIdentity.lock()->OnMessageForInnerBrowserWindowFrame(message);
+  qDebug() << "********** onIdentityPendingMessageForInnerBrowserWindowFrame = " << message.c_str();
 }
 
 

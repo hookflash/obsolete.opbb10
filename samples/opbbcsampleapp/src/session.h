@@ -11,6 +11,7 @@ namespace hookflash {
     class SessionStackDelegate;
     class SessionMediaEngineDelegate;
     class UserIdentity;
+    class Account;
 
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
@@ -24,6 +25,7 @@ namespace hookflash {
       virtual ~Session() {}
 
       boost::shared_ptr<UserIdentity> GetIdentity() { return mIdentity; }
+      boost::shared_ptr<Account> GetAccount() { return mAccount; }
       std::string GetIdentityURI() { return mIdentityURI; }
 
     private:
@@ -35,6 +37,7 @@ namespace hookflash {
         boost::shared_ptr<SessionStackDelegate> mStackDelegate;
         boost::shared_ptr<SessionMediaEngineDelegate> mMediaEngineDelegate;
         boost::shared_ptr<UserIdentity> mIdentity;
+        boost::shared_ptr<Account> mAccount;
         std::string mIdentityURI;
     };
 

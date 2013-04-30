@@ -6,17 +6,24 @@
 namespace hookflash {
   namespace blackberry {
 
+    class Session;
     class AccountDelegate;
 
     class Account
     {
     public:
-        Account();
-        virtual ~Account() {}
+      static boost::shared_ptr<Account> CreateInstance(boost::shared_ptr<Session> session);
+      virtual ~Account() {}
+
+      void Login();
 
     private:
-        boost::shared_ptr<hookflash::core::IAccount> mOpAccount;
-        boost::shared_ptr<AccountDelegate> mDelegate;
+      Account(boost::shared_ptr<Session> session);
+
+      boost::weak_ptr<Account> mWeakThis;
+      boost::shared_ptr<Session> mSession;
+      boost::shared_ptr<hookflash::core::IAccount> mOpAccount;
+      boost::shared_ptr<AccountDelegate> mDelegate;
     };
 
     class AccountDelegate : public hookflash::core::IAccountDelegate

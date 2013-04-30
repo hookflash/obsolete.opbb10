@@ -7,38 +7,48 @@ Page {
         touchPropagationMode: TouchPropagationMode.Full
         id: "containerObj"
         objectName: "containerObj"
-        WebView {
-        	id: "webView"
-        	objectName: "webView"
-            url: "https://app-light.hookflash.me/outer.html"
-            settings.customHttpHeaders: {
-                "Pragma": "no-cache"
-            }
-            onNavigationRequested: {
-                paneParent.OnNavigationRequested(request.url);
-
-                console.log("*** onNavigationRequested(" + request.navigationType + " url=" + request.url);
-                request.action = WebNavigationRequestAction.Accept
-            }
-            onLoadingChanged: {
-                console.log("*** onLoadingChanged(" + loadRequest.status + " url=" + loadRequest.url);
-                paneParent.OnLoadingChanged(loadRequest.status, loadRequest.url);
-            }
-
-            function setLoginPane(cppParent) {
-                cppParent.TestCallback();
-            }
-            function callPageJavaScriptFunction(functionName, args) {
-            	value = functionName+'("'+args+'")';
-            	console.log("*** "+value);
-                return webView.evaluateJavaScript(value);
-            }
-            touchPropagationMode: TouchPropagationMode.Full
-            visible: true
-            verticalAlignment: VerticalAlignment.Top
-            onLoadProgressChanged: {
-            }
-        }
+        ScrollView {
+            scrollViewProperties.scrollMode: ScrollMode.Both
+            scrollViewProperties.maxContentScale: 2.0
+            WebView {
+	        	id: "webView"
+	        	objectName: "webView"
+	            url: "https://app-light.hookflash.me/outer.html"
+	            settings.customHttpHeaders: {
+	                "Pragma": "no-cache"
+	            }
+	            onNavigationRequested: {
+	                var cancel = paneParent.OnNavigationRequested(request.url);
+	
+	                console.log("*** onNavigationRequested(" + request.navigationType + " url=" + request.url + " cancel = " + cancel);
+	
+	                if(cancel) {
+	                    request.action = WebNavigationRequestAction.Ignore;
+	                }
+	                else {
+	                	request.action = WebNavigationRequestAction.Accept;
+	                }
+	            }
+	            onLoadingChanged: {
+	                console.log("*** onLoadingChanged(" + loadRequest.status + " url=" + loadRequest.url);
+	                paneParent.OnLoadingChanged(loadRequest.status, loadRequest.url);
+	            }
+	
+	            function setLoginPane(cppParent) {
+	                cppParent.TestCallback();
+	            }
+	            function callPageJavaScriptFunction(functionName, args) {
+	            	value = functionName+'("'+args+'")';
+	            	console.log("*** "+value);
+	                return webView.evaluateJavaScript(value);
+	            }
+	            touchPropagationMode: TouchPropagationMode.Full
+	            visible: true
+	            verticalAlignment: VerticalAlignment.Top
+	            onLoadProgressChanged: {
+	            }
+	        } // WebView
+        } // ScrollView
         Label {
             id: loadingLabel
             objectName: "loadingLabel"
