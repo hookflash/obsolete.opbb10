@@ -10,6 +10,7 @@
 #include <bb/cascades/Window>
 #include <bb/cascades/LayoutUpdateHandler>
 #include <QDebug>
+#include <QTimer>
 #include <iostream>
 
 #include <hookflash/core/internal/core_MediaEngine.h>
@@ -110,19 +111,21 @@ void RootPane::OnMediaTestButton1Click()
   mediaEngine->setChannelRenderView(mVideoRenderer.get());
 
   mediaEngine->startVideoCapture();
-
   testMediaEngineInternal->setReceiverAddress("127.0.0.1");
 
-//  mediaEngineInternal->forCallTransport().startVoice();
+//  sleep(1);
+
+  mediaEngineInternal->forCallTransport().startVoice();
   mediaEngineInternal->forCallTransport().startVideoChannel();
 
+  QTimer::singleShot(30000, this, SLOT(OnMediaTestButton2Click()));
 }
 
 //-----------------------------------------------------------------
 void RootPane::OnMediaTestButton2Click()
 {
   qDebug() << "***************** RootPane::OnMediaTestButton2Click";
-/*
+
   hookflash::core::internal::MediaEnginePtr mediaEngineInternal = hookflash::core::internal::IMediaEngineForCallTransport::singleton();
   hookflash::core::test::TestMediaEnginePtr testMediaEngineInternal = boost::dynamic_pointer_cast<hookflash::core::test::TestMediaEngine>(mediaEngineInternal);
   hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
@@ -131,7 +134,7 @@ void RootPane::OnMediaTestButton2Click()
   mediaEngineInternal->forCallTransport().stopVideoChannel();
 
   mediaEngine->stopVideoCapture();
-*/
+
 }
 
 //-----------------------------------------------------------------
@@ -139,7 +142,7 @@ void RootPane::onLayoutFrameChanged(const QRectF &layoutFrame) {
   if(!mVideoRenderer) {
     mVideoWindowSize = layoutFrame;
     CreateVideoRenderer();
-    //OnMediaTestButton1Click();
+//    OnMediaTestButton1Click();
   }
 }
 
