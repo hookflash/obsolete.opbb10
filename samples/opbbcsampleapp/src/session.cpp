@@ -13,6 +13,8 @@ namespace {
   const char* USER_AGENT = "hookflash/1.0.0 alpha (Blackberry)";
   const char* OS = "QNX";
   const char* SYSTEM = "Blackberry 10";
+  const char* PEER_CONTACT_SERVICE_DOMAIN = "unstable.hookflash.me";
+  const char* CONTACTS_URL = "http://example-light.hookflash.me/fbconnections.html";
 };
 
   //-------------------------------------------------------------------------
@@ -29,7 +31,7 @@ shared_ptr<Session> Session::CreateInstance()
 
   //-------------------------------------------------------------------------
 
-Session::Session()
+Session::Session() : mPeerContactServiceDomain(PEER_CONTACT_SERVICE_DOMAIN), mContactsURL(CONTACTS_URL)
 {
 }
 

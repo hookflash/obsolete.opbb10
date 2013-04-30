@@ -105,12 +105,11 @@ TabbedPane {
 	                // define tab content here
 	                ListView {
 	                    id: contactList
-	                    dataModel: XmlDataModel {
-	
-	                        source: "models/contactModel.xml"
-	                    }
-	
-	                    listItemComponents: [
+	                    dataModel: GroupDataModel {
+
+                        }
+
+                        listItemComponents: [
 	                        ListItemComponent {
 	                            type: "contactitem"
 	                            ContactItem {

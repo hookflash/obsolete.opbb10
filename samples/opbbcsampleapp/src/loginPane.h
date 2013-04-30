@@ -28,6 +28,7 @@ namespace hookflash {
         Q_INVOKABLE void OnLoadingChanged(int status, QUrl url);
         Q_INVOKABLE void TestCallback();
 
+        void NavigateTo(const std::string& url);
         void CallJavaScript(const std::string& js);
 
     private:
@@ -36,6 +37,7 @@ namespace hookflash {
         RootPane* mRootPane;
         bb::cascades::Page* mPage;
         bb::cascades::WebView* mWebView;
+        boost::shared_ptr<Session> mSession;
         boost::shared_ptr<UserIdentity> mIdentity;
         boost::shared_ptr<LoginPaneLoginUIDelegate> mLoginUIDelegate;
         bool mPageHasLoaded;
@@ -48,6 +50,7 @@ namespace hookflash {
         LoginPaneLoginUIDelegate(LoginPane* parentPane) : mParentPane(parentPane) {}
         virtual ~LoginPaneLoginUIDelegate() {}
 
+        void NavigateTo(const std::string& url) { mParentPane->NavigateTo(url); }
         virtual void CallJavaScript(const std::string& js) { mParentPane->CallJavaScript(js); }
 
     private:

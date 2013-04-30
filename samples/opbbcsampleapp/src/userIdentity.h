@@ -12,6 +12,7 @@ namespace hookflash {
     class ILoginUIDelegate {
     public:
       virtual ~ILoginUIDelegate() {}
+      virtual void NavigateTo(const std::string& url) = 0;
       virtual void CallJavaScript(const std::string& js) = 0;
     };
 
@@ -29,6 +30,10 @@ namespace hookflash {
       virtual void BeginLogin(const std::string& identityURI);
       std::string GetRedirectAfterLoginCompleteURL() { return mRedirectAfterLoginCompleteURL; }
       void OnNotifyClient(const std::string& data);
+      boost::shared_ptr<hookflash::core::IIdentity> GetCoreIdentity() { return mOpIdentity; }
+
+      // Called by account object to start import of contacts.
+      void OnAccountStateReady();
 
       // Called by ILoginUIDelegate...
       void SetLoginUIDelegate(boost::shared_ptr<ILoginUIDelegate> delegate) { mLoginUIDelegate = delegate; }

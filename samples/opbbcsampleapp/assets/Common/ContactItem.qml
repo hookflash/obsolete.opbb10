@@ -63,7 +63,7 @@ Container {
             
             Label {
                 // The title is bound to the data in models/contactModel.xml title attribute.
-                text: ListItemData.title
+                text: ListItemData.fullName
                 leftMargin: 30
                 verticalAlignment: VerticalAlignment.Center
                 textStyle.base: contactItem.ListItem.view.itemTextStyle.style

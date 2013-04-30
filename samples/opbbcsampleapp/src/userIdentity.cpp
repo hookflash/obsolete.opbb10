@@ -58,6 +58,11 @@ void UserIdentity::OnNotifyClient(const std::string& data)
   mOpIdentity->handleMessageFromInnerBrowserWindowFrame(hookflash::core::IHelper::createFromString(data));
 }
 
+void UserIdentity::OnAccountStateReady()
+{
+  mLoginUIDelegate->NavigateTo(mSession->GetContactsURL());
+}
+
 bool UserIdentity::OnWebBrowserPageNavigation(const std::string& url)
 {
   if(url == mRedirectAfterLoginCompleteURL) {
