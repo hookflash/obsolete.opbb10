@@ -6,8 +6,17 @@
 namespace hookflash {
   namespace blackberry {
 
-    class UserIdentityDelegate;
+    class ILoginUIDelegate;
+    typedef boost::shared_ptr<ILoginUIDelegate> ILoginUIDelegatePtr;
+    typedef boost::weak_ptr<ILoginUIDelegate> ILoginUIDelegateWeakPtr;
+
     class Session;
+    typedef boost::shared_ptr<Session> SessionPtr;
+    typedef boost::weak_ptr<Session> SessionWeakPtr;
+
+    class UserIdentity;
+    typedef boost::shared_ptr<UserIdentity> UserIdentityPtr;
+    typedef boost::weak_ptr<UserIdentity> UserIdentityWeakPtr;
 
     class ILoginUIDelegate {
     public:
@@ -19,18 +28,17 @@ namespace hookflash {
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
-
-    class UserIdentity
+    class UserIdentity : public hookflash::core::IIdentityDelegate
     {
     public:
-      static boost::shared_ptr<UserIdentity> CreateInstance(boost::shared_ptr<Session> session);
+      static UserIdentityPtr CreateInstance(SessionPtr session);
 
       virtual ~UserIdentity();
 
       virtual void BeginLogin(const std::string& identityURI);
       std::string GetRedirectAfterLoginCompleteURL() { return mRedirectAfterLoginCompleteURL; }
       void OnNotifyClient(const std::string& data);
-      boost::shared_ptr<hookflash::core::IIdentity> GetCoreIdentity() { return mOpIdentity; }
+      hookflash::core::IIdentityPtr GetCoreIdentity() { return mOpIdentity; }
 
       // Called by ILoginUIDelegate...
       void SetLoginUIDelegate(boost::shared_ptr<ILoginUIDelegate> delegate) { mLoginUIDelegate = delegate; }
@@ -42,34 +50,19 @@ namespace hookflash {
       void OnWaitingToLoadBrowserWindow();
       void OnMessageForInnerBrowserWindowFrame(const std::string& message);
 
-    private:
-      UserIdentity(boost::shared_ptr<Session> session);
-
-      boost::weak_ptr<UserIdentity> mWeakThis;
-      boost::shared_ptr<Session> mSession;
-      boost::shared_ptr<hookflash::core::IIdentity> mOpIdentity;
-      boost::shared_ptr<UserIdentityDelegate> mDelegate;
-      boost::shared_ptr<ILoginUIDelegate> mLoginUIDelegate;
-      std::string mRedirectAfterLoginCompleteURL;
-    };
-
-    //-------------------------------------------------------------------------
-    //-------------------------------------------------------------------------
-    //-------------------------------------------------------------------------
-
-    class UserIdentityDelegate : public hookflash::core::IIdentityDelegate
-    {
-    public:
-      UserIdentityDelegate(boost::shared_ptr<UserIdentity> parentIdentity);
-      virtual ~UserIdentityDelegate();
-
+      // hookflash::core::IIdentityDelegate
       virtual void onIdentityStateChanged(hookflash::core::IIdentityPtr identity, IdentityStates state);
       virtual void onIdentityPendingMessageForInnerBrowserWindowFrame(hookflash::core::IIdentityPtr identity);
 
     private:
-      boost::weak_ptr<UserIdentity> mParentIdentity;
-    };
+      UserIdentity(boost::shared_ptr<Session> session);
 
+      UserIdentityWeakPtr mThisWeak;
+      SessionPtr mSession;
+      hookflash::core::IIdentityPtr mOpIdentity;
+      ILoginUIDelegatePtr mLoginUIDelegate;
+      std::string mRedirectAfterLoginCompleteURL;
+    };
   };
 };
 
