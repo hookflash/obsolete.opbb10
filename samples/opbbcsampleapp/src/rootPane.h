@@ -7,6 +7,7 @@
 #include <bb/cascades/ForeignWindowControl>
 #include <bb/cascades/ListView>
 #include <bb/cascades/GroupDataModel>
+#include <hookflash/core/IIdentityLookup.h>
 
 #include "video_render_bb_impl.h"
 #include "bb_window_wrapper.h"
@@ -18,6 +19,8 @@ namespace hookflash {
 
     class ApplicationUI;
     class LoginPane;
+    class RootPaneIdentityLookupDelegate;
+    class ContactsManager;
 
     class RootPane : public QObject
     {
@@ -35,6 +38,7 @@ namespace hookflash {
         Q_INVOKABLE void OnMediaTestButton2Click();
 
         void ProcessFbFriends(const QString& data);
+        void AddContactsToUI(hookflash::core::IIdentityLookupPtr lookup);
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
@@ -55,7 +59,22 @@ namespace hookflash {
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;
         bb::cascades::GroupDataModel* mContactModel;
+        hookflash::core::IIdentityLookupPtr mIdentityLookup;
+        boost::shared_ptr<RootPaneIdentityLookupDelegate> mIdentityLookupDelegate;
     };
+
+    class RootPaneIdentityLookupDelegate : public hookflash::core::IIdentityLookupDelegate
+    {
+    public:
+      RootPaneIdentityLookupDelegate(RootPane* rootPane) : mRootPane(rootPane) {}
+      virtual ~RootPaneIdentityLookupDelegate() {}
+
+      virtual void onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup);
+
+    private:
+      RootPane* mRootPane; // Bare pointer - this is owned by QT
+    };
+
   };
 };
 

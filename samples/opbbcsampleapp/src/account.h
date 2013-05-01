@@ -31,6 +31,8 @@ namespace hookflash {
       std::string ReadPrivatePeerSecretFile();
       void WritePeerFiles();
 
+      boost::shared_ptr<hookflash::core::IAccount> GetCoreAccount() { return mOpAccount; }
+
     private:
       Account(boost::shared_ptr<Session> session);
 

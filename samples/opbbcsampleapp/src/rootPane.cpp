@@ -161,21 +161,38 @@ void RootPane::ProcessFbFriends(const QString& data)
   std::string dataString = data.toUtf8().data();
   mAppUI->GetSession()->GetContactsManager()->AddContactsFromJSON(dataString);
 
+  hookflash::core::IdentityURIList identityURIs;
+  bool found = mAppUI->GetSession()->GetContactsManager()->prepareIdentityURIListForIdentityLookup(identityURIs);
+  if(found) {
+
+    mIdentityLookupDelegate = boost::shared_ptr<RootPaneIdentityLookupDelegate>(new RootPaneIdentityLookupDelegate(this));
+    hookflash::core::IIdentityLookupPtr mIdentityLookup = hookflash::core::IIdentityLookup::create(
+        mAppUI->GetSession()->GetAccount()->GetCoreAccount(),
+        mIdentityLookupDelegate,
+        identityURIs);
+  }
+}
+
+//-----------------------------------------------------------------
+void RootPane::AddContactsToUI(hookflash::core::IIdentityLookupPtr lookup)
+{
+  mAppUI->GetSession()->GetContactsManager()->handleIdentityLookupResult(lookup->getIdentities());
+
   // Create the data model, specifying sorting keys of "firstName" and "lastName"
   mContactModel = new GroupDataModel(QStringList() << "fullName");
 
   // Create a JsonDataAccess object and load the .json file. The
   // QDir::currentPath() function returns the current working
   // directory for the app.
-  JsonDataAccess jda;
-  QVariant list = jda.loadFromBuffer(data);
+//  JsonDataAccess jda;
+//  QVariant list = jda.loadFromBuffer(data);
 
   // Insert the data into the data model. Because the root of the .json file
   // is an array, a QVariant(QVariantList) is returned from load(). You can
   // provide a QVariantList to a data model directly by using insertList().
 
 
-  mContactModel->insertList(list.value<QVariantList>());
+//  mContactModel->insertList(list.value<QVariantList>());
 //  QVariantMap itemMap;
 //  itemMap["id"] = "123456";
 //  itemMap["fullName"] = "Erik Langerway";
@@ -212,3 +229,12 @@ void RootPane::CreateVideoRenderer() {
 											   mVideoWindowSize.width(),
 											   mVideoWindowSize.height()));
 }
+
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+void RootPaneIdentityLookupDelegate::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
+{
+  mRootPane->AddContactsToUI(lookup);
+}
+
