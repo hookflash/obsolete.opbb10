@@ -22,10 +22,14 @@ namespace hookflash {
                     public hookflash::core::ICallDelegate
     {
     public:
+      typedef zsLib::PUID PUID;
+      typedef zsLib::String String;
+
+    public:
       static AccountPtr CreateInstance(SessionPtr session);
 
       Account(SessionPtr session);
-      virtual ~Account() {}
+      virtual ~Account();
 
       void Login();
       bool Relogin(const std::string& peerFile, const std::string& secret);
@@ -71,7 +75,11 @@ namespace hookflash {
       // ICallDelegate
       virtual void onCallStateChanged(hookflash::core::ICallPtr call, hookflash::core::ICall::CallStates state);
 
+    protected:
+      String log(const char *message) const;
+
     private:
+      PUID mID;
       AccountWeakPtr mThisWeak;
       SessionPtr mSession;
       hookflash::core::IAccountPtr mOpAccount;
