@@ -173,7 +173,7 @@ void RootPane::ProcessFbFriends(const QString& data)
   bool found = mAppUI->GetSession()->GetContactsManager()->prepareIdentityURIListForIdentityLookup(identityURIs);
   if(found) {
 
-    hookflash::core::IIdentityLookupPtr mIdentityLookup = hookflash::core::IIdentityLookup::create(
+    mIdentityLookup = hookflash::core::IIdentityLookup::create(
         mAppUI->GetSession()->GetAccount()->GetCoreAccount(),
         mThisCallback,
         identityURIs);
@@ -215,6 +215,8 @@ void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr loo
 {
   mAppUI->GetSession()->GetContactsManager()->handleIdentityLookupResult(lookup->getIdentities());
   AddContactsToUI();
+
+  mIdentityLookup.reset();
 }
 
 // IContactPeerFilePublicLookupDelegate
