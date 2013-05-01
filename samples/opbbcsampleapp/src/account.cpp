@@ -1,6 +1,9 @@
 #include "account.h"
 #include "session.h"
 #include "userIdentity.h"
+#include <hookflash/core/IHelper.h>
+#include <QFile>
+#include <QDir>
 #include <QDebug>
 
 using namespace hookflash::blackberry;
@@ -41,6 +44,29 @@ void Account::Login()
   }
 }
 
+//-------------------------------------------------------------------------
+bool Account::Relogin(const std::string& peerFile, const std::string& secret)
+{
+  mDelegate = boost::shared_ptr<AccountDelegate>(new AccountDelegate(mWeakThis.lock()));
+  mConversationThreadDelegate = boost::shared_ptr<ConversationThreadDelegate>(new ConversationThreadDelegate(mWeakThis.lock()));
+  mCallDelegate = boost::shared_ptr<CallDelegate>(new CallDelegate(mWeakThis.lock()));
+
+  zsLib::XML::ElementPtr privatePeerFileElement = hookflash::core::IHelper::createFromString(peerFile);
+
+  mOpAccount = hookflash::core::IAccount::relogin(
+      mDelegate,
+      mConversationThreadDelegate,
+      mCallDelegate,
+      privatePeerFileElement,
+      secret.c_str());
+  if(mOpAccount) {
+    qDebug() << "Account::Login: Account object created";
+    return true;
+  }
+  qDebug() << "ERROR: Account::Login: Account object creation failed";
+  return false;
+}
+
 void Account::ProcessMyFBProfile(const std::string& data)
 {
 
@@ -49,6 +75,59 @@ void Account::ProcessMyFBProfile(const std::string& data)
 void Account::ProcessFbFriends(const std::string& data)
 {
 
+}
+
+std::string Account::ReadPrivatePeerFile()
+{
+  std::string fileContents;
+  QString homePath = QDir::homePath();
+  QString privatePeerPath = homePath+"/privatePeer.txt";
+  QFile privatePeer(privatePeerPath);
+  if (privatePeer.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QTextStream stream(&privatePeer);
+    QString contents = stream.readAll();
+    fileContents = contents.toUtf8().constData();
+  }
+  privatePeer.close();
+  return fileContents;
+}
+
+std::string Account::ReadPrivatePeerSecretFile()
+{
+  std::string fileContents;
+  QString homePath = QDir::homePath();
+  QString privatePeerSecretPath = homePath+"/privatePeerSecret.txt";
+  QFile privatePeer(privatePeerSecretPath);
+  if (privatePeer.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QTextStream stream(&privatePeer);
+    QString contents = stream.readAll();
+    fileContents = contents.toUtf8().constData();
+  }
+  privatePeer.close();
+  return fileContents;
+}
+
+void Account::WritePeerFiles()
+{
+  QString homePath = QDir::homePath();
+  QString privatePeerPath = homePath+"/privatePeer.txt";
+  QString privatePeerSecretPath = homePath+"/privatePeerSecret.txt";
+  zsLib::String privatePeerFile = hookflash::core::IHelper::convertToString(mOpAccount->savePeerFilePrivate());
+
+  QFile privatePeer(privatePeerPath);
+  privatePeer.open(QIODevice::WriteOnly | QIODevice::Text);
+  QTextStream out(&privatePeer);
+  out << privatePeerFile.c_str();
+  privatePeer.close();
+
+  hookflash::stack::SecureByteBlockPtr secure = mOpAccount->getPeerFilePrivateSecret();
+  byte* secureInBytes = secure->BytePtr();
+
+  QFile privatePeerSecret(privatePeerSecretPath);
+  privatePeerSecret.open(QIODevice::WriteOnly | QIODevice::Text);
+  QTextStream outSecret(&privatePeerSecret);
+  outSecret << (const char*) secureInBytes;
+  privatePeerSecret.close();
 }
 
 //-------------------------------------------------------------------------
@@ -69,6 +148,7 @@ void AccountDelegate::onAccountStateChanged(hookflash::core::IAccountPtr account
 {
   if(hookflash::core::IAccount::AccountState_Ready) {
     qDebug() << "AccountDelegate::onAccountStateChanged: Ready";
+    mParentAccount.lock()->WritePeerFiles();
     mParentAccount.lock()->GetSession()->GetIdentity()->OnAccountStateReady();
   }
 }

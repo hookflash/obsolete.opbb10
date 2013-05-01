@@ -105,13 +105,13 @@ TabbedPane {
 	                // define tab content here
 	                ListView {
 	                    id: contactList
-	                    dataModel: GroupDataModel {
-
+                        objectName: "contactList"
+                        dataModel: GroupDataModel {
                         }
 
                         listItemComponents: [
 	                        ListItemComponent {
-	                            type: "contactitem"
+	                            type: "contactItem"
 	                            ContactItem {
 	                            }
 	                        }

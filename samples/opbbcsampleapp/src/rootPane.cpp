@@ -1,6 +1,8 @@
 #include "rootPane.h"
 #include "loginPane.h"
 #include "applicationui.h"
+#include "session.h"
+#include "account.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -9,7 +11,6 @@
 #include <bb/cascades/Control>
 #include <bb/cascades/Window>
 #include <bb/cascades/LayoutUpdateHandler>
-#include <bb/cascades/GroupDataModel>
 #include <bb/cascades/ListView>
 #include <bb/data/JsonDataAccess>
 #include <QDebug>
@@ -57,7 +58,18 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
     SLOT(onLayoutFrameChanged(const QRectF &)));
   mVideoWindowSize = handler->layoutFrame();
 
-  ProcessFbFriends(QString(""));
+
+  std::string peerFile = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerFile();
+  std::string secret = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerSecretFile();
+
+  if(peerFile.size() > 0 && secret.size() > 0) {
+    bool success = mAppUI->GetSession()->GetAccount()->Relogin(peerFile, secret);
+    if(success) {
+      // TODO: Don't show login screen;
+    }
+  }
+
+//  ProcessFbFriends(QString(""));
 }
 
 //-----------------------------------------------------------------
@@ -65,6 +77,7 @@ void RootPane::OnLoginClick(QObject* navigationPaneObj)
 {
 //  const QMetaObject* meta = pageObject->metaObject();
 //  const char* name = meta->className();
+
 
   NavigationPane* navigationPane = qobject_cast<NavigationPane*>(navigationPaneObj);
 //  Page* page = qobject_cast<Page*>(pageObject);
@@ -148,24 +161,32 @@ void RootPane::OnMediaTestButton2Click()
 //-----------------------------------------------------------------
 void RootPane::ProcessFbFriends(const QString& data)
 {
-  QString json = "[{'id': '100003985703380','fullName': 'Boris Ikodinovic','pictureUrl': 'https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/yo/r/UlIqmHJn-SK.gif'},{'id': '100004075097369','fullName': 'Nenad Nastasic','pictureUrl':'https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/yo/r/UlIqmHJn-SK.gif'},{'id': '100004281043574','fullName': 'Sergio Trifunovic','pictureUrl': 'https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/yo/r/UlIqmHJn-SK.gif'}]";
+  QString json = "[{\"id\": \"100003985703380\",\"fullName\": \"Boris Ikodinovic\",\"pictureUrl\": \"./images/contact.png\"},{\"id\": \"100004075097369\",\"fullName\": \"Nenad Nastasic\",\"pictureUrl\":\"./images/contact.png\"},{\"id\": \"100004281043574\",\"fullName\": \"Sergio Trifunovic\",\"pictureUrl\": \"./images/contact.png\"}]";
 
   // Create the data model, specifying sorting keys of "firstName" and "lastName"
-  GroupDataModel *model = new GroupDataModel(QStringList() << "fullName");
+  mContactModel = new GroupDataModel(QStringList() << "fullName");
 
   // Create a JsonDataAccess object and load the .json file. The
   // QDir::currentPath() function returns the current working
   // directory for the app.
   JsonDataAccess jda;
-  QVariant list = jda.load(json);
+  QVariant list = jda.loadFromBuffer(json);
 
   // Insert the data into the data model. Because the root of the .json file
   // is an array, a QVariant(QVariantList) is returned from load(). You can
   // provide a QVariantList to a data model directly by using insertList().
-  model->insertList(list.value<QVariantList>());
+  mContactModel->insertList(list.value<QVariantList>());
+//  QVariantMap itemMap;
+//  itemMap["id"] = "123456";
+//  itemMap["fullName"] = "Erik Langerway";
+//  itemMap["pictureUrl"] = "../images/contact.png";
+//  mContactModel->insert(itemMap);
+  int n = mContactModel->size();
 
   // Set the data model for the list view
-//  mContactsListView->setDataModel(model);
+//  mContactsListView->resetDataModel();
+//  model->
+  mContactsListView->setDataModel(mContactModel);
 }
 
 //-----------------------------------------------------------------

@@ -58,7 +58,11 @@ Container {
                 verticalAlignment: VerticalAlignment.Top
 
                 // The image is bound to the data in models/contactModel.xml image attribute.
-                imageSource: ListItemData.image
+                imageSource: ListItemData.pictureUrl
+                layoutProperties: StackLayoutProperties {
+                    spaceQuota: -1.0
+
+                }
             }
             
             Label {
@@ -67,6 +71,10 @@ Container {
                 leftMargin: 30
                 verticalAlignment: VerticalAlignment.Center
                 textStyle.base: contactItem.ListItem.view.itemTextStyle.style
+                layoutProperties: StackLayoutProperties {
+
+                }
+                textStyle.color: Color.Red
             } // Label
         } // Container
     } // Container

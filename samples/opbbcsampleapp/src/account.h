@@ -21,9 +21,15 @@ namespace hookflash {
       virtual ~Account() {}
 
       void Login();
+      bool Relogin(const std::string& peerFile, const std::string& secret);
+
       void ProcessMyFBProfile(const std::string& data);
       void ProcessFbFriends(const std::string& data);
       boost::shared_ptr<Session> GetSession() { return mSession; }
+
+      std::string ReadPrivatePeerFile();
+      std::string ReadPrivatePeerSecretFile();
+      void WritePeerFiles();
 
     private:
       Account(boost::shared_ptr<Session> session);

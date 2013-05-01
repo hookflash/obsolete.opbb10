@@ -6,6 +6,7 @@
 #include <bb/cascades/Page>
 #include <bb/cascades/ForeignWindowControl>
 #include <bb/cascades/ListView>
+#include <bb/cascades/GroupDataModel>
 
 #include "video_render_bb_impl.h"
 #include "bb_window_wrapper.h"
@@ -52,6 +53,7 @@ namespace hookflash {
         boost::shared_ptr<webrtc::BlackberryWindowWrapper> mVideoRenderer;
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;
+        bb::cascades::GroupDataModel* mContactModel;
     };
   };
 };
