@@ -32,7 +32,15 @@
 #include "contactsManager.h"
 #include "contact.h"
 
+#include <zsLib/XML.h>
+
 using namespace hookflash::blackberry;
+
+using zsLib::String;
+using zsLib::XML::Document;
+using zsLib::XML::DocumentPtr;
+using zsLib::XML::Element;
+using zsLib::XML::ElementPtr;
 
 boost::shared_ptr<ContactsManager> ContactsManager::CreateInstance(boost::shared_ptr<Session> session)
 {
@@ -47,6 +55,38 @@ void ContactsManager::LoadContacts()
 
 void ContactsManager::AddContactsFromJSON(const std::string& json)
 {
+  DocumentPtr document = Document::createFromAutoDetect(json.c_str());
+
+  if (!document) return;
+
+  ElementPtr unknownEl = document->getFirstChildElement();
+  while (unknownEl) {
+    ElementPtr idEl = unknownEl->findFirstChildElement("id");
+    ElementPtr fullNameEl = unknownEl->findFirstChildElement("fullName");
+    ElementPtr pictureURLEl = unknownEl->findFirstChildElement("pictureUrl");
+
+    String id;
+    String fullName;
+    String pictureURL;
+
+    if (idEl) {
+      id = idEl->getTextDecoded();
+    }
+    if (fullNameEl) {
+      fullName = fullNameEl->getTextDecoded();
+    }
+    if (pictureURLEl) {
+      pictureURL = pictureURLEl->getTextDecoded();
+    }
+
+    if ((id.hasData()) ||
+        (fullName.hasData()) ||
+        (pictureURL.hasData())) {
+      AddContact(id, fullName, pictureURL);
+    }
+
+    unknownEl = unknownEl->getNextSiblingElement();
+  }
 
 }
 
