@@ -53,7 +53,7 @@ namespace hookflash {
 
       std::string GetFullName() const { return mFullName; }
       std::string GetId() const { return mId; }
-      std::string GetPictureUrl() const { return mPictureUrl; }
+      std::string GetPictureURL() const { return mPictureURL; }
       std::string GetIdentityURI() const { return mIdentityURI; }
 
       IContactPtr GetContact() const { return mContact; }
@@ -63,7 +63,7 @@ namespace hookflash {
 
       std::string mFullName;
       std::string mId;
-      std::string mPictureUrl;
+      std::string mPictureURL;
       std::string mIdentityURI;
 
       IContactPtr mContact;

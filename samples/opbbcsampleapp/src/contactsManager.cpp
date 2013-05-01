@@ -35,10 +35,16 @@
 #include <hookflash/stack/IServiceIdentity.h>
 
 #include <zsLib/XML.h>
+#include <zsLib/Stringize.h>
+#include <zsLib/Log.h>
+#include <zsLib/helpers.h>
+
+namespace hookflash { namespace blackberry { ZS_DECLARE_SUBSYSTEM(hookflash_blackberry) } }
 
 using namespace hookflash::blackberry;
 
 using zsLib::String;
+using zsLib::Stringize;
 using zsLib::XML::Document;
 using zsLib::XML::DocumentPtr;
 using zsLib::XML::Element;
@@ -50,9 +56,22 @@ using hookflash::stack::IServiceIdentity;
 
 ContactsManagerPtr ContactsManager::CreateInstance(SessionPtr session)
 {
-  ContactsManagerPtr instance(new ContactsManager(session));
-  instance->mWeakThis = instance;
-  return instance;
+  ContactsManagerPtr pThis(new ContactsManager(session));
+  pThis->mThisWeak = pThis;
+  return pThis;
+}
+
+ContactsManager::ContactsManager(SessionPtr session) :
+  mID(zsLib::createPUID()),
+  mSession(session)
+{
+  ZS_LOG_DEBUG(log("created"))
+}
+
+ContactsManager::~ContactsManager()
+{
+  mThisWeak.reset();
+  ZS_LOG_DEBUG(log("destroyed"))
 }
 
 void ContactsManager::LoadContacts()
@@ -61,6 +80,7 @@ void ContactsManager::LoadContacts()
 
 void ContactsManager::AddContactsFromJSON(const std::string& json)
 {
+  ZS_LOG_DEBUG(log("adding contacts from JSON") + ", json=" + json)
   DocumentPtr document = Document::createFromAutoDetect(json.c_str());
 
   if (!document) return;
@@ -93,18 +113,22 @@ void ContactsManager::AddContactsFromJSON(const std::string& json)
 
     unknownEl = unknownEl->getNextSiblingElement();
   }
+  ZS_LOG_DEBUG(log("adding contacts from JSON complete"))
 }
 
 void ContactsManager::AddContact(
   const char *identityDomain,
   const char* fullName,
   const char* id,
-  const char* pictureUrl
+  const char* pictureURL
 )
 {
+
   std::string identityURI = IServiceIdentity::joinURI(identityDomain, id);
 
-  ContactPtr newContact(new Contact(fullName, id, pictureUrl, identityURI));
+  ZS_LOG_DEBUG(log("adding contact") + ", fullname=" + fullName + ", id=" + id + ", picture URL=" + pictureURL + ", identity URI=" + identityURI)
+
+  ContactPtr newContact(new Contact(fullName, id, pictureURL, identityURI));
   mContacts.push_back(newContact);
 
   mContactsByIdentity[identityURI] = newContact;
@@ -112,6 +136,8 @@ void ContactsManager::AddContact(
 
 bool ContactsManager::prepareIdentityURIListForIdentityLookup(IdentityURIList &outList)
 {
+  ZS_LOG_DEBUG(log("preparing Identity URI list"))
+
   for (ContactVector::iterator iter = mContacts.begin(); iter != mContacts.end(); ++iter) {
     ContactPtr &contact = (*iter);
     IContactPtr coreContact = contact->GetContact();
@@ -125,12 +151,19 @@ bool ContactsManager::prepareIdentityURIListForIdentityLookup(IdentityURIList &o
     outList.push_back(identityURI);
   }
 
+  ZS_LOG_DEBUG(log("preparing Identity URI list complete") + ", total=" + Stringize<IdentityURIList::size_type>(outList.size()).string())
+
   return (outList.size() > 0);
 }
 
 void ContactsManager::handleIdentityLookupResult(IdentityLookupInfoListPtr result)
 {
-  if (!result) return;
+  if (!result) {
+    ZS_LOG_ERROR(Debug, log("handle identity look result is NULL result"))
+    return;
+  }
+
+  ZS_LOG_DEBUG(log("handle identity lookup result") + ", total=" + Stringize<IdentityLookupInfoList::size_type>(result->size()).string())
 
   for (IdentityLookupInfoList::iterator iter = result->begin(); iter != result->end(); ++iter)
   {
@@ -139,14 +172,18 @@ void ContactsManager::handleIdentityLookupResult(IdentityLookupInfoListPtr resul
     String domain;
     String id;
 
+    ZS_LOG_DEBUG(log("contact found") + ", identity URI=" + info.mIdentityURI)
+
     if (!info.mContact) {
       // no core "contact" object was found, thus skipping since there's nothing to do
+      ZS_LOG_WARNING(Debug, log("identity not associated to peer contact") + ", identity URI=" + info.mIdentityURI)
       continue;
     }
 
     ContactMap::iterator found = mContactsByIdentity.find(info.mIdentityURI);
     if (found == mContactsByIdentity.end()) {
       // this contact was not found
+      ZS_LOG_ERROR(Debug, log("identity was not found in contact manager") + ", identity URI=" + info.mIdentityURI)
       continue;
     }
     ContactPtr &contact = (*found).second;
@@ -160,12 +197,15 @@ bool ContactsManager::prepareContactListForContactPeerFilePublicLookup(ContactLi
   for (ContactVector::iterator iter = mContacts.begin(); iter != mContacts.end(); ++iter) {
     ContactPtr &contact = (*iter);
     IContactPtr coreContact = contact->GetContact();
+    ZS_LOG_DEBUG(log("preparing") + ", fullname=" + contact->GetFullName() + ", id=" + contact->GetId() + ", picture URL=" + contact->GetPictureURL() + ", identity URI=" + contact->GetIdentityURI())
     if (!coreContact) {
       // there is no core contact thus we do not need to perform a lookup on this contact
+      ZS_LOG_DEBUG("contact does not have core contact")
       continue;
     }
     if (coreContact->hasPeerFilePublic()) {
       // there is no need to lookup this contact since it has a core contact already
+      ZS_LOG_DEBUG("contact already has peer file public")
       continue;
     }
     outList.push_back(coreContact);
@@ -174,3 +214,7 @@ bool ContactsManager::prepareContactListForContactPeerFilePublicLookup(ContactLi
   return (outList.size() > 0);
 }
 
+String ContactsManager::log(const char *message) const
+{
+  return String("ContactsManager [") + Stringize<typeof(mID)>(mID).string() + "] " + message;
+}

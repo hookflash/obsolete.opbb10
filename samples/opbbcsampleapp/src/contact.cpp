@@ -36,12 +36,12 @@ using namespace hookflash::blackberry;
 Contact::Contact(
                  const std::string& fullName,
                  const std::string& id,
-                 const std::string& pictureUrl,
+                 const std::string& pictureURL,
                  const std::string& identityURI
                  ) :
                  mFullName(fullName),
                  mId(id),
-                 mPictureUrl(pictureUrl),
+                 mPictureURL(pictureURL),
                  mIdentityURI(identityURI)
 {
 }
