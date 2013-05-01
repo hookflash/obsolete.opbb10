@@ -18,16 +18,16 @@ namespace {
   //-------------------------------------------------------------------------
   //-------------------------------------------------------------------------
 
-shared_ptr<UserIdentity> UserIdentity::CreateInstance(boost::shared_ptr<Session> session)
+UserIdentityPtr UserIdentity::CreateInstance(SessionPtr session)
 {
-  shared_ptr<UserIdentity> instance(new UserIdentity(session));
-  instance->mWeakThis = instance;
-  return instance;
+  UserIdentityPtr pThis(new UserIdentity(session));
+  pThis->mThisWeak = pThis;
+  return pThis;
 }
 
   //-------------------------------------------------------------------------
 
-UserIdentity::UserIdentity(boost::shared_ptr<Session> session) : mSession(session), mRedirectAfterLoginCompleteURL(REDIRECT_URL)
+UserIdentity::UserIdentity(SessionPtr session) : mSession(session), mRedirectAfterLoginCompleteURL(REDIRECT_URL)
 {
 }
 
@@ -41,10 +41,8 @@ UserIdentity::~UserIdentity()
 
 void UserIdentity::BeginLogin(const std::string& identityURI)
 {
-  mDelegate = shared_ptr<UserIdentityDelegate>(new UserIdentityDelegate(mWeakThis.lock()));
-
   mOpIdentity = IIdentity::login(
-      mDelegate,
+      mThisWeak.lock(),
       mRedirectAfterLoginCompleteURL.c_str(),
       "identity://facebook.com/",
       "unstable.hookflash.me");
@@ -94,45 +92,24 @@ void UserIdentity::OnMessageForInnerBrowserWindowFrame(const std::string& messag
   mLoginUIDelegate->CallJavaScript(js);
 }
 
-  //-------------------------------------------------------------------------
-  //-------------------------------------------------------------------------
-  //-------------------------------------------------------------------------
-
-UserIdentityDelegate::UserIdentityDelegate(shared_ptr<UserIdentity> parentIdentity) : mParentIdentity(parentIdentity)
-{
-
-}
-
-  //-------------------------------------------------------------------------
-
-UserIdentityDelegate::~UserIdentityDelegate()
-{
-}
-
-  //-------------------------------------------------------------------------
-
-void UserIdentityDelegate::onIdentityStateChanged(hookflash::core::IIdentityPtr identity, IdentityStates state)
+void UserIdentity::onIdentityStateChanged(hookflash::core::IIdentityPtr identity, IdentityStates state)
 {
   qDebug() << "********** onIdentityStateChanged = " << IIdentity::toString(state);
 
   if(state == IIdentity::IdentityState_WaitingToLoadBrowserWindow) {
-    mParentIdentity.lock()->OnWaitingToLoadBrowserWindow();
+    OnWaitingToLoadBrowserWindow();
   }
   else if(state == IIdentity::IdentityState_WaitingToMakeBrowserWindowVisible) {
-    mParentIdentity.lock()->OnWaitingToMakeBrowserWindowVisible();
+    OnWaitingToMakeBrowserWindowVisible();
   }
   else if(state == IIdentity::IdentityState_WaitingAssociation) {
-    mParentIdentity.lock()->OnWaitingAssociation();
+    OnWaitingAssociation();
   }
 }
 
-  //-------------------------------------------------------------------------
-
-void UserIdentityDelegate::onIdentityPendingMessageForInnerBrowserWindowFrame(hookflash::core::IIdentityPtr identity)
+void UserIdentity::onIdentityPendingMessageForInnerBrowserWindowFrame(hookflash::core::IIdentityPtr identity)
 {
   std::string message =  hookflash::core::IHelper::convertToString(identity->getNextMessageForInnerBrowerWindowFrame());
-  mParentIdentity.lock()->OnMessageForInnerBrowserWindowFrame(message);
+  OnMessageForInnerBrowserWindowFrame(message);
   qDebug() << "********** onIdentityPendingMessageForInnerBrowserWindowFrame = " << message.c_str();
 }
-
-
