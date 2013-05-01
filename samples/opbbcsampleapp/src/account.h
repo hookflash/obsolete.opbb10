@@ -47,15 +47,29 @@ namespace hookflash {
       void WritePeerFiles();
 
       hookflash::core::IAccountPtr GetCoreAccount() { return mOpAccount; }
-      hookflash::core::ICallPtr GetCoreCall() { return mCall; }
 
-      bool PlaceCallByFacebookID(
-          const char *facebookID,
+      ContactPtr GetContactByFacebookID(const char *facebookID);
+
+      ContactPtr GetActiveCallContact();  // returns ContractPtr() if no party is active
+      hookflash::core::ICallPtr GetActiveCall() { return mCall; }
+
+      bool PlaceCallTo(
+          ContactPtr remoteParty,
           bool includeAudio,
           bool includeVideo
           );
 
-      ContactPtr GetActiveCallContact();  // returns ContractPtr() if no party is active
+      void HandleCallState(hookflash::core::ICall::CallStates state);
+
+      bool SendMessageTo(
+          ContactPtr remoteParty,
+          const char *text
+          );
+
+      void HandleMessageFrom(
+          ContactPtr contact,
+          const char *message
+          );
 
     protected:
       // IAccountDelegate
@@ -90,6 +104,7 @@ namespace hookflash {
 
     protected:
       String log(const char *message) const;
+      hookflash::core::IConversationThreadPtr getOrCreateConversationThreadFor(hookflash::core::IContactPtr contact);
 
     private:
       PUID mID;

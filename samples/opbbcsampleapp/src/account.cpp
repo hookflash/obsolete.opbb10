@@ -14,6 +14,7 @@
 #include <hookflash/core/IHelper.h>
 #include <hookflash/core/ICall.h>
 #include <hookflash/stack/IServiceIdentity.h>
+#include <hookflash/stack/IHelper.h>
 
 #include <zsLib/Stringize.h>
 #include <zsLib/Log.h>
@@ -24,6 +25,7 @@ namespace hookflash { namespace blackberry { ZS_DECLARE_SUBSYSTEM(hookflash_blac
 using namespace hookflash::blackberry;
 using zsLib::String;
 using zsLib::Stringize;
+using zsLib::Time;
 using zsLib::XML::ElementPtr;
 using hookflash::stack::IServiceIdentity;
 using hookflash::core::ConversationThreadList;
@@ -36,6 +38,8 @@ using hookflash::core::ContactProfileInfoList;
 using hookflash::core::ContactProfileInfo;
 using hookflash::core::ICall;
 using hookflash::core::ICallPtr;
+using hookflash::core::IContact;
+using hookflash::core::IContactPtr;
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
@@ -162,78 +166,14 @@ void Account::WritePeerFiles()
   privatePeerSecret.close();
 }
 
-bool Account::PlaceCallByFacebookID(
-    const char *facebookID,
-    bool includeAudio,
-    bool includeVideo
-    )
+ContactPtr Account::GetContactByFacebookID(const char *facebookID)
 {
-  if (mCall) {
-    ZS_LOG_WARNING(Debug, log("sample only supports one active call at a time"))
-    return false;
-  }
-
   String uri = IServiceIdentity::joinURI("facebook.com", facebookID);
 
+  ZS_LOG_DEBUG(log("searching for facebook contact") + ", identity uri=" + uri)
+
   ContactsManagerPtr contactManager = mSession->GetContactsManager();
-
-  ContactPtr contact = contactManager->FindContactByIdentityURI(uri.c_str());
-  if (!contact) {
-    ZS_LOG_ERROR(Debug, log("cannot place call to this contact as contact does not exist in contacts manager") + ", identity=" + uri)
-    return false;
-  }
-
-  hookflash::core::IContactPtr coreContact = contact->GetContact();
-  if (!coreContact) {
-    ZS_LOG_WARNING(Debug, log("the contact specified is not a core contact") + ", identity=" + uri)
-    return false;
-  }
-  if (!coreContact->hasPeerFilePublic()) {
-    ZS_LOG_WARNING(Debug, log("cannot place call to contact that does not have a public peer file") + ", identity=" + uri)
-    return false;
-  }
-
-  IConversationThreadPtr useConversation;
-
-  ConversationThreadListPtr conversations = IConversationThread::getConversationThreads(mOpAccount);
-
-  if (conversations) {
-    for (ConversationThreadList::iterator iter = conversations->begin(); iter != conversations->end(); ++iter) {
-      IConversationThreadPtr conversation = (*iter);
-      ZS_THROW_BAD_STATE_IF(!conversation)
-
-      ContactListPtr contacts = conversation->getContacts();
-      ZS_THROW_BAD_STATE_IF(!contacts)
-
-      for (ContactList::iterator iterContact = contacts->begin(); iterContact != contacts->end(); ++iterContact)
-      {
-        hookflash::core::IContactPtr otherContact = (*iterContact);
-        if (otherContact == coreContact) {
-          useConversation = conversation;
-          ZS_LOG_DEBUG(log("found conversation thread to use"))
-          break;
-        }
-      }
-      if (useConversation) {
-        ZS_LOG_DEBUG(log("found conversation thread to use"))
-        break;
-      }
-    }
-  }
-
-  if (!useConversation) {
-
-    useConversation = IConversationThread::create(mOpAccount, ElementPtr());
-
-    ContactProfileInfoList contacts;
-    ContactProfileInfo remoteInfo;
-    remoteInfo.mContact = coreContact;
-    contacts.push_back(remoteInfo);
-
-    useConversation->addContacts(contacts);
-  }
-
-  mCall = ICall::placeCall(useConversation, coreContact, includeAudio, includeVideo);
+  return contactManager->FindContactByIdentityURI(uri.c_str());
 }
 
 ContactPtr Account::GetActiveCallContact()
@@ -251,6 +191,88 @@ ContactPtr Account::GetActiveCallContact()
   ContactsManagerPtr contactManager = mSession->GetContactsManager();
   return contactManager->FindContactBy(remoteContact);
 }
+
+bool Account::PlaceCallTo(
+    ContactPtr contact,
+    bool includeAudio,
+    bool includeVideo
+    )
+{
+  if (!contact) {
+    ZS_LOG_ERROR(Debug, log("cannot place call to this contact as contact does not exist"))
+    return false;
+  }
+
+  if (mCall) {
+    mCall->hangup(ICall::CallClosedReason_User);
+    ZS_LOG_WARNING(Debug, log("sample only supports one active call at a time"))
+    return false;
+  }
+
+  hookflash::core::IContactPtr coreContact = contact->GetContact();
+  if (!coreContact) {
+    ZS_LOG_WARNING(Debug, log("the contact specified is not a core contact") + ", identity=" + contact->GetIdentityURI())
+    return false;
+  }
+  if (!coreContact->hasPeerFilePublic()) {
+    ZS_LOG_WARNING(Debug, log("cannot place call to contact that does not have a public peer file") + ", identity=" + contact->GetIdentityURI())
+    return false;
+  }
+
+  IConversationThreadPtr useConversation = getOrCreateConversationThreadFor(coreContact);
+  ZS_THROW_BAD_STATE_IF(!useConversation)
+
+  mCall = ICall::placeCall(useConversation, coreContact, includeAudio, includeVideo);
+}
+
+void Account::HandleCallState(hookflash::core::ICall::CallStates state)
+{
+  // TODO: wire up
+
+  // WARNING: if call is hanging up/hung up no active user/call will be present
+}
+
+bool Account::SendMessageTo(
+    ContactPtr contact,
+    const char *text
+    )
+{
+  ZS_THROW_INVALID_ARGUMENT_IF(!text)
+
+  if (!contact) {
+    ZS_LOG_ERROR(Debug, log("cannot send message to this contact as contact does not exist"))
+    return false;
+  }
+
+  hookflash::core::IContactPtr coreContact = contact->GetContact();
+  if (!coreContact) {
+    ZS_LOG_WARNING(Debug, log("the contact specified is not a core contact") + ", identity=" + contact->GetIdentityURI())
+    return false;
+  }
+  if (!coreContact->hasPeerFilePublic()) {
+    ZS_LOG_WARNING(Debug, log("cannot send message to contact that does not have a public peer file") + ", identity=" + contact->GetIdentityURI())
+    return false;
+  }
+
+  ZS_LOG_DEBUG(log("attempting to send message") + ", message=" + text + IContact::toDebugString(coreContact))
+
+  IConversationThreadPtr useConversation = getOrCreateConversationThreadFor(coreContact);
+  ZS_THROW_BAD_STATE_IF(!useConversation)
+
+  useConversation->sendMessage(hookflash::stack::IHelper::randomString(32), "text/plain", text);
+}
+
+void Account::HandleMessageFrom(
+    ContactPtr contact,
+    const char *message
+    )
+{
+  ZS_THROW_INVALID_ARGUMENT_IF(!contact)
+  ZS_THROW_INVALID_ARGUMENT_IF(!message)
+
+  // TODO: wire up
+}
+
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
@@ -303,7 +325,50 @@ void Account::onConversationThreadMessage(
                                          hookflash::core::IConversationThreadPtr conversationThread,
                                          const char *messageID)
 {
+  ContactListPtr contacts = conversationThread->getContacts();
+  ZS_THROW_BAD_STATE_IF(!contacts)
 
+  ZS_LOG_DEBUG(log("messsage received") + ", message ID=" + messageID + IConversationThread::toDebugString(conversationThread))
+
+  IContactPtr contact;
+  String messageTypeIgnored;
+  String message;
+  Time time;
+
+  bool found = conversationThread->getMessage(
+      messageID,
+      contact,
+      messageTypeIgnored,
+      message,
+      time
+      );
+
+  if (!found) {
+    ZS_LOG_WARNING(Detail, log("message received with ID that was not found"))
+    return;
+  }
+
+  ZS_LOG_DEBUG(log("message") + ", message=" + message)
+
+  if (!contact) {
+    ZS_LOG_WARNING(Detail, log("message received but other contact was not found"))
+    return;
+  }
+
+  if (contact->isSelf()) {
+    ZS_LOG_WARNING(Detail, log("sample application does not handle messages sent by self on another device right now"))
+    return;
+  }
+
+  ContactsManagerPtr contactManager = mSession->GetContactsManager();
+  ContactPtr actualContact = contactManager->FindContactBy(contact);
+
+  if (!actualContact) {
+    ZS_LOG_WARNING(Detail, log("message received but contact was not found in contacts manager"))
+    return;
+  }
+
+  HandleMessageFrom(actualContact, message);
 }
 
 //-------------------------------------------------------------------------
@@ -359,7 +424,7 @@ void Account::onCallStateChanged(hookflash::core::ICallPtr call, hookflash::core
     }
   }
 
-  // TODO: notify the GUI of this call state/event
+  HandleCallState(state);
 }
 
 
@@ -371,3 +436,50 @@ String Account::log(const char *message) const
 {
   return String("blackberry::Account [") + Stringize<typeof(mID)>(mID).string() + "] " + message;
 }
+
+//-------------------------------------------------------------------------
+IConversationThreadPtr Account::getOrCreateConversationThreadFor(IContactPtr contact)
+{
+  IConversationThreadPtr useConversation;
+
+  ConversationThreadListPtr conversations = IConversationThread::getConversationThreads(mOpAccount);
+
+  if (conversations) {
+    for (ConversationThreadList::iterator iter = conversations->begin(); iter != conversations->end(); ++iter) {
+      IConversationThreadPtr conversation = (*iter);
+      ZS_THROW_BAD_STATE_IF(!conversation)
+
+      ContactListPtr contacts = conversation->getContacts();
+      ZS_THROW_BAD_STATE_IF(!contacts)
+
+      for (ContactList::iterator iterContact = contacts->begin(); iterContact != contacts->end(); ++iterContact)
+      {
+        hookflash::core::IContactPtr otherContact = (*iterContact);
+        if (otherContact == contact) {
+          useConversation = conversation;
+          ZS_LOG_DEBUG(log("found conversation thread to use for contact") + IContact::toDebugString(contact))
+          break;
+        }
+      }
+      if (useConversation) {
+        ZS_LOG_DEBUG(log("found conversation thread to use"))
+        break;
+      }
+    }
+  }
+
+  if (!useConversation) {
+
+    useConversation = IConversationThread::create(mOpAccount, ElementPtr());
+
+    ContactProfileInfoList contacts;
+    ContactProfileInfo remoteInfo;
+    remoteInfo.mContact = contact;
+    contacts.push_back(remoteInfo);
+
+    useConversation->addContacts(contacts);
+  }
+
+  return useConversation;
+}
+
