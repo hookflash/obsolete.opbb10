@@ -95,6 +95,8 @@ namespace hookflash {
       // NOTE:    there is nothing to call after completion of the lookup because the IContact object populates itself with the public peer file
       bool prepareContactListForContactPeerFilePublicLookup(ContactList &outList);
 
+      const ContactVector& GetContactVector() { return mContacts; }
+
     private:
 
       ContactsManager(SessionPtr session) : mSession(session) {}

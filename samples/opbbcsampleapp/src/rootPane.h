@@ -79,6 +79,7 @@ namespace hookflash {
         bb::cascades::GroupDataModel* mContactModel;
 
         hookflash::core::IIdentityLookupPtr mIdentityLookup;
+        hookflash::core::IContactPeerFilePublicLookupPtr mContactPeerFilePublicLookup;
     };
 
     class RootPaneCallback : public hookflash::core::IIdentityLookupDelegate,
