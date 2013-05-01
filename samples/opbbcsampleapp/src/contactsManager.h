@@ -73,6 +73,9 @@ namespace hookflash {
 
       ~ContactsManager();
 
+      ContactPtr FindContactByIdentityURI(const char *identityURI) const;
+      ContactPtr FindContactBy(hookflash::core::IContactPtr contact) const;
+
       void LoadContacts();
 
       // STEP 1:  You must fetch contacts from Facebook and pass the json result into this method to parse all the contacts

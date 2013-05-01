@@ -16,6 +16,10 @@ namespace hookflash {
     typedef boost::shared_ptr<Session> SessionPtr;
     typedef boost::weak_ptr<Session> SessionWeakPtr;
 
+    class Contact;
+    typedef boost::shared_ptr<Contact> ContactPtr;
+    typedef boost::weak_ptr<Contact> ContactWeakPtr;
+
     //-------------------------------------------------------------------------------
     class Account : public hookflash::core::IAccountDelegate,
                     public hookflash::core::IConversationThreadDelegate,
@@ -43,6 +47,15 @@ namespace hookflash {
       void WritePeerFiles();
 
       hookflash::core::IAccountPtr GetCoreAccount() { return mOpAccount; }
+      hookflash::core::ICallPtr GetCoreCall() { return mCall; }
+
+      bool PlaceCallByFacebookID(
+          const char *facebookID,
+          bool includeAudio,
+          bool includeVideo
+          );
+
+      ContactPtr GetActiveCallContact();  // returns ContractPtr() if no party is active
 
     protected:
       // IAccountDelegate
@@ -83,6 +96,8 @@ namespace hookflash {
       AccountWeakPtr mThisWeak;
       SessionPtr mSession;
       hookflash::core::IAccountPtr mOpAccount;
+
+      hookflash::core::ICallPtr mCall;
     };
 
   };

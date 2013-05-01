@@ -74,6 +74,33 @@ ContactsManager::~ContactsManager()
   ZS_LOG_DEBUG(log("destroyed"))
 }
 
+ContactPtr ContactsManager::FindContactByIdentityURI(const char *identityURI) const
+{
+  std::string uri(identityURI ? std::string(identityURI) : std::string());
+  ContactMap::const_iterator found = mContactsByIdentity.find(uri);
+  if (found == mContactsByIdentity.end()) {
+    ZS_LOG_WARNING(Debug, log("contact was not found for identity") + ", identity uri=" + uri)
+    return ContactPtr();
+  }
+  return (*found).second;
+}
+
+ContactPtr ContactsManager::FindContactBy(hookflash::core::IContactPtr inContact) const
+{
+  ZS_THROW_INVALID_ARGUMENT_IF(!inContact)
+
+  for (ContactVector::const_iterator iter = mContacts.begin(); iter != mContacts.end(); ++iter)
+  {
+    const ContactPtr &contact = (*iter);
+    if (contact->GetContact() == inContact) {
+      ZS_LOG_DEBUG(log("found contact by core contact") + hookflash::core::IContact::toDebugString(inContact))
+      return contact;
+    }
+  }
+  ZS_LOG_WARNING(Debug, log("failed to find any contact with the core contact specified") + hookflash::core::IContact::toDebugString(inContact))
+  return ContactPtr();
+}
+
 void ContactsManager::LoadContacts()
 {
 }
