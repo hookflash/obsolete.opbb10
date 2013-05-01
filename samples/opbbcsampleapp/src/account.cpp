@@ -5,12 +5,21 @@
 #include "rootPane.h"
 #include "loginPane.h"
 
-#include <hookflash/core/IHelper.h>
 #include <QFile>
 #include <QDir>
 #include <QDebug>
 
+#include <hookflash/core/IHelper.h>
+
+#include <zsLib/Stringize.h>
+#include <zsLib/Log.h>
+#include <zsLib/helpers.h>
+
+namespace hookflash { namespace blackberry { ZS_DECLARE_SUBSYSTEM(hookflash_blackberry) } }
+
 using namespace hookflash::blackberry;
+using zsLib::String;
+using zsLib::Stringize;
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
@@ -23,24 +32,35 @@ AccountPtr Account::CreateInstance(SessionPtr session)
 }
 
 //-------------------------------------------------------------------------
-Account::Account(SessionPtr session) : mSession(session)
+Account::Account(SessionPtr session) :
+  mID(zsLib::createPUID()),
+  mSession(session)
 {
+  ZS_LOG_DEBUG(log("created"))
 }
+
+Account::~Account()
+{
+  mThisWeak.reset();
+  ZS_LOG_DEBUG(log("destroyed"))
+}
+
 
 //-------------------------------------------------------------------------
 void Account::Login()
 {
   mOpAccount = hookflash::core::IAccount::login(
-      mThisWeak.lock(),
-      mThisWeak.lock(),
-      mThisWeak.lock(),
-      mSession->GetPeerContactServiceDomain().c_str(),
-      mSession->GetIdentity()->GetCoreIdentity());
+                                                mThisWeak.lock(),
+                                                mThisWeak.lock(),
+                                                mThisWeak.lock(),
+                                                mSession->GetPeerContactServiceDomain().c_str(),
+                                                mSession->GetIdentity()->GetCoreIdentity()
+                                                );
+
   if(mOpAccount) {
-    qDebug() << "Account::Login: Account object created";
-  }
-  else {
-    qDebug() << "ERROR: Account::Login: Account object creation failed";
+    ZS_LOG_DETAIL(log("hookflash::core::IAccount object created"))
+  } else {
+    ZS_LOG_ERROR(Basic, log("failed to create hookflash::core::IAccount object"))
   }
 }
 
@@ -205,4 +225,14 @@ void Account::onConversationThreadPushMessage(
 void Account::onCallStateChanged(hookflash::core::ICallPtr call, hookflash::core::ICall::CallStates state)
 {
 
+}
+
+
+//-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
+String Account::log(const char *message) const
+{
+  return String("blackberry::Account [") + Stringize<typeof(mID)>(mID).string() + "] " + message;
 }
