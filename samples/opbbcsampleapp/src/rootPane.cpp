@@ -3,6 +3,7 @@
 #include "applicationui.h"
 #include "session.h"
 #include "account.h"
+#include "contactsManager.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -59,9 +60,14 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
     SLOT(onLayoutFrameChanged(const QRectF &)));
   mVideoWindowSize = handler->layoutFrame();
 
+  NavigationPane* navPanel = root->findChild<NavigationPane*>("navPanel");
+  if(navPanel != NULL) {
+    mLoginPane = new LoginPane(mAppUI->GetSession(), this);
+  }
 
   std::string peerFile = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerFile();
   std::string secret = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerSecretFile();
+
 
   if(peerFile.size() > 0 && secret.size() > 0) {
     bool success = mAppUI->GetSession()->GetAccount()->Relogin(peerFile, secret);
@@ -70,25 +76,13 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
     }
   }
 
-//  ProcessFbFriends(QString(""));
 }
 
 //-----------------------------------------------------------------
 void RootPane::OnLoginClick(QObject* navigationPaneObj)
 {
-//  const QMetaObject* meta = pageObject->metaObject();
-//  const char* name = meta->className();
-
-
   NavigationPane* navigationPane = qobject_cast<NavigationPane*>(navigationPaneObj);
-//  Page* page = qobject_cast<Page*>(pageObject);
-  if(navigationPane != NULL)
-  {
-    mLoginPane = new LoginPane(mAppUI->GetSession(), this, navigationPane);
-    qDebug() << "***************** RootPane::OnLoginClick YES";
-  }
-  qDebug() << "***************** RootPane::OnLoginClick";
-  return;
+  mLoginPane->OnLoginClick(navigationPane);
 }
 
 //-----------------------------------------------------------------
@@ -164,7 +158,8 @@ void RootPane::OnMediaTestButton2Click()
 //-----------------------------------------------------------------
 void RootPane::ProcessFbFriends(const QString& data)
 {
-  QString json = "[{\"id\": \"100003985703380\",\"fullName\": \"Boris Ikodinovic\",\"pictureUrl\": \"./images/contact.png\"},{\"id\": \"100004075097369\",\"fullName\": \"Nenad Nastasic\",\"pictureUrl\":\"./images/contact.png\"},{\"id\": \"100004281043574\",\"fullName\": \"Sergio Trifunovic\",\"pictureUrl\": \"./images/contact.png\"}]";
+  std::string dataString = data.toUtf8().data();
+  mAppUI->GetSession()->GetContactsManager()->AddContactsFromJSON(dataString);
 
   // Create the data model, specifying sorting keys of "firstName" and "lastName"
   mContactModel = new GroupDataModel(QStringList() << "fullName");
@@ -173,11 +168,13 @@ void RootPane::ProcessFbFriends(const QString& data)
   // QDir::currentPath() function returns the current working
   // directory for the app.
   JsonDataAccess jda;
-  QVariant list = jda.loadFromBuffer(json);
+  QVariant list = jda.loadFromBuffer(data);
 
   // Insert the data into the data model. Because the root of the .json file
   // is an array, a QVariant(QVariantList) is returned from load(). You can
   // provide a QVariantList to a data model directly by using insertList().
+
+
   mContactModel->insertList(list.value<QVariantList>());
 //  QVariantMap itemMap;
 //  itemMap["id"] = "123456";

@@ -24,6 +24,8 @@ namespace hookflash {
 
         bb::cascades::Application* GetApplication() { return mApp; }
         boost::shared_ptr<Session> GetSession() { return mSession; }
+        RootPane* GetRootPane() { return mRootPane; }
+
     private:
         //-------------------------------------------------------------------------
         bb::cascades::Application* mApp;

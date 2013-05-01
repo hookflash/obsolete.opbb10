@@ -10,6 +10,7 @@ TabbedPane {
         imageSource: "asset:///images/icon_home.png"
         NavigationPane {
             id: navPane1
+            objectName: "navPanel"
 	        Page {
 	            id: tab1
 	            actions: [

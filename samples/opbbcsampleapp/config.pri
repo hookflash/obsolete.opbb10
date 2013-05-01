@@ -34,6 +34,8 @@ device {
         SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
                  $$quote($$BASEDIR/src/account.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/contact.cpp) \
+                 $$quote($$BASEDIR/src/contactsManager.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/rootPane.cpp) \
@@ -43,6 +45,8 @@ device {
         HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
                  $$quote($$BASEDIR/src/account.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \
+                 $$quote($$BASEDIR/src/contact.h) \
+                 $$quote($$BASEDIR/src/contactsManager.h) \
                  $$quote($$BASEDIR/src/loginPane.h) \
                  $$quote($$BASEDIR/src/rootPane.h) \
                  $$quote($$BASEDIR/src/session.h) \
@@ -54,6 +58,8 @@ device {
         SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
                  $$quote($$BASEDIR/src/account.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/contact.cpp) \
+                 $$quote($$BASEDIR/src/contactsManager.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/rootPane.cpp) \
@@ -63,6 +69,8 @@ device {
         HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
                  $$quote($$BASEDIR/src/account.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \
+                 $$quote($$BASEDIR/src/contact.h) \
+                 $$quote($$BASEDIR/src/contactsManager.h) \
                  $$quote($$BASEDIR/src/loginPane.h) \
                  $$quote($$BASEDIR/src/rootPane.h) \
                  $$quote($$BASEDIR/src/session.h) \
@@ -77,6 +85,8 @@ simulator {
         SOURCES +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.cpp) \
                  $$quote($$BASEDIR/src/account.cpp) \
                  $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/contact.cpp) \
+                 $$quote($$BASEDIR/src/contactsManager.cpp) \
                  $$quote($$BASEDIR/src/loginPane.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/rootPane.cpp) \
@@ -86,6 +96,8 @@ simulator {
         HEADERS +=  $$quote($$BASEDIR/src/QtCrossThreadNotifier.h) \
                  $$quote($$BASEDIR/src/account.h) \
                  $$quote($$BASEDIR/src/applicationui.h) \
+                 $$quote($$BASEDIR/src/contact.h) \
+                 $$quote($$BASEDIR/src/contactsManager.h) \
                  $$quote($$BASEDIR/src/loginPane.h) \
                  $$quote($$BASEDIR/src/rootPane.h) \
                  $$quote($$BASEDIR/src/session.h) \

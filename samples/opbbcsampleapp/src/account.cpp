@@ -1,6 +1,10 @@
 #include "account.h"
 #include "session.h"
 #include "userIdentity.h"
+#include "applicationui.h"
+#include "rootPane.h"
+#include "loginPane.h"
+
 #include <hookflash/core/IHelper.h>
 #include <QFile>
 #include <QDir>
@@ -149,7 +153,7 @@ void AccountDelegate::onAccountStateChanged(hookflash::core::IAccountPtr account
   if(hookflash::core::IAccount::AccountState_Ready) {
     qDebug() << "AccountDelegate::onAccountStateChanged: Ready";
     mParentAccount.lock()->WritePeerFiles();
-    mParentAccount.lock()->GetSession()->GetIdentity()->OnAccountStateReady();
+    mParentAccount.lock()->GetSession()->GetAppUI()->GetRootPane()->GetLoginPane()->NavigateTo(mParentAccount.lock()->GetSession()->GetContactsURL());
   }
 }
 

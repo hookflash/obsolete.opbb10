@@ -25,7 +25,7 @@ ApplicationUI::ApplicationUI(Application *app) : QObject(app), mApp(app)
   ILogger::installTelnetLogger(59999, 60, true);
   ILogger::installDebuggerLogger();
 
-  mSession = Session::CreateInstance();
+  mSession = Session::CreateInstance(this);
   mRootPane = new RootPane(this);
 }
 

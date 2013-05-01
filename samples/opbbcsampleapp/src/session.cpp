@@ -1,6 +1,7 @@
 #include "session.h"
 #include "userIdentity.h"
 #include "account.h"
+#include "contactsManager.h"
 
 
 using namespace hookflash::blackberry;
@@ -21,9 +22,9 @@ namespace {
   //-------------------------------------------------------------------------
   //-------------------------------------------------------------------------
 
-shared_ptr<Session> Session::CreateInstance()
+shared_ptr<Session> Session::CreateInstance(ApplicationUI* appUI)
 {
-  shared_ptr<Session> instance(new Session());
+  shared_ptr<Session> instance(new Session(appUI));
   instance->mWeakThis = instance;
   instance->Initialize();
   return instance;
@@ -31,7 +32,7 @@ shared_ptr<Session> Session::CreateInstance()
 
   //-------------------------------------------------------------------------
 
-Session::Session() : mPeerContactServiceDomain(PEER_CONTACT_SERVICE_DOMAIN), mContactsURL(CONTACTS_URL)
+Session::Session(ApplicationUI* appUI) : mAppUI(appUI), mPeerContactServiceDomain(PEER_CONTACT_SERVICE_DOMAIN), mContactsURL(CONTACTS_URL)
 {
 }
 
@@ -50,6 +51,7 @@ void Session::Initialize()
                 OS,
                 SYSTEM);
 
+  mContactsManager = ContactsManager::CreateInstance(mWeakThis.lock());
   mIdentity = UserIdentity::CreateInstance(mWeakThis.lock());
   mAccount  = Account::CreateInstance(mWeakThis.lock());
   mIdentityURI = DEFAULT_IDENTITY_URI;

@@ -18,7 +18,7 @@ using namespace bb::cascades;
 using namespace hookflash::blackberry;
 using namespace boost;
 
-LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane, NavigationPane* navigationPane) :
+LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane) :
       QObject(rootPane),
       mSession(session),
       mRootPane(rootPane),
@@ -38,17 +38,14 @@ LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane, Navigation
   // create root object for the UI
   mPage = qml->createRootObject<Page>();
 
-  navigationPane->push(mPage);
-
   bb::cascades::Container* containerObj = mPage->findChild<bb::cascades::Container*>("containerObj");
   mWebView = containerObj->findChild<WebView*>("webView");
   mWebView->storage()->clearCache();
 }
 
-void LoginPane::OnLoginClick()
+void LoginPane::OnLoginClick(NavigationPane* navigationPane)
 {
-  qDebug() << "***************** LoginPane::OnLoginClick";
-  return;
+  navigationPane->push(mPage);
 }
 
 bool LoginPane::OnNavigationRequested(QUrl url)

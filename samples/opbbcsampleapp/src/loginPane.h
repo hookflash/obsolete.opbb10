@@ -20,10 +20,10 @@ namespace hookflash {
     {
         Q_OBJECT
     public:
-        LoginPane(boost::shared_ptr<Session> session, RootPane* rootPane, bb::cascades::NavigationPane* navigationPane);
+        LoginPane(boost::shared_ptr<Session> session, RootPane* rootPane);
         virtual ~LoginPane() {}
 
-        Q_INVOKABLE void OnLoginClick();
+        Q_INVOKABLE void OnLoginClick(bb::cascades::NavigationPane* navigationPane);
         Q_INVOKABLE bool OnNavigationRequested(QUrl url);
         Q_INVOKABLE void OnLoadingChanged(int status, QUrl url);
         Q_INVOKABLE void TestCallback();

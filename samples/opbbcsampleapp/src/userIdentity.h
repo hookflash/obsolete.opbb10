@@ -32,9 +32,6 @@ namespace hookflash {
       void OnNotifyClient(const std::string& data);
       boost::shared_ptr<hookflash::core::IIdentity> GetCoreIdentity() { return mOpIdentity; }
 
-      // Called by account object to start import of contacts.
-      void OnAccountStateReady();
-
       // Called by ILoginUIDelegate...
       void SetLoginUIDelegate(boost::shared_ptr<ILoginUIDelegate> delegate) { mLoginUIDelegate = delegate; }
       bool OnWebBrowserPageNavigation(const std::string& url);

@@ -38,6 +38,7 @@ namespace hookflash {
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
+        LoginPane* GetLoginPane() { return mLoginPane; }
 
     public Q_SLOTS:
         void onLayoutFrameChanged(const QRectF &layoutFrame);

@@ -12,6 +12,8 @@ namespace hookflash {
     class SessionMediaEngineDelegate;
     class UserIdentity;
     class Account;
+    class ContactsManager;
+    class ApplicationUI;
 
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
@@ -20,26 +22,30 @@ namespace hookflash {
     class Session
     {
     public:
-      static boost::shared_ptr<Session> CreateInstance();
+      static boost::shared_ptr<Session> CreateInstance(ApplicationUI* appUI);
 
       virtual ~Session() {}
 
       boost::shared_ptr<UserIdentity> GetIdentity() { return mIdentity; }
       boost::shared_ptr<Account> GetAccount() { return mAccount; }
+      boost::shared_ptr<ContactsManager> GetContactsManager() { return mContactsManager; }
       std::string GetIdentityURI() { return mIdentityURI; }
       std::string GetPeerContactServiceDomain() { return mPeerContactServiceDomain; }
       std::string GetContactsURL() { return mContactsURL; }
+      ApplicationUI* GetAppUI() { return mAppUI; }
 
     private:
-      Session();
+      Session(ApplicationUI* appUI);
       void Initialize();
 
       boost::weak_ptr<Session> mWeakThis;
+      ApplicationUI* mAppUI;
       hookflash::core::IStackPtr mStack;
       boost::shared_ptr<SessionStackDelegate> mStackDelegate;
       boost::shared_ptr<SessionMediaEngineDelegate> mMediaEngineDelegate;
       boost::shared_ptr<UserIdentity> mIdentity;
       boost::shared_ptr<Account> mAccount;
+      boost::shared_ptr<ContactsManager> mContactsManager;
       std::string mIdentityURI;
       std::string mPeerContactServiceDomain;
       std::string mContactsURL;
