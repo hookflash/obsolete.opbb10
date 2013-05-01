@@ -1,23 +1,30 @@
 #ifndef HFBB_ACCOUNT_H
 #define HFBB_ACCOUNT_H
 
-#include "hookflash/core/IAccount.h"
-#include "hookflash/core/IConversationThread.h"
-#include "hookflash/core/ICall.h"
+#include <hookflash/core/IAccount.h>
+#include <hookflash/core/IConversationThread.h>
+#include <hookflash/core/ICall.h>
 
 namespace hookflash {
   namespace blackberry {
 
+    class Account;
+    typedef boost::shared_ptr<Account> AccountPtr;
+    typedef boost::weak_ptr<Account> AccountWeakPtr;
+
     class Session;
-    class AccountDelegate;
-    class ConversationThreadDelegate;
-    class CallDelegate;
+    typedef boost::shared_ptr<Session> SessionPtr;
+    typedef boost::weak_ptr<Session> SessionWeakPtr;
 
     //-------------------------------------------------------------------------------
-    class Account
+    class Account : public hookflash::core::IAccountDelegate,
+                    public hookflash::core::IConversationThreadDelegate,
+                    public hookflash::core::ICallDelegate
     {
     public:
-      static boost::shared_ptr<Account> CreateInstance(boost::shared_ptr<Session> session);
+      static AccountPtr CreateInstance(SessionPtr session);
+
+      Account(SessionPtr session);
       virtual ~Account() {}
 
       void Login();
@@ -31,40 +38,14 @@ namespace hookflash {
       std::string ReadPrivatePeerSecretFile();
       void WritePeerFiles();
 
-      boost::shared_ptr<hookflash::core::IAccount> GetCoreAccount() { return mOpAccount; }
+      hookflash::core::IAccountPtr GetCoreAccount() { return mOpAccount; }
 
-    private:
-      Account(boost::shared_ptr<Session> session);
-
-      boost::weak_ptr<Account> mWeakThis;
-      boost::shared_ptr<Session> mSession;
-      boost::shared_ptr<hookflash::core::IAccount> mOpAccount;
-      boost::shared_ptr<AccountDelegate> mDelegate;
-      boost::shared_ptr<ConversationThreadDelegate> mConversationThreadDelegate;
-      boost::shared_ptr<CallDelegate> mCallDelegate;
-    };
-
-    //-------------------------------------------------------------------------------
-    class AccountDelegate : public hookflash::core::IAccountDelegate
-    {
-    public:
-      AccountDelegate(boost::shared_ptr<Account> parentAccount);
-      virtual ~AccountDelegate();
-
+    protected:
+      // IAccountDelegate
       virtual void onAccountStateChanged(hookflash::core::IAccountPtr account, AccountStates state);
       virtual void onAccountAssociatedIdentitiesChanged(hookflash::core::IAccountPtr account);
 
-    private:
-      boost::weak_ptr<Account> mParentAccount;
-    };
-
-    //-------------------------------------------------------------------------------
-    class ConversationThreadDelegate : public hookflash::core::IConversationThreadDelegate
-    {
-    public:
-      ConversationThreadDelegate(boost::shared_ptr<Account> parentAccount);
-      virtual ~ConversationThreadDelegate();
-
+      // IConversationTheadDelegate
       virtual void onConversationThreadNew(hookflash::core::IConversationThreadPtr conversationThread);
 
       virtual void onConversationThreadContactsChanged(hookflash::core::IConversationThreadPtr conversationThread);
@@ -87,22 +68,15 @@ namespace hookflash {
                                                    const char *messageID,
                                                    hookflash::core::IContactPtr contact);
 
-    private:
-      boost::weak_ptr<Account> mParentAccount;
-    };
-
-    //-------------------------------------------------------------------------------
-    class CallDelegate : public hookflash::core::ICallDelegate
-    {
-    public:
-      CallDelegate(boost::shared_ptr<Account> parentAccount);
-      virtual ~CallDelegate();
-
+      // ICallDelegate
       virtual void onCallStateChanged(hookflash::core::ICallPtr call, hookflash::core::ICall::CallStates state);
 
     private:
-      boost::weak_ptr<Account> mParentAccount;
+      AccountWeakPtr mThisWeak;
+      SessionPtr mSession;
+      hookflash::core::IAccountPtr mOpAccount;
     };
+
   };
 };
 
