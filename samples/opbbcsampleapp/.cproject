@@ -22,23 +22,27 @@
 							<option id="com.qnx.qcc.option.compiler.1901144171" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
 							<option id="com.qnx.qcc.option.runtime.826050161" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
 							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.152810017" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
-							<builder autoBuildTarget="Device-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.1980597582.1424311246" incrementalBuildTarget="Device-Debug" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<builder autoBuildTarget="Device-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.1980597582.1424311246" incrementalBuildTarget="Device-Debug" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
+								</outputEntries>
+							</builder>
 							<tool id="com.qnx.qcc.tool.compiler.1411936160" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.145166176" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.322733639" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-core/"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/video_engine/include/"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/cryptopp"/>
-									<listOptionValue builtIn="false" value="../../../hookflash-libs/boost"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/modules/video_render/include"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/modules/interface"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/webRTC/src/system_wrappers/interface"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/cryptopp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../hookflash-libs/boost}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/video_engine/include/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/system_wrappers/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1703448671" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -78,7 +82,7 @@
 							<builder autoBuildTarget="Device-Release" enableAutoBuild="true" id="com.qnx.qcc.toolChain.186743702.1803592622" incrementalBuildTarget="Device-Release" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
 							<tool id="com.qnx.qcc.tool.compiler.1203176047" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.721734696" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
-								<option id="com.qnx.qcc.option.compiler.includePath.863771124" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath"/>
+								<option id="com.qnx.qcc.option.compiler.includePath.863771124" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath"/>
 								<inputType id="com.qnx.qcc.inputType.compiler.54720674" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
 							<tool id="com.qnx.qcc.tool.assembler.1223972587" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
@@ -117,7 +121,7 @@
 							<builder autoBuildTarget="Device-Profile" enableAutoBuild="true" id="com.qnx.qcc.toolChain.1927626450.1587782301" incrementalBuildTarget="Device-Profile" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
 							<tool id="com.qnx.qcc.tool.compiler.140983009" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.1909883043" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
-								<option id="com.qnx.qcc.option.compiler.includePath.1556291246" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath"/>
+								<option id="com.qnx.qcc.option.compiler.includePath.1556291246" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath"/>
 								<inputType id="com.qnx.qcc.inputType.compiler.793375174" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
 							<tool id="com.qnx.qcc.tool.assembler.791950048" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
@@ -156,7 +160,9 @@
 							<builder autoBuildTarget="Simulator-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.1077247663.1986577123" incrementalBuildTarget="Simulator-Debug" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
 							<tool id="com.qnx.qcc.tool.compiler.1926438983" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.1041371981" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
-								<option id="com.qnx.qcc.option.compiler.includePath.520324530" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath"/>
+								<option id="com.qnx.qcc.option.compiler.includePath.520324530" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${build_project}/../../../op/hookflash-core/&quot;"/>
+								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.831728296" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
 							<tool id="com.qnx.qcc.tool.assembler.1429167745" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
