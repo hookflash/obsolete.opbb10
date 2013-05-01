@@ -32,7 +32,9 @@
 #ifndef _HF_CONTACTS_MANAGER_
 #define _HF_CONTACTS_MANAGER_
 
-#include "boost/smart_ptr.hpp"
+#include <hookflash/core/IIdentityLookup.h>
+
+#include <boost/smart_ptr.hpp>
 #include <vector>
 #include <map>
 
@@ -40,28 +42,68 @@ namespace hookflash {
   namespace blackberry {
 
     class Session;
+    typedef boost::shared_ptr<Session> SessionPtr;
+    typedef boost::weak_ptr<Session> SessionWeakPtr;
+
     class Contact;
+    typedef boost::shared_ptr<Contact> ContactPtr;
+    typedef boost::weak_ptr<Contact> ContactWeakPtr;
+
+    class ContactsManager;
+    typedef boost::shared_ptr<ContactsManager> ContactsManagerPtr;
+    typedef boost::weak_ptr<ContactsManager> ContactsManagerWeakPtr;
 
     class ContactsManager {
     public:
-      static boost::shared_ptr<ContactsManager> CreateInstance(boost::shared_ptr<Session> session);
+      typedef hookflash::core::IdentityLookupInfoListPtr IdentityLookupInfoListPtr;
+      typedef hookflash::core::ContactList ContactList;
+      typedef hookflash::core::IdentityURIList IdentityURIList;
+
+      typedef std::vector<ContactPtr> ContactVector;
+      typedef std::string IdentityURI;
+      typedef std::map<IdentityURI, ContactPtr> ContactMap;
+
+    public:
+      static ContactsManagerPtr CreateInstance(SessionPtr session);
+
       void LoadContacts();
+
+      // STEP 1:  You must fetch contacts from Facebook and pass the json result into this method to parse all the contacts
       void AddContactsFromJSON(const std::string& json);
 
       void AddContact(
-          const char* fullName,
-          const char* id,
-          const char* pictureUrl);
+        const char *identityDomain,
+        const char* fullName,
+        const char* id,
+        const char* pictureUrl
+      );
+
+      // STEP 2:  You must use the result of prepareIdentityURIListForIdentityLookup as a parameter to IIdentityLookup
+      // PURPOSE: prepares the identity URI list for passing into IIdentityLookup object
+      // RETURNS: true if there are contacts that need to be looked up, otherwise false
+      // NOTE:    This causes the "peer URI" for each identity to become known (but does not load the public peer file of the cotnact)
+      bool prepareIdentityURIListForIdentityLookup(IdentityURIList &outList);
+
+      // STEP 3:  The result "IIdentityLookup::getIdentities()" must be passed into this method
+      // PURPOSE: handles the result as returned from "IIdentityLookup"
+      // NOTE:    This associates the Contact object to the core IContact object
+      void handleIdentityLookupResult(IdentityLookupInfoListPtr result);
+
+      // STEP 4:  Now that you know all the contact objects, you must look up their public peer files otherwise you cannot contact these users
+      // PURPOSE: obtains the list of contacts which need to have their public peer file fetched
+      // RETURNS: true if there are public peer files to lookup, otherwise false
+      // NOTE:    there is nothing to call after completion of the lookup because the IContact object populates itself with the public peer file
+      bool prepareContactListForContactPeerFilePublicLookup(ContactList &outList);
 
     private:
 
-      ContactsManager(boost::shared_ptr<Session> session) : mSession(session) {}
+      ContactsManager(SessionPtr session) : mSession(session) {}
 
-      boost::weak_ptr<ContactsManager> mWeakThis;
-      boost::shared_ptr<Session> mSession;
+      ContactsManagerWeakPtr mWeakThis;
+      SessionPtr mSession;
 
-      std::vector< boost::shared_ptr<Contact> > mContacts;
-      std::map< std::string, boost::shared_ptr<Contact> > mContactsById;
+      ContactVector mContacts;
+      ContactMap mContactsByIdentity;
 
     };
   }

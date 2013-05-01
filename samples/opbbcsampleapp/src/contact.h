@@ -32,31 +32,41 @@
 #ifndef _HF_CONTACT_
 #define _HF_CONTACT_
 
+#include <hookflash/core/IContact.h>
+
 #include <vector>
-#include "hookflash/core/IContact.h"
 
 namespace hookflash {
   namespace blackberry {
 
     class Contact {
     public:
-      Contact(const std::string& fullName,
+      typedef hookflash::core::IContactPtr IContactPtr;
+
+    public:
+      Contact(
+              const std::string& fullName,
               const std::string& id,
-              const std::string& pictureUrl);
+              const std::string& pictureUrl,
+              const std::string& identityURI
+              );
 
-      std::string GetFullName() { return mFullName; }
-      std::string GetId() { return mId; }
-      std::string GetPictureUrl() { return mPictureUrl; }
+      std::string GetFullName() const { return mFullName; }
+      std::string GetId() const { return mId; }
+      std::string GetPictureUrl() const { return mPictureUrl; }
+      std::string GetIdentityURI() const { return mIdentityURI; }
 
-      hookflash::core::IContactPtr GetContact() { return mContact; }
-      void SetContact(hookflash::core::IContactPtr contact) { mContact = contact; }
+      IContactPtr GetContact() const { return mContact; }
+      void SetContact(IContactPtr contact) { mContact = contact; }
 
     private:
 
       std::string mFullName;
       std::string mId;
       std::string mPictureUrl;
-      hookflash::core::IContactPtr mContact;
+      std::string mIdentityURI;
+
+      IContactPtr mContact;
     };
   }
 }

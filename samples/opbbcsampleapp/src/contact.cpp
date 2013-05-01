@@ -33,11 +33,15 @@
 
 using namespace hookflash::blackberry;
 
-Contact::Contact(const std::string& fullName,
+Contact::Contact(
+                 const std::string& fullName,
                  const std::string& id,
-                 const std::string& pictureUrl) :
+                 const std::string& pictureUrl,
+                 const std::string& identityURI
+                 ) :
                  mFullName(fullName),
                  mId(id),
-                 mPictureUrl(pictureUrl)
+                 mPictureUrl(pictureUrl),
+                 mIdentityURI(identityURI)
 {
 }

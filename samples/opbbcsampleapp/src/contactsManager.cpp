@@ -32,6 +32,8 @@
 #include "contactsManager.h"
 #include "contact.h"
 
+#include <hookflash/stack/IServiceIdentity.h>
+
 #include <zsLib/XML.h>
 
 using namespace hookflash::blackberry;
@@ -41,10 +43,14 @@ using zsLib::XML::Document;
 using zsLib::XML::DocumentPtr;
 using zsLib::XML::Element;
 using zsLib::XML::ElementPtr;
+using hookflash::core::IContactPtr;
+using hookflash::core::IdentityLookupInfo;
+using hookflash::core::IdentityLookupInfoList;
+using hookflash::stack::IServiceIdentity;
 
-boost::shared_ptr<ContactsManager> ContactsManager::CreateInstance(boost::shared_ptr<Session> session)
+ContactsManagerPtr ContactsManager::CreateInstance(SessionPtr session)
 {
-  boost::shared_ptr<ContactsManager> instance(new ContactsManager(session));
+  ContactsManagerPtr instance(new ContactsManager(session));
   instance->mWeakThis = instance;
   return instance;
 }
@@ -82,20 +88,89 @@ void ContactsManager::AddContactsFromJSON(const std::string& json)
     if ((id.hasData()) ||
         (fullName.hasData()) ||
         (pictureURL.hasData())) {
-      AddContact(id, fullName, pictureURL);
+      AddContact("facebook.com", id, fullName, pictureURL);
     }
 
     unknownEl = unknownEl->getNextSiblingElement();
   }
-
 }
 
 void ContactsManager::AddContact(
-    const char* fullName,
-    const char* id,
-    const char* pictureUrl)
+  const char *identityDomain,
+  const char* fullName,
+  const char* id,
+  const char* pictureUrl
+)
 {
-  boost::shared_ptr<Contact> newContact(new Contact(fullName, id, pictureUrl));
+  std::string identityURI = IServiceIdentity::joinURI(identityDomain, id);
+
+  ContactPtr newContact(new Contact(fullName, id, pictureUrl, identityURI));
   mContacts.push_back(newContact);
-  mContactsById.insert(std::pair< std::string, boost::shared_ptr<Contact> >(std::string(id), newContact));
+
+  mContactsByIdentity[identityURI] = newContact;
 }
+
+bool ContactsManager::prepareIdentityURIListForIdentityLookup(IdentityURIList &outList)
+{
+  for (ContactVector::iterator iter = mContacts.begin(); iter != mContacts.end(); ++iter) {
+    ContactPtr &contact = (*iter);
+    IContactPtr coreContact = contact->GetContact();
+
+    std::string identityURI = contact->GetIdentityURI();
+    if (identityURI.length() < 1) {
+      // three is no ID for this contact
+      continue;
+    }
+
+    outList.push_back(identityURI);
+  }
+
+  return (outList.size() > 0);
+}
+
+void ContactsManager::handleIdentityLookupResult(IdentityLookupInfoListPtr result)
+{
+  if (!result) return;
+
+  for (IdentityLookupInfoList::iterator iter = result->begin(); iter != result->end(); ++iter)
+  {
+    IdentityLookupInfo &info = (*iter);
+
+    String domain;
+    String id;
+
+    if (!info.mContact) {
+      // no core "contact" object was found, thus skipping since there's nothing to do
+      continue;
+    }
+
+    ContactMap::iterator found = mContactsByIdentity.find(info.mIdentityURI);
+    if (found == mContactsByIdentity.end()) {
+      // this contact was not found
+      continue;
+    }
+    ContactPtr &contact = (*found).second;
+    contact->SetContact(info.mContact);
+  }
+
+}
+
+bool ContactsManager::prepareContactListForContactPeerFilePublicLookup(ContactList &outList)
+{
+  for (ContactVector::iterator iter = mContacts.begin(); iter != mContacts.end(); ++iter) {
+    ContactPtr &contact = (*iter);
+    IContactPtr coreContact = contact->GetContact();
+    if (!coreContact) {
+      // there is no core contact thus we do not need to perform a lookup on this contact
+      continue;
+    }
+    if (coreContact->hasPeerFilePublic()) {
+      // there is no need to lookup this contact since it has a core contact already
+      continue;
+    }
+    outList.push_back(coreContact);
+  }
+
+  return (outList.size() > 0);
+}
+
