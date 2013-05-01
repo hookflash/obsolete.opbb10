@@ -7,27 +7,36 @@
 #include <bb/cascades/ForeignWindowControl>
 #include <bb/cascades/ListView>
 #include <bb/cascades/GroupDataModel>
+
 #include <hookflash/core/IIdentityLookup.h>
+#include <hookflash/core/IContactPeerFilePublicLookup.h>
 
 #include "video_render_bb_impl.h"
 #include "bb_window_wrapper.h"
 #include "video_render.h"
-#include "boost/smart_ptr.hpp"
+
+#include <boost/smart_ptr.hpp>
 
 namespace hookflash {
   namespace blackberry {
 
     class ApplicationUI;
     class LoginPane;
-    class RootPaneIdentityLookupDelegate;
     class ContactsManager;
+    class RootPaneCallback;
+
+    typedef boost::shared_ptr<RootPaneCallback> RootPaneCallbackPtr;
+    typedef boost::weak_ptr<RootPaneCallback> RootPaneCallbackWeakPtr;
 
     class RootPane : public QObject
     {
         Q_OBJECT
     public:
+        friend class RootPaneCallback;
+
+    public:
         RootPane(ApplicationUI* appUI);
-        virtual ~RootPane() {}
+        virtual ~RootPane();
 
         Q_INVOKABLE void OnLoginClick(QObject* page);
         Q_INVOKABLE void OnOnLoadingChanged(int status, QString url);
@@ -38,17 +47,26 @@ namespace hookflash {
         Q_INVOKABLE void OnMediaTestButton2Click();
 
         void ProcessFbFriends(const QString& data);
-        void AddContactsToUI(hookflash::core::IIdentityLookupPtr lookup);
+        void AddContactsToUI();
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
         LoginPane* GetLoginPane() { return mLoginPane; }
+
+    protected:
+        // IIdentityLookupDelegate
+        virtual void onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup);
+
+        // IContactPeerFilePublicLookupDelegate
+        virtual void onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup);
 
     public Q_SLOTS:
         void onLayoutFrameChanged(const QRectF &layoutFrame);
 
     private:
         void CreateVideoRenderer();
+
+        RootPaneCallbackPtr mThisCallback;
 
         ApplicationUI* mAppUI;
         LoginPane* mLoginPane;
@@ -59,17 +77,24 @@ namespace hookflash {
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;
         bb::cascades::GroupDataModel* mContactModel;
+
         hookflash::core::IIdentityLookupPtr mIdentityLookup;
-        boost::shared_ptr<RootPaneIdentityLookupDelegate> mIdentityLookupDelegate;
     };
 
-    class RootPaneIdentityLookupDelegate : public hookflash::core::IIdentityLookupDelegate
+    class RootPaneCallback : public hookflash::core::IIdentityLookupDelegate,
+                             public hookflash::core::IContactPeerFilePublicLookupDelegate
     {
     public:
-      RootPaneIdentityLookupDelegate(RootPane* rootPane) : mRootPane(rootPane) {}
-      virtual ~RootPaneIdentityLookupDelegate() {}
+      RootPaneCallback(RootPane* rootPane) : mRootPane(rootPane) {}
+      virtual ~RootPaneCallback() {}
 
+      void destroy() {mRootPane = NULL;}
+
+      // IIdentityLookupDelegate
       virtual void onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup);
+
+      // IContactPeerFilePublicLookupDelegate
+      virtual void onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup);
 
     private:
       RootPane* mRootPane; // Bare pointer - this is owned by QT

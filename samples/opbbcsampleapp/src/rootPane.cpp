@@ -30,6 +30,7 @@ using namespace hookflash::blackberry;
 //-----------------------------------------------------------------
 RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(NULL), mCallWindowIsOpen(false)
 {
+  mThisCallback = RootPaneCallbackPtr(new RootPaneCallback(this));
 
   // create scene document from main.qml asset
   // set parent to created document to ensure it exists for the whole application lifetime
@@ -76,6 +77,13 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
     }
   }
 
+}
+
+RootPane::~RootPane()
+{
+  // IMPORTANT: This prevents crashing on unfinished delegates
+  mThisCallback->destroy();
+  mThisCallback.reset();
 }
 
 //-----------------------------------------------------------------
@@ -165,19 +173,16 @@ void RootPane::ProcessFbFriends(const QString& data)
   bool found = mAppUI->GetSession()->GetContactsManager()->prepareIdentityURIListForIdentityLookup(identityURIs);
   if(found) {
 
-    mIdentityLookupDelegate = boost::shared_ptr<RootPaneIdentityLookupDelegate>(new RootPaneIdentityLookupDelegate(this));
     hookflash::core::IIdentityLookupPtr mIdentityLookup = hookflash::core::IIdentityLookup::create(
         mAppUI->GetSession()->GetAccount()->GetCoreAccount(),
-        mIdentityLookupDelegate,
+        mThisCallback,
         identityURIs);
   }
 }
 
 //-----------------------------------------------------------------
-void RootPane::AddContactsToUI(hookflash::core::IIdentityLookupPtr lookup)
+void RootPane::AddContactsToUI()
 {
-  mAppUI->GetSession()->GetContactsManager()->handleIdentityLookupResult(lookup->getIdentities());
-
   // Create the data model, specifying sorting keys of "firstName" and "lastName"
   mContactModel = new GroupDataModel(QStringList() << "fullName");
 
@@ -204,6 +209,17 @@ void RootPane::AddContactsToUI(hookflash::core::IIdentityLookupPtr lookup)
 //  mContactsListView->resetDataModel();
 //  model->
   mContactsListView->setDataModel(mContactModel);
+}
+
+void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
+{
+  mAppUI->GetSession()->GetContactsManager()->handleIdentityLookupResult(lookup->getIdentities());
+  AddContactsToUI();
+}
+
+// IContactPeerFilePublicLookupDelegate
+void RootPane::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup)
+{
 }
 
 //-----------------------------------------------------------------
@@ -233,8 +249,15 @@ void RootPane::CreateVideoRenderer() {
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
-void RootPaneIdentityLookupDelegate::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
+void RootPaneCallback::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
 {
-  mRootPane->AddContactsToUI(lookup);
+  if (!mRootPane) return;
+  mRootPane->onIdentityLookupCompleted(lookup);
+}
+
+void RootPaneCallback::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup)
+{
+  if (!mRootPane) return;
+  mRootPane->onContactPeerFilePublicLookupCompleted(lookup);
 }
 
