@@ -8,81 +8,70 @@
 namespace hookflash {
   namespace blackberry {
 
-    class SessionStackDelegate;
-    class SessionMediaEngineDelegate;
-    class UserIdentity;
-    class Account;
-    class ContactsManager;
     class ApplicationUI;
 
+    class UserIdentity;
+    typedef boost::shared_ptr<UserIdentity> UserIdentityPtr;
+    typedef boost::weak_ptr<UserIdentity> UserIdentityWeakPtr;
+
+    class Account;
+    typedef boost::shared_ptr<Account> AccountPtr;
+    typedef boost::weak_ptr<Account> AccountWeakPtr;
+
+    class ContactsManager;
+    typedef boost::shared_ptr<ContactsManager> ContactsManagerPtr;
+    typedef boost::weak_ptr<ContactsManager> ContactsManagerWeakPtr;
+
+    class Session;
+    typedef boost::shared_ptr<Session> SessionPtr;
+    typedef boost::weak_ptr<Session> SessionWeakPtr;
+
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
 
-    class Session
+    class Session : public hookflash::core::IStackDelegate,
+                    public hookflash::core::IMediaEngineDelegate
     {
     public:
-      static boost::shared_ptr<Session> CreateInstance(ApplicationUI* appUI);
+      static SessionPtr CreateInstance(ApplicationUI* appUI);
 
       virtual ~Session() {}
 
-      boost::shared_ptr<UserIdentity> GetIdentity() { return mIdentity; }
-      boost::shared_ptr<Account> GetAccount() { return mAccount; }
-      boost::shared_ptr<ContactsManager> GetContactsManager() { return mContactsManager; }
+      UserIdentityPtr GetIdentity() { return mIdentity; }
+      AccountPtr GetAccount() { return mAccount; }
+      ContactsManagerPtr GetContactsManager() { return mContactsManager; }
+
       std::string GetIdentityURI() { return mIdentityURI; }
       std::string GetPeerContactServiceDomain() { return mPeerContactServiceDomain; }
       std::string GetContactsURL() { return mContactsURL; }
       ApplicationUI* GetAppUI() { return mAppUI; }
 
-    private:
-      Session(ApplicationUI* appUI);
-      void Initialize();
-
-      boost::weak_ptr<Session> mWeakThis;
-      ApplicationUI* mAppUI;
-      hookflash::core::IStackPtr mStack;
-      boost::shared_ptr<SessionStackDelegate> mStackDelegate;
-      boost::shared_ptr<SessionMediaEngineDelegate> mMediaEngineDelegate;
-      boost::shared_ptr<UserIdentity> mIdentity;
-      boost::shared_ptr<Account> mAccount;
-      boost::shared_ptr<ContactsManager> mContactsManager;
-      std::string mIdentityURI;
-      std::string mPeerContactServiceDomain;
-      std::string mContactsURL;
-    };
-
-    //-------------------------------------------------------------------------
-    //-------------------------------------------------------------------------
-    //-------------------------------------------------------------------------
-
-    class SessionStackDelegate : public hookflash::core::IStackDelegate
-    {
-    public:
-      SessionStackDelegate(boost::shared_ptr<Session> parent) : mWeakParent(parent) {}
-
+    protected:
+      // IStackDelegate
       virtual void onStackShutdown(hookflash::core::IStackAutoCleanupPtr ignoreThisArgument) {}
 
-    private:
-      boost::weak_ptr<Session> mWeakParent;
-    };
-
-    //-------------------------------------------------------------------------
-    //-------------------------------------------------------------------------
-    //-------------------------------------------------------------------------
-
-    class SessionMediaEngineDelegate : public hookflash::core::IMediaEngineDelegate
-    {
-    public:
-      SessionMediaEngineDelegate(boost::shared_ptr<Session> parent) : mWeakParent(parent) {}
-
+      // IMediaEngineDelegate
       virtual void onMediaEngineAudioRouteChanged(OutputAudioRoutes audioRoute) {}
       virtual void onMediaEngineFaceDetected() {}
       virtual void onMediaEngineVideoCaptureRecordStopped() {}
 
     private:
-      boost::weak_ptr<Session> mWeakParent;
-    };
+      Session(ApplicationUI* appUI);
+      void Initialize();
 
+      SessionWeakPtr mThisWeak;
+      ApplicationUI* mAppUI;
+      hookflash::core::IStackPtr mStack;
+
+      UserIdentityPtr mIdentity;
+      AccountPtr mAccount;
+      ContactsManagerPtr mContactsManager;
+
+      std::string mIdentityURI;
+      std::string mPeerContactServiceDomain;
+      std::string mContactsURL;
+    };
   };
 };
 

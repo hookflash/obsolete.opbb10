@@ -22,12 +22,12 @@ namespace {
   //-------------------------------------------------------------------------
   //-------------------------------------------------------------------------
 
-shared_ptr<Session> Session::CreateInstance(ApplicationUI* appUI)
+SessionPtr Session::CreateInstance(ApplicationUI* appUI)
 {
-  shared_ptr<Session> instance(new Session(appUI));
-  instance->mWeakThis = instance;
-  instance->Initialize();
-  return instance;
+  shared_ptr<Session> pThis(new Session(appUI));
+  pThis->mThisWeak = pThis;
+  pThis->Initialize();
+  return pThis;
 }
 
   //-------------------------------------------------------------------------
@@ -36,23 +36,21 @@ Session::Session(ApplicationUI* appUI) : mAppUI(appUI), mPeerContactServiceDomai
 {
 }
 
-  //-------------------------------------------------------------------------
-
+//-------------------------------------------------------------------------
 void Session::Initialize()
 {
-  mStackDelegate = boost::shared_ptr<SessionStackDelegate>(new SessionStackDelegate(mWeakThis.lock()));
-  mMediaEngineDelegate = boost::shared_ptr<SessionMediaEngineDelegate>(new SessionMediaEngineDelegate(mWeakThis.lock()));
-
   mStack = IStack::singleton();
-  mStack->setup(mStackDelegate,
-                mMediaEngineDelegate,
+  mStack->setup(
+                mThisWeak.lock(),
+                mThisWeak.lock(),
                 BLACKBERRY_DEVICE_ID,
                 USER_AGENT,
                 OS,
-                SYSTEM);
+                SYSTEM
+                );
 
-  mContactsManager = ContactsManager::CreateInstance(mWeakThis.lock());
-  mIdentity = UserIdentity::CreateInstance(mWeakThis.lock());
-  mAccount  = Account::CreateInstance(mWeakThis.lock());
+  mContactsManager = ContactsManager::CreateInstance(mThisWeak.lock());
+  mIdentity = UserIdentity::CreateInstance(mThisWeak.lock());
+  mAccount  = Account::CreateInstance(mThisWeak.lock());
   mIdentityURI = DEFAULT_IDENTITY_URI;
 }

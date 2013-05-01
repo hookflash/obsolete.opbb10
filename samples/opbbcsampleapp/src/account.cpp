@@ -15,29 +15,25 @@ using namespace hookflash::blackberry;
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-boost::shared_ptr<Account> Account::CreateInstance(boost::shared_ptr<Session> session)
+AccountPtr Account::CreateInstance(SessionPtr session)
 {
-  boost::shared_ptr<Account> instance(new Account(session));
-  instance->mWeakThis = instance;
-  return instance;
+  AccountPtr pThis(new Account(session));
+  pThis->mThisWeak = pThis;
+  return pThis;
 }
 
 //-------------------------------------------------------------------------
-Account::Account(boost::shared_ptr<Session> session) : mSession(session)
+Account::Account(SessionPtr session) : mSession(session)
 {
 }
 
 //-------------------------------------------------------------------------
 void Account::Login()
 {
-  mDelegate = boost::shared_ptr<AccountDelegate>(new AccountDelegate(mWeakThis.lock()));
-  mConversationThreadDelegate = boost::shared_ptr<ConversationThreadDelegate>(new ConversationThreadDelegate(mWeakThis.lock()));
-  mCallDelegate = boost::shared_ptr<CallDelegate>(new CallDelegate(mWeakThis.lock()));
-
   mOpAccount = hookflash::core::IAccount::login(
-      mDelegate,
-      mConversationThreadDelegate,
-      mCallDelegate,
+      mThisWeak.lock(),
+      mThisWeak.lock(),
+      mThisWeak.lock(),
       mSession->GetPeerContactServiceDomain().c_str(),
       mSession->GetIdentity()->GetCoreIdentity());
   if(mOpAccount) {
@@ -51,16 +47,12 @@ void Account::Login()
 //-------------------------------------------------------------------------
 bool Account::Relogin(const std::string& peerFile, const std::string& secret)
 {
-  mDelegate = boost::shared_ptr<AccountDelegate>(new AccountDelegate(mWeakThis.lock()));
-  mConversationThreadDelegate = boost::shared_ptr<ConversationThreadDelegate>(new ConversationThreadDelegate(mWeakThis.lock()));
-  mCallDelegate = boost::shared_ptr<CallDelegate>(new CallDelegate(mWeakThis.lock()));
-
   zsLib::XML::ElementPtr privatePeerFileElement = hookflash::core::IHelper::createFromString(peerFile);
 
   mOpAccount = hookflash::core::IAccount::relogin(
-      mDelegate,
-      mConversationThreadDelegate,
-      mCallDelegate,
+      mThisWeak.lock(),
+      mThisWeak.lock(),
+      mThisWeak.lock(),
       privatePeerFileElement,
       secret.c_str());
   if(mOpAccount) {
@@ -137,62 +129,42 @@ void Account::WritePeerFiles()
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-AccountDelegate::AccountDelegate(boost::shared_ptr<Account> parentAccount) : mParentAccount(parentAccount)
-{
-
-}
 
 //-------------------------------------------------------------------------
-AccountDelegate::~AccountDelegate()
-{
-}
-
-//-------------------------------------------------------------------------
-void AccountDelegate::onAccountStateChanged(hookflash::core::IAccountPtr account, AccountStates state)
+void Account::onAccountStateChanged(hookflash::core::IAccountPtr account, AccountStates state)
 {
   if(hookflash::core::IAccount::AccountState_Ready) {
     qDebug() << "AccountDelegate::onAccountStateChanged: Ready";
-    mParentAccount.lock()->WritePeerFiles();
-    mParentAccount.lock()->GetSession()->GetAppUI()->GetRootPane()->GetLoginPane()->NavigateTo(mParentAccount.lock()->GetSession()->GetContactsURL());
+    WritePeerFiles();
+    GetSession()->GetAppUI()->GetRootPane()->GetLoginPane()->NavigateTo(GetSession()->GetContactsURL());
   }
 }
 
 //-------------------------------------------------------------------------
-void AccountDelegate::onAccountAssociatedIdentitiesChanged(hookflash::core::IAccountPtr account)
+void Account::onAccountAssociatedIdentitiesChanged(hookflash::core::IAccountPtr account)
+{
+}
+
+//-------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------
+void Account::onConversationThreadNew(hookflash::core::IConversationThreadPtr conversationThread)
 {
 
 }
 
 //-------------------------------------------------------------------------
-
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-
-ConversationThreadDelegate::ConversationThreadDelegate(boost::shared_ptr<Account> parentAccount) : mParentAccount(parentAccount)
+void Account::onConversationThreadContactsChanged(hookflash::core::IConversationThreadPtr conversationThread)
 {
 
 }
 
 //-------------------------------------------------------------------------
-ConversationThreadDelegate::~ConversationThreadDelegate()
-{
-}
-
-//-------------------------------------------------------------------------
-void ConversationThreadDelegate::onConversationThreadNew(hookflash::core::IConversationThreadPtr conversationThread)
-{
-
-}
-
-//-------------------------------------------------------------------------
-void ConversationThreadDelegate::onConversationThreadContactsChanged(hookflash::core::IConversationThreadPtr conversationThread)
-{
-
-}
-
-//-------------------------------------------------------------------------
-void ConversationThreadDelegate::onConversationThreadContactStateChanged(
+void Account::onConversationThreadContactStateChanged(
                                                      hookflash::core::IConversationThreadPtr conversationThread,
                                                      hookflash::core::IContactPtr contact,
                                                      hookflash::core::IConversationThread::ContactStates state)
@@ -201,7 +173,7 @@ void ConversationThreadDelegate::onConversationThreadContactStateChanged(
 }
 
 //-------------------------------------------------------------------------
-void ConversationThreadDelegate::onConversationThreadMessage(
+void Account::onConversationThreadMessage(
                                          hookflash::core::IConversationThreadPtr conversationThread,
                                          const char *messageID)
 {
@@ -209,7 +181,7 @@ void ConversationThreadDelegate::onConversationThreadMessage(
 }
 
 //-------------------------------------------------------------------------
-void ConversationThreadDelegate::onConversationThreadMessageDeliveryStateChanged(
+void Account::onConversationThreadMessageDeliveryStateChanged(
                                                              hookflash::core::IConversationThreadPtr conversationThread,
                                                              const char *messageID,
                                                              hookflash::core::IConversationThread::MessageDeliveryStates state)
@@ -218,7 +190,7 @@ void ConversationThreadDelegate::onConversationThreadMessageDeliveryStateChanged
 }
 
 //-------------------------------------------------------------------------
-void ConversationThreadDelegate::onConversationThreadPushMessage(
+void Account::onConversationThreadPushMessage(
                                              hookflash::core::IConversationThreadPtr conversationThread,
                                              const char *messageID,
                                              hookflash::core::IContactPtr contact)
@@ -227,23 +199,10 @@ void ConversationThreadDelegate::onConversationThreadPushMessage(
 }
 
 //-------------------------------------------------------------------------
-
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-
-CallDelegate::CallDelegate(boost::shared_ptr<Account> parentAccount) : mParentAccount(parentAccount)
-{
-
-}
-
-//-------------------------------------------------------------------------
-CallDelegate::~CallDelegate()
-{
-}
-
-//-------------------------------------------------------------------------
-void CallDelegate::onCallStateChanged(hookflash::core::ICallPtr call, hookflash::core::ICall::CallStates state)
+void Account::onCallStateChanged(hookflash::core::ICallPtr call, hookflash::core::ICall::CallStates state)
 {
 
 }
