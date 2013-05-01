@@ -4,6 +4,7 @@
 #include "session.h"
 #include "account.h"
 #include "contactsManager.h"
+#include "contact.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -196,13 +197,18 @@ void RootPane::AddContactsToUI()
   // is an array, a QVariant(QVariantList) is returned from load(). You can
   // provide a QVariantList to a data model directly by using insertList().
 
+  const ContactsManager::ContactVector& contacts = mAppUI->GetSession()->GetContactsManager()->GetContactVector();
+  int size = contacts.size();
 
-//  mContactModel->insertList(list.value<QVariantList>());
-//  QVariantMap itemMap;
-//  itemMap["id"] = "123456";
-//  itemMap["fullName"] = "Erik Langerway";
-//  itemMap["pictureUrl"] = "../images/contact.png";
-//  mContactModel->insert(itemMap);
+  // TODO: use iterator
+  for(int i= 0; i<size; i++) {
+    QVariantMap itemMap;
+    itemMap["id"] = contacts.at(i)->GetIdentityURI().c_str();
+    itemMap["fullName"] = contacts.at(i)->GetFullName().c_str();
+    itemMap["pictureUrl"] = contacts.at(i)->GetPictureUrl().c_str();
+    mContactModel->insert(itemMap);
+  }
+
   int n = mContactModel->size();
 
   // Set the data model for the list view
@@ -214,14 +220,18 @@ void RootPane::AddContactsToUI()
 void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
 {
   mAppUI->GetSession()->GetContactsManager()->handleIdentityLookupResult(lookup->getIdentities());
-  AddContactsToUI();
-
   mIdentityLookup.reset();
+
+  hookflash::core::ContactList contactList;
+  mAppUI->GetSession()->GetContactsManager()->prepareContactListForContactPeerFilePublicLookup(contactList);
+
+  mContactPeerFilePublicLookup = hookflash::core::IContactPeerFilePublicLookup::create(mThisCallback, contactList);
 }
 
 // IContactPeerFilePublicLookupDelegate
 void RootPane::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup)
 {
+  AddContactsToUI();
 }
 
 //-----------------------------------------------------------------

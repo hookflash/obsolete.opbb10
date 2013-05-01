@@ -88,7 +88,7 @@ void ContactsManager::AddContactsFromJSON(const std::string& json)
     if ((id.hasData()) ||
         (fullName.hasData()) ||
         (pictureURL.hasData())) {
-      AddContact("facebook.com", id, fullName, pictureURL);
+      AddContact("facebook.com", fullName, id, pictureURL);
     }
 
     unknownEl = unknownEl->getNextSiblingElement();
