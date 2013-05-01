@@ -206,7 +206,7 @@ void RootPane::AddContactsToUI()
       QVariantMap itemMap;
       itemMap["id"] = contacts.at(i)->GetIdentityURI().c_str();
       itemMap["fullName"] = contacts.at(i)->GetFullName().c_str();
-      itemMap["pictureUrl"] = contacts.at(i)->GetPictureUrl().c_str();
+      itemMap["pictureUrl"] = contacts.at(i)->GetPictureURL().c_str();
       mContactModel->insert(itemMap);
     }
   }

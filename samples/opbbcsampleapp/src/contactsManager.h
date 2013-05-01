@@ -55,6 +55,8 @@ namespace hookflash {
 
     class ContactsManager {
     public:
+      typedef zsLib::PUID PUID;
+      typedef zsLib::String String;
       typedef hookflash::core::IdentityLookupInfoListPtr IdentityLookupInfoListPtr;
       typedef hookflash::core::ContactList ContactList;
       typedef hookflash::core::IdentityURIList IdentityURIList;
@@ -63,8 +65,13 @@ namespace hookflash {
       typedef std::string IdentityURI;
       typedef std::map<IdentityURI, ContactPtr> ContactMap;
 
+    protected:
+      ContactsManager(SessionPtr session);
+
     public:
       static ContactsManagerPtr CreateInstance(SessionPtr session);
+
+      ~ContactsManager();
 
       void LoadContacts();
 
@@ -97,11 +104,13 @@ namespace hookflash {
 
       const ContactVector& GetContactVector() { return mContacts; }
 
+    protected:
+      String log(const char *message) const;
+
     private:
 
-      ContactsManager(SessionPtr session) : mSession(session) {}
-
-      ContactsManagerWeakPtr mWeakThis;
+      PUID mID;
+      ContactsManagerWeakPtr mThisWeak;
       SessionPtr mSession;
 
       ContactVector mContacts;

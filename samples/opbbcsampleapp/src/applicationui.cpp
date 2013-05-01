@@ -8,6 +8,10 @@
 
 #include <hookflash/core/ILogger.h>
 
+#include <zsLib/Log.h>
+
+namespace hookflash { namespace blackberry { ZS_DECLARE_SUBSYSTEM(hookflash_blackberry) } }
+
 using namespace bb::cascades;
 using namespace hookflash::blackberry;
 using hookflash::core::ILogger;
