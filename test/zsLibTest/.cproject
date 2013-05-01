@@ -26,8 +26,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.436642462" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.1911780432" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.382605923" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1274857794" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -57,9 +57,6 @@
 							<tool id="com.qnx.qcc.tool.archiver.640579525" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.723891373"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.qnx.qcc.toolChain.1005788229.761769601" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1071027461.1800335479">
-						<tool id="com.qnx.qcc.tool.compiler.1071027461.1800335479" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1071027461"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry excluding="zsLibTest/main.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
@@ -90,8 +87,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.1869382551" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.1191420248" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.165074273" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1043135121" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -121,9 +118,6 @@
 							<tool id="com.qnx.qcc.tool.archiver.1595936713" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.1944482032"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.qnx.qcc.toolChain.1955481239.365577101" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1868246304.200314030">
-						<tool id="com.qnx.qcc.tool.compiler.1868246304.200314030" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1868246304"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
@@ -154,8 +148,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.349972195" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.887509196" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.1076588773" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.2066543542" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -185,9 +179,6 @@
 							<tool id="com.qnx.qcc.tool.archiver.251021994" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.756710620"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.qnx.qcc.toolChain.1344814260.893102153" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.989909272.756443612">
-						<tool id="com.qnx.qcc.tool.compiler.989909272.756443612" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.989909272"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
@@ -218,8 +209,8 @@
 							<tool id="com.qnx.qcc.tool.compiler.1982812076" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.895451829" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.500133580" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/zsLibTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.848725754" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -249,9 +240,6 @@
 							<tool id="com.qnx.qcc.tool.archiver.972103430" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver.712887899"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.qnx.qcc.toolChain.982466006.2136902579" name="TestProxyUsingGUIThread.cpp" rcbsApplicability="disable" resourcePath="src/zsLibTest/TestProxyUsingGUIThread.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.799104187.1481767306">
-						<tool id="com.qnx.qcc.tool.compiler.799104187.1481767306" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.799104187"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>

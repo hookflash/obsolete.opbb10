@@ -22,15 +22,19 @@
 							<option id="com.qnx.qcc.option.compiler.860276222" name="Compiler:" superClass="com.qnx.qcc.option.compiler"/>
 							<option id="com.qnx.qcc.option.runtime.1922329110" name="Runtime:" superClass="com.qnx.qcc.option.runtime"/>
 							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.1449854716" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
-							<builder autoBuildTarget="Device-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.2069327922.1236227993" incrementalBuildTarget="Device-Debug" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<builder autoBuildTarget="Device-Debug" enableAutoBuild="true" id="com.qnx.qcc.toolChain.2069327922.1236227993" incrementalBuildTarget="Device-Debug" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="org.eclipse.cdt.build.core.settings.default.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
+								</outputEntries>
+							</builder>
 							<tool id="com.qnx.qcc.tool.compiler.1690273609" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.704152354" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.1462265318" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-core"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/cryptopp"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/udns"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/cryptopp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/udns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1406197109" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -41,9 +45,6 @@
 							<tool id="com.qnx.qcc.tool.archiver.1154909802" name="QCC Archiver" superClass="com.qnx.qcc.tool.archiver"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.qnx.qcc.toolChain.2069327922.1752405675" name="main.cpp" rcbsApplicability="disable" resourcePath="src/test/main.cpp" toolsToInvoke="com.qnx.qcc.tool.compiler.1690273609.1428478715">
-						<tool id="com.qnx.qcc.tool.compiler.1690273609.1428478715" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler.1690273609"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry excluding="test/main.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
@@ -74,11 +75,11 @@
 							<tool id="com.qnx.qcc.tool.compiler.818611639" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.884113372" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.1968471426" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-core"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/cryptopp"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/udns"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/cryptopp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/udns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.479484210" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -119,11 +120,11 @@
 							<tool id="com.qnx.qcc.tool.compiler.802309151" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.181432524" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.524366792" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-core"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/cryptopp"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/udns"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/cryptopp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/udns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.915610594" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -164,11 +165,11 @@
 							<tool id="com.qnx.qcc.tool.compiler.1218313407" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.850705867" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.1922200135" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/zsLib"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/bbBoost"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-core"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/cryptopp"/>
-									<listOptionValue builtIn="false" value="../../../../op/hookflash-libs/udns"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/zsLib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/cryptopp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/udns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../hookflash-libs/boost}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1169737132" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
