@@ -202,11 +202,13 @@ void RootPane::AddContactsToUI()
 
   // TODO: use iterator
   for(int i= 0; i<size; i++) {
-    QVariantMap itemMap;
-    itemMap["id"] = contacts.at(i)->GetIdentityURI().c_str();
-    itemMap["fullName"] = contacts.at(i)->GetFullName().c_str();
-    itemMap["pictureUrl"] = contacts.at(i)->GetPictureUrl().c_str();
-    mContactModel->insert(itemMap);
+    if(contacts.at(i)->GetContact()) {
+      QVariantMap itemMap;
+      itemMap["id"] = contacts.at(i)->GetIdentityURI().c_str();
+      itemMap["fullName"] = contacts.at(i)->GetFullName().c_str();
+      itemMap["pictureUrl"] = contacts.at(i)->GetPictureUrl().c_str();
+      mContactModel->insert(itemMap);
+    }
   }
 
   int n = mContactModel->size();
