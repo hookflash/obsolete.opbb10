@@ -16,8 +16,11 @@ namespace hookflash {
     {
         Q_OBJECT
     public:
+        friend class LoginPaneDelegates;
+
+    public:
         LoginPane(boost::shared_ptr<Session> session, RootPane* rootPane);
-        virtual ~LoginPane() {}
+        virtual ~LoginPane();
 
         Q_INVOKABLE void OnLoginClick(bb::cascades::NavigationPane* navigationPane);
         Q_INVOKABLE bool OnNavigationRequested(QUrl url);
@@ -33,24 +36,26 @@ namespace hookflash {
         RootPane* mRootPane;
         bb::cascades::Page* mPage;
         bb::cascades::WebView* mWebView;
-        boost::shared_ptr<Session> mSession;
-        boost::shared_ptr<UserIdentity> mIdentity;
-        boost::shared_ptr<LoginPaneLoginUIDelegate> mLoginUIDelegate;
+        SessionPtr mSession;
+        UserIdentityPtr mIdentity;
+        LoginPaneDelegatesPtr mThisDelegates;
         bool mPageHasLoaded;
         std::string mJsToEvaluateWhenPageLoaded;
     };
 
-    class LoginPaneLoginUIDelegate : public ILoginUIDelegate
+    class LoginPaneDelegates : public ILoginUIDelegate
     {
     public:
-        LoginPaneLoginUIDelegate(LoginPane* parentPane) : mParentPane(parentPane) {}
-        virtual ~LoginPaneLoginUIDelegate() {}
+      LoginPaneDelegates(LoginPane* outer) : mOuter(outer) {}
+      virtual ~LoginPaneDelegates() {}
 
-        void NavigateTo(const std::string& url) { mParentPane->NavigateTo(url); }
-        virtual void CallJavaScript(const std::string& js) { mParentPane->CallJavaScript(js); }
+      void destroy() {mOuter = NULL;}
+
+      virtual void NavigateTo(const std::string& url) { if (!mOuter) return; mOuter->NavigateTo(url); }
+      virtual void CallJavaScript(const std::string& js) { if (!mOuter) return; mOuter->CallJavaScript(js); }
 
     private:
-        LoginPane* mParentPane;
+      LoginPane *mOuter;
     };
   };
 };

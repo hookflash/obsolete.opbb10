@@ -16,8 +16,8 @@ namespace hookflash
 
     // non boost class forwards
     class ApplicationUI;
-    class LoginPane;
     class LogDelegate;
+    class LoginPane;
     class RootPane;
 
     // boost based class forwards
@@ -33,17 +33,17 @@ namespace hookflash
     typedef boost::shared_ptr<ContactsManager> ContactsManagerPtr;
     typedef boost::weak_ptr<ContactsManager> ContactsManagerWeakPtr;
 
-    class LoginPaneLoginUIDelegate;
-    typedef boost::shared_ptr<LoginPaneLoginUIDelegate> LoginPaneLoginUIDelegatePtr;
-    typedef boost::weak_ptr<LoginPaneLoginUIDelegate> LoginPaneLoginUIDelegateWeakPtr;
+    class LoginPaneDelegates;
+    typedef boost::shared_ptr<LoginPaneDelegates> LoginPaneDelegatesPtr;
+    typedef boost::weak_ptr<LoginPaneDelegates> LoginPaneDelegatesWeakPtr;
 
     class ILoginUIDelegate;
     typedef boost::shared_ptr<ILoginUIDelegate> ILoginUIDelegatePtr;
     typedef boost::weak_ptr<ILoginUIDelegate> ILoginUIDelegateWeakPtr;
 
-    class RootPaneCallback;
-    typedef boost::shared_ptr<RootPaneCallback> RootPaneCallbackPtr;
-    typedef boost::weak_ptr<RootPaneCallback> RootPaneCallbackWeakPtr;
+    class RootPaneDelegates;
+    typedef boost::shared_ptr<RootPaneDelegates> RootPaneDelegatesPtr;
+    typedef boost::weak_ptr<RootPaneDelegates> RootPaneDelegatesWeakPtr;
 
     class Session;
     typedef boost::shared_ptr<Session> SessionPtr;

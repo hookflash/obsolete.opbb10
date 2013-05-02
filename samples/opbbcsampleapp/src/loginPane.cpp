@@ -24,10 +24,10 @@ LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane) :
       mRootPane(rootPane),
       mPageHasLoaded(false)
 {
-  mLoginUIDelegate = boost::shared_ptr<LoginPaneLoginUIDelegate>(new LoginPaneLoginUIDelegate(this));
+  mThisDelegates = LoginPaneDelegatesPtr(new LoginPaneDelegates(this));
 
   mIdentity = mSession->GetIdentity();
-  mIdentity->SetLoginUIDelegate(mLoginUIDelegate);
+  mIdentity->SetLoginUIDelegate(mThisDelegates);
   std::string uri = session->GetIdentityURI();
   std::string url = mIdentity->GetRedirectAfterLoginCompleteURL();
   mIdentity->BeginLogin(uri);
@@ -42,6 +42,13 @@ LoginPane::LoginPane(shared_ptr<Session> session, RootPane* rootPane) :
   mWebView = containerObj->findChild<WebView*>("webView");
   mWebView->storage()->clearCache();
 }
+
+LoginPane::~LoginPane()
+{
+  mThisDelegates->destroy();
+  mThisDelegates.reset();
+}
+
 
 void LoginPane::OnLoginClick(NavigationPane* navigationPane)
 {

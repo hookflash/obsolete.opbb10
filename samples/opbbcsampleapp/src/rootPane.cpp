@@ -31,7 +31,7 @@ using namespace hookflash::blackberry;
 //-----------------------------------------------------------------
 RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(NULL), mCallWindowIsOpen(false)
 {
-  mThisCallback = RootPaneCallbackPtr(new RootPaneCallback(this));
+  mThisDelegates = RootPaneDelegatesPtr(new RootPaneDelegates(this));
 
   // create scene document from main.qml asset
   // set parent to created document to ensure it exists for the whole application lifetime
@@ -83,8 +83,8 @@ RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(N
 RootPane::~RootPane()
 {
   // IMPORTANT: This prevents crashing on unfinished delegates
-  mThisCallback->destroy();
-  mThisCallback.reset();
+  mThisDelegates->destroy();
+  mThisDelegates.reset();
 }
 
 //-----------------------------------------------------------------
@@ -176,7 +176,7 @@ void RootPane::ProcessFbFriends(const QString& data)
 
     mIdentityLookup = hookflash::core::IIdentityLookup::create(
         mAppUI->GetSession()->GetAccount()->GetCoreAccount(),
-        mThisCallback,
+        mThisDelegates,
         identityURIs);
   }
 }
@@ -227,7 +227,7 @@ void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr loo
   hookflash::core::ContactList contactList;
   mAppUI->GetSession()->GetContactsManager()->prepareContactListForContactPeerFilePublicLookup(contactList);
 
-  mContactPeerFilePublicLookup = hookflash::core::IContactPeerFilePublicLookup::create(mThisCallback, contactList);
+  mContactPeerFilePublicLookup = hookflash::core::IContactPeerFilePublicLookup::create(mThisDelegates, contactList);
 }
 
 // IContactPeerFilePublicLookupDelegate
@@ -263,15 +263,15 @@ void RootPane::CreateVideoRenderer() {
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
-void RootPaneCallback::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
+void RootPaneDelegates::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
 {
-  if (!mRootPane) return;
-  mRootPane->onIdentityLookupCompleted(lookup);
+  if (!mOuter) return;
+  mOuter->onIdentityLookupCompleted(lookup);
 }
 
-void RootPaneCallback::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup)
+void RootPaneDelegates::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup)
 {
-  if (!mRootPane) return;
-  mRootPane->onContactPeerFilePublicLookupCompleted(lookup);
+  if (!mOuter) return;
+  mOuter->onContactPeerFilePublicLookupCompleted(lookup);
 }
 

@@ -25,7 +25,7 @@ namespace hookflash {
     {
         Q_OBJECT
     public:
-        friend class RootPaneCallback;
+        friend class RootPaneDelegates;
 
     public:
         RootPane(ApplicationUI* appUI);
@@ -59,7 +59,7 @@ namespace hookflash {
     private:
         void CreateVideoRenderer();
 
-        RootPaneCallbackPtr mThisCallback;
+        RootPaneDelegatesPtr mThisDelegates;
 
         ApplicationUI* mAppUI;
         LoginPane* mLoginPane;
@@ -75,14 +75,14 @@ namespace hookflash {
         hookflash::core::IContactPeerFilePublicLookupPtr mContactPeerFilePublicLookup;
     };
 
-    class RootPaneCallback : public hookflash::core::IIdentityLookupDelegate,
-                             public hookflash::core::IContactPeerFilePublicLookupDelegate
+    class RootPaneDelegates : public hookflash::core::IIdentityLookupDelegate,
+                              public hookflash::core::IContactPeerFilePublicLookupDelegate
     {
     public:
-      RootPaneCallback(RootPane* rootPane) : mRootPane(rootPane) {}
-      virtual ~RootPaneCallback() {}
+      RootPaneDelegates(RootPane* outer) : mOuter(outer) {}
+      virtual ~RootPaneDelegates() {}
 
-      void destroy() {mRootPane = NULL;}
+      void destroy() {mOuter = NULL;}
 
       // IIdentityLookupDelegate
       virtual void onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup);
@@ -91,7 +91,7 @@ namespace hookflash {
       virtual void onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup);
 
     private:
-      RootPane* mRootPane; // Bare pointer - this is owned by QT
+      RootPane* mOuter; // Bare pointer - this is owned by QT
     };
 
   };
