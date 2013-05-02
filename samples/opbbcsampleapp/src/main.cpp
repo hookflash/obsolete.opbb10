@@ -10,7 +10,8 @@
 // this feature is enabled by default in the debug build only
 #include <Qt/qdeclarativedebug.h>
 
-#include <zsLib/Log.h>
+#include "types.h"
+
 
 namespace hookflash { namespace blackberry { ZS_IMPLEMENT_SUBSYSTEM(hookflash_blackberry) } }
 

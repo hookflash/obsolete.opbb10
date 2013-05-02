@@ -1,4 +1,4 @@
-
+.DS_Store
 *.o
 *.a
 *.so
@@ -14,3 +14,9 @@ moc_*.cpp
 /Device-Release
 samples/opbbcsampleapp/arm
 samples/opbbcsampleapp/.settings
+samples/opbbcsampleapp/config.pri
+test/hfservicesTest/arm
+test/hfservicesTest/config.pri
+test/zsLibTest/arm
+test/zsLibTest/config.pri
+

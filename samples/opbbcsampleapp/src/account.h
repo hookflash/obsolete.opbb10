@@ -1,24 +1,14 @@
 #ifndef HFBB_ACCOUNT_H
 #define HFBB_ACCOUNT_H
 
+#include "types.h"
+
 #include <hookflash/core/IAccount.h>
 #include <hookflash/core/IConversationThread.h>
 #include <hookflash/core/ICall.h>
 
 namespace hookflash {
   namespace blackberry {
-
-    class Account;
-    typedef boost::shared_ptr<Account> AccountPtr;
-    typedef boost::weak_ptr<Account> AccountWeakPtr;
-
-    class Session;
-    typedef boost::shared_ptr<Session> SessionPtr;
-    typedef boost::weak_ptr<Session> SessionWeakPtr;
-
-    class Contact;
-    typedef boost::shared_ptr<Contact> ContactPtr;
-    typedef boost::weak_ptr<Contact> ContactWeakPtr;
 
     //-------------------------------------------------------------------------------
     class Account : public hookflash::core::IAccountDelegate,

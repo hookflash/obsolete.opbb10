@@ -5,16 +5,12 @@
 #include <bb/cascades/Page>
 #include <bb/cascades/NavigationPane>
 #include <bb/cascades/WebView>
-#include "boost/smart_ptr.hpp"
 #include <userIdentity.h>
+
+#include "types.h"
 
 namespace hookflash {
   namespace blackberry {
-
-    class RootPane;
-    class Session;
-    class UserIdentity;
-    class LoginPaneLoginUIDelegate;
 
     class LoginPane : public QObject, public ILoginUIDelegate
     {

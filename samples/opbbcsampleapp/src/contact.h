@@ -32,6 +32,8 @@
 #ifndef _HF_CONTACT_
 #define _HF_CONTACT_
 
+#include "types.h"
+
 #include <hookflash/core/IContact.h>
 
 #include <vector>

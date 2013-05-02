@@ -3,15 +3,11 @@
 
 #include <QObject>
 #include <bb/cascades/Application>
-#include "boost/smart_ptr.hpp"
-#include <zsLib/Log.h>
+
+#include "types.h"
 
 namespace hookflash {
   namespace blackberry {
-
-    class RootPane;
-    class Session;
-    class LogDelegate;
 
     //-------------------------------------------------------------------------
 

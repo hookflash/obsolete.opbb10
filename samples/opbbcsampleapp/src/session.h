@@ -1,30 +1,14 @@
 #ifndef HFBB_SESSION_H
 #define HFBB_SESSION_H
 
-#include "hookflash/core/types.h"
-#include "hookflash/core/IStack.h"
-#include "hookflash/core/IMediaEngine.h"
+#include <hookflash/core/types.h>
+#include <hookflash/core/IStack.h>
+#include <hookflash/core/IMediaEngine.h>
+
+#include "types.h"
 
 namespace hookflash {
   namespace blackberry {
-
-    class ApplicationUI;
-
-    class UserIdentity;
-    typedef boost::shared_ptr<UserIdentity> UserIdentityPtr;
-    typedef boost::weak_ptr<UserIdentity> UserIdentityWeakPtr;
-
-    class Account;
-    typedef boost::shared_ptr<Account> AccountPtr;
-    typedef boost::weak_ptr<Account> AccountWeakPtr;
-
-    class ContactsManager;
-    typedef boost::shared_ptr<ContactsManager> ContactsManagerPtr;
-    typedef boost::weak_ptr<ContactsManager> ContactsManagerWeakPtr;
-
-    class Session;
-    typedef boost::shared_ptr<Session> SessionPtr;
-    typedef boost::weak_ptr<Session> SessionWeakPtr;
 
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------

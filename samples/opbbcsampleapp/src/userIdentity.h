@@ -1,22 +1,13 @@
 #ifndef HFBB_IDENTITY_H
 #define HFBB_IDENTITY_H
 
-#include "hookflash/core/IIdentity.h"
+#include <hookflash/core/IIdentity.h>
+
+#include "types.h"
 
 namespace hookflash {
   namespace blackberry {
 
-    class ILoginUIDelegate;
-    typedef boost::shared_ptr<ILoginUIDelegate> ILoginUIDelegatePtr;
-    typedef boost::weak_ptr<ILoginUIDelegate> ILoginUIDelegateWeakPtr;
-
-    class Session;
-    typedef boost::shared_ptr<Session> SessionPtr;
-    typedef boost::weak_ptr<Session> SessionWeakPtr;
-
-    class UserIdentity;
-    typedef boost::shared_ptr<UserIdentity> UserIdentityPtr;
-    typedef boost::weak_ptr<UserIdentity> UserIdentityWeakPtr;
 
     class ILoginUIDelegate {
     public:

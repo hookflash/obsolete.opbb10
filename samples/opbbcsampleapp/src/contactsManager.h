@@ -32,26 +32,15 @@
 #ifndef _HF_CONTACTS_MANAGER_
 #define _HF_CONTACTS_MANAGER_
 
+#include "types.h"
+
 #include <hookflash/core/IIdentityLookup.h>
 
-#include <boost/smart_ptr.hpp>
 #include <vector>
 #include <map>
 
 namespace hookflash {
   namespace blackberry {
-
-    class Session;
-    typedef boost::shared_ptr<Session> SessionPtr;
-    typedef boost::weak_ptr<Session> SessionWeakPtr;
-
-    class Contact;
-    typedef boost::shared_ptr<Contact> ContactPtr;
-    typedef boost::weak_ptr<Contact> ContactWeakPtr;
-
-    class ContactsManager;
-    typedef boost::shared_ptr<ContactsManager> ContactsManagerPtr;
-    typedef boost::weak_ptr<ContactsManager> ContactsManagerWeakPtr;
 
     class ContactsManager {
     public:

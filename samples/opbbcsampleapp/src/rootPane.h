@@ -11,22 +11,15 @@
 #include <hookflash/core/IIdentityLookup.h>
 #include <hookflash/core/IContactPeerFilePublicLookup.h>
 
+#include "types.h"
+
 #include "video_render_bb_impl.h"
 #include "bb_window_wrapper.h"
 #include "video_render.h"
 
-#include <boost/smart_ptr.hpp>
 
 namespace hookflash {
   namespace blackberry {
-
-    class ApplicationUI;
-    class LoginPane;
-    class ContactsManager;
-    class RootPaneCallback;
-
-    typedef boost::shared_ptr<RootPaneCallback> RootPaneCallbackPtr;
-    typedef boost::weak_ptr<RootPaneCallback> RootPaneCallbackWeakPtr;
 
     class RootPane : public QObject
     {
