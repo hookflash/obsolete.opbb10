@@ -3,7 +3,7 @@ opbb10
 
 Thank you for downloading Hookflash's Open Peer BlackBerry 10 SDK (QNX based).
 
-At this point in time we are actively in the porting process of the "op" project for BB10 and samples will be made available as the project developers.
+At this point in time we are actively in the porting process of the "op" project for BB10 and samples will be made available as the project develops.
 
 If you are interested in monitoring our progress, please clone our developmental json branch of our open peer C++ library.
 
