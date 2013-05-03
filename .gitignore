@@ -15,6 +15,8 @@ moc_*.cpp
 samples/opbbcsampleapp/arm
 samples/opbbcsampleapp/.settings
 samples/opbbcsampleapp/config.pri
+samples/qmlTest/arm
+samples/qmlTest/config.pri
 test/hfservicesTest/arm
 test/hfservicesTest/config.pri
 test/zsLibTest/arm
