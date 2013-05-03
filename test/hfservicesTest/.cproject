@@ -30,14 +30,6 @@
 							<tool id="com.qnx.qcc.tool.compiler.1690273609" name="QCC Compiler" superClass="com.qnx.qcc.tool.compiler">
 								<option id="com.qnx.qcc.option.compiler.optlevel.704152354" name="Optimization Level" superClass="com.qnx.qcc.option.compiler.optlevel" value="com.qnx.qcc.option.compiler.optlevel.0" valueType="enumerated"/>
 								<option id="com.qnx.qcc.option.compiler.includePath.1462265318" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbzsLib/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbzsLib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbudns/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbudns}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbhfservices/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbhfservices}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbcryptopp/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbcryptopp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/zsLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-core}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/hfservicesTest/../../../op/hookflash-libs/cryptopp}&quot;"/>
@@ -47,16 +39,7 @@
 								<inputType id="com.qnx.qcc.inputType.compiler.1406197109" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
 							<tool id="com.qnx.qcc.tool.assembler.545102443" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
-								<option id="com.qnx.qcc.option.assembler.includePath.113122970" name="Include Directories (-I)" superClass="com.qnx.qcc.option.assembler.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbzsLib/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbzsLib}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbudns/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbudns}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbhfservices/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbhfservices}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbcryptopp/public}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bbcryptopp}&quot;"/>
-								</option>
+								<option id="com.qnx.qcc.option.assembler.includePath.113122970" name="Include Directories (-I)" superClass="com.qnx.qcc.option.assembler.includePath" valueType="includePath"/>
 								<inputType id="com.qnx.qcc.inputType.assembler.12987762" superClass="com.qnx.qcc.inputType.assembler"/>
 							</tool>
 							<tool id="com.qnx.qcc.tool.linker.1721914567" name="QCC Linker" superClass="com.qnx.qcc.tool.linker"/>
@@ -99,10 +82,8 @@
 				<externalSettings containerId="bbzsLib;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/bbzsLib/public"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/bbzsLib"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/bbzsLib/Device-Debug"/>
 						<entry flags="" kind="libraryFile" name="bbzsLib"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="bbzsLib"/>
 					</externalSetting>
 				</externalSettings>
 			</storageModule>
