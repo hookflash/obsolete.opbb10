@@ -1,0 +1,4 @@
+<root>
+    <contactitem fullName="Erik Langerway"        pictureUrl="../images/contact.png"      id="erik@hookflash.com"/>
+    <contactitem fullName="Robin Raymond"         pictureUrl="../images/contact.png"      id="robin@hookflash.com"/>
+</root>

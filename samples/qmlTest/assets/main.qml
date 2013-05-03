@@ -22,54 +22,54 @@ TabbedPane {
         id: tabStartup
         title: qsTr("Home")
         objectName: "tabStartup"
-        NavigationPane {
+        NavigationPane
+        {
             id: navigationPaneStartup
-            Page {
+	        Page {
                 actionBarVisibility: ChromeVisibility.Hidden
                 Container {
-                    id: containerStartup
-                    topPadding: 200.0
-                    horizontalAlignment: HorizontalAlignment.Center
-                    Label {
-                        text: "Open Peer BB10 SDK"
-                        textFormat: TextFormat.Plain
-                        textStyle.base: SystemDefaults.TextStyles.BigText
-                        textStyle.fontSize: FontSize.Default
-                        textStyle.textAlign: TextAlign.Center
-                        textStyle.color: Color.Gray
-                        horizontalAlignment: HorizontalAlignment.Center
+	                id: containerStartup
+	                topPadding: 200.0
+	                horizontalAlignment: HorizontalAlignment.Center
+	                Label {
+	                    text: "Open Peer BB10 SDK"
+	                    textFormat: TextFormat.Plain
+	                    textStyle.base: SystemDefaults.TextStyles.BigText
+	                    textStyle.fontSize: FontSize.Default
+	                    textStyle.textAlign: TextAlign.Center
+	                    textStyle.color: Color.Gray
+	                    horizontalAlignment: HorizontalAlignment.Center
                     }
-                    Label {
-                        text: "Sample App"
-                        textFormat: TextFormat.Plain
-                        textStyle.base: SystemDefaults.TextStyles.BigText
-                        textStyle.fontSize: FontSize.Default
-                        textStyle.textAlign: TextAlign.Center
-                        textStyle.color: Color.Gray
-                        horizontalAlignment: HorizontalAlignment.Center
-                    }
-                    Button {
-                        text: "Login through FaceBook"
-                        onClicked: {
-                            console.log("*** sheetWebView: closing");
-                            var page = pageWebViewCompDef.createObject();
+	                Label {
+	                    text: "Sample App"
+	                    textFormat: TextFormat.Plain
+	                    textStyle.base: SystemDefaults.TextStyles.BigText
+	                    textStyle.fontSize: FontSize.Default
+	                    textStyle.textAlign: TextAlign.Center
+	                    textStyle.color: Color.Gray
+	                    horizontalAlignment: HorizontalAlignment.Center
+	                }
+	                Button {
+	                    text: "Login through FaceBook"
+	                    onClicked: {
+	                        console.log("*** sheetWebview: closing");
+                            var page = pageWebviewCompDef.createObject();
                             navigationPaneStartup.push(page);
-                            cppParent.OnLoginClick();
-                        }
-                        topMargin: 150.0
-                        horizontalAlignment: HorizontalAlignment.Center
-
-                    }
-                }
-            }
+	                    }
+	                    topMargin: 150.0
+	                    horizontalAlignment: HorizontalAlignment.Center
+	
+	                }
+	            }
+	        }
         }
         attachedObjects: [
             ComponentDefinition {
-                id: pageWebViewCompDef
+                id: pageWebviewCompDef
                 Page {
-                    id: pageWebView
+                    id: pageWebview
                     Container {
-                        id: containerWebView
+                        id: containerWebview
                         Label {
                             id: labelLoading
                             text: "Loading"
@@ -81,7 +81,7 @@ TabbedPane {
                             horizontalAlignment: HorizontalAlignment.Center
                         }
                         ActivityIndicator {
-                            id: activityIndicatorWebView
+                            id: activityIndicatorWebview
                             running: true
                             verticalAlignment: VerticalAlignment.Center
                             horizontalAlignment: HorizontalAlignment.Center
@@ -96,19 +96,19 @@ TabbedPane {
                         }
 
                         Button {
-                            id: buttonShowWebView
-                            text: "Show WebView"
+                            id: buttonShowWebview
+                            text: "Show Webview"
                             onClicked: {
-                                console.log("*** sheetWebView: showing webView");
-                                activityIndicatorWebView.visible = false;
+                                console.log("*** sheetWebview: showing webview");
+                                activityIndicatorWebview.visible = false;
                                 labelLoading.visible = false;
-                                buttonShowWebView.visible = false;
-                                webViewLogin.visible = true;
+                                buttonShowWebview.visible = false;
+                                webviewLogin.visible = true;
                             }
                         }
                         WebView {
-                            id: webViewLogin
-                            objectName: "webViewLogin"
+                            id: webviewLogin
+                            url: "http://google.com"
                             visible: false
 
                         }
@@ -138,29 +138,22 @@ TabbedPane {
         NavigationPane {
             id: navigationPaneContacts
             Page {
-                id: pageContacts
-                actions: [
-                    // define the actions for tab here
-                    ActionItem {
-                        title: qsTr("Raise")
-                        onTriggered: {
-                            // run the image animation
-                            raiseAnimation.play();
-                        }
-                    }
-                ]
-                objectName: "tabContactsPage"
-                Container {
-                    id: containerContacts
-                    WebView {
-                        id: webViewContacts
-                        objectName: "webViewContacts"
-                        visible: false
-
-                    }
+	            id: pageContacts
+	            actions: [
+	                // define the actions for tab here
+	                ActionItem {
+	                    title: qsTr("Raise")
+	                    onTriggered: {
+	                        // run the image animation
+	                        raiseAnimation.play();
+	                    }
+	                }
+	            ]
+	            objectName: "tabContactsPage"
+	            Container {
+	                id: containerContacts
                     ListView {
                         id: listViewContacts
-                        objectName: "listViewContacts"
                         dataModel: XmlDataModel {
                             source: "asset:///models/contactModel.xml"
                         }
@@ -205,7 +198,7 @@ TabbedPane {
                         }
 
                     }
-                }
+	            }
             } // Page
         } // Navigation Pane
 

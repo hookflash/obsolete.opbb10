@@ -1,8 +1,5 @@
 1
-22
-Common/ContactItem.qml
-ContactAction.qml
-contactDelegate.qml
+16
 images/avatar.png
 images/chat.png
 images/contact.png
@@ -16,9 +13,6 @@ images/picture1.png
 images/picture1br.png
 images/unmuted.png
 images/videocall.png
-main-old.qml
 main.qml
 models/contactModel.xml
-nav.qml
-videoCall.qml
-weblogin.qml
+webpage.qml

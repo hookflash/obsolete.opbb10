@@ -284,7 +284,7 @@ void Account::onAccountStateChanged(hookflash::core::IAccountPtr account, Accoun
   if(hookflash::core::IAccount::AccountState_Ready) {
     qDebug() << "AccountDelegate::onAccountStateChanged: Ready";
     WritePeerFiles();
-    GetSession()->GetAppUI()->GetRootPane()->GetLoginPane()->NavigateTo(GetSession()->GetContactsURL());
+    GetSession()->GetAppUI()->GetRootPane()->ContactsNavigateTo(GetSession()->GetContactsURL());
   }
 }
 

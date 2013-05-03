@@ -76,7 +76,7 @@ void UserIdentity::OnWaitingToLoadBrowserWindow()
   std::string js = "initInnerFrame('";
   js += mOpIdentity->getIdentityLoginURL();
   js += "')";
-  mLoginUIDelegate->CallJavaScript(js);
+  mLoginUIDelegate->LoginCallJavaScript(js);
 }
 
 void UserIdentity::OnWaitingAssociation()
@@ -89,7 +89,7 @@ void UserIdentity::OnMessageForInnerBrowserWindowFrame(const std::string& messag
   std::string js = "sendNotifyBundleToInnerFrame('";
   js += message;
   js += "')";
-  mLoginUIDelegate->CallJavaScript(js);
+  mLoginUIDelegate->LoginCallJavaScript(js);
 }
 
 void UserIdentity::onIdentityStateChanged(hookflash::core::IIdentityPtr identity, IdentityStates state)

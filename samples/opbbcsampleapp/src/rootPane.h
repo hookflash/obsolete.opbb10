@@ -4,12 +4,14 @@
 #include <QObject>
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/Page>
+#include <bb/cascades/WebView>
 #include <bb/cascades/ForeignWindowControl>
 #include <bb/cascades/ListView>
 #include <bb/cascades/GroupDataModel>
 
 #include <hookflash/core/IIdentityLookup.h>
 #include <hookflash/core/IContactPeerFilePublicLookup.h>
+#include <userIdentity.h>
 
 #include "types.h"
 
@@ -31,7 +33,7 @@ namespace hookflash {
         RootPane(ApplicationUI* appUI);
         virtual ~RootPane();
 
-        Q_INVOKABLE void OnLoginClick(QObject* page);
+        Q_INVOKABLE void OnLoginClick();
         Q_INVOKABLE void OnOnLoadingChanged(int status, QString url);
 
         Q_INVOKABLE void OnCallWindowOpened(QObject* callPageObj);
@@ -46,6 +48,12 @@ namespace hookflash {
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
         LoginPane* GetLoginPane() { return mLoginPane; }
 
+        void LoginNavigateTo(const std::string& url);
+        void LoginCallJavaScript(const std::string& js);
+
+        void ContactsNavigateTo(const std::string& url);
+        void ContactsCallJavaScript(const std::string& js);
+
     protected:
         // IIdentityLookupDelegate
         virtual void onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup);
@@ -58,13 +66,22 @@ namespace hookflash {
 
     private:
         void CreateVideoRenderer();
+        void LoginCallJavaScriptAfterPageLoad();
+        void ContactsCallJavaScriptAfterPageLoad();
 
         RootPaneDelegatesPtr mThisDelegates;
+        bool mLoginPageHasLoaded;
+        std::string mLoginJsToEvaluateWhenPageLoaded;
+        bool mContactsPageHasLoaded;
+        std::string mContactsJsToEvaluateWhenPageLoaded;
 
         ApplicationUI* mAppUI;
         LoginPane* mLoginPane;
         bb::cascades::QmlDocument* mQml;
+        bb::cascades::AbstractPane* mRoot;
         bb::cascades::ForeignWindowControl* mForeignWindow;
+        bb::cascades::WebView* mLoginWebView;
+        bb::cascades::WebView* mContactsWebView;
         bb::cascades::ListView* mContactsListView;
         boost::shared_ptr<webrtc::BlackberryWindowWrapper> mVideoRenderer;
         QRectF mVideoWindowSize;
@@ -76,7 +93,8 @@ namespace hookflash {
     };
 
     class RootPaneDelegates : public hookflash::core::IIdentityLookupDelegate,
-                              public hookflash::core::IContactPeerFilePublicLookupDelegate
+                              public hookflash::core::IContactPeerFilePublicLookupDelegate,
+                              public ILoginUIDelegate
     {
     public:
       RootPaneDelegates(RootPane* outer) : mOuter(outer) {}
@@ -89,6 +107,9 @@ namespace hookflash {
 
       // IContactPeerFilePublicLookupDelegate
       virtual void onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup);
+
+      virtual void LoginNavigateTo(const std::string& url) { if (!mOuter) return; mOuter->LoginNavigateTo(url); }
+      virtual void LoginCallJavaScript(const std::string& js) { if (!mOuter) return; mOuter->LoginCallJavaScript(js); }
 
     private:
       RootPane* mOuter; // Bare pointer - this is owned by QT

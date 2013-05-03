@@ -1,4 +1,5 @@
 #include "rootPane.h"
+#include "session.h"
 #include "loginPane.h"
 #include "applicationui.h"
 #include "session.h"
@@ -15,6 +16,7 @@
 #include <bb/cascades/LayoutUpdateHandler>
 #include <bb/cascades/ListView>
 #include <bb/data/JsonDataAccess>
+#include <bb/cascades/WebStorage>
 #include <QDebug>
 #include <QTimer>
 #include <iostream>
@@ -29,47 +31,37 @@ using namespace hookflash::blackberry;
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
-RootPane::RootPane(ApplicationUI* appUI) : QObject(appUI), mAppUI(appUI), mQml(NULL), mCallWindowIsOpen(false)
+RootPane::RootPane(ApplicationUI* appUI) :
+    QObject(appUI),
+    mAppUI(appUI),
+    mQml(NULL),
+    mCallWindowIsOpen(false),
+    mLoginPageHasLoaded(false),
+    mContactsPageHasLoaded(false)
 {
   mThisDelegates = RootPaneDelegatesPtr(new RootPaneDelegates(this));
 
-  // create scene document from main.qml asset
-  // set parent to created document to ensure it exists for the whole application lifetime
+  // Create scene document from main.qml asset and set parent to created document to
+  // ensure it exists for the whole application lifetime.
   mQml = QmlDocument::create("asset:///main.qml").parent(this);
-  mQml->setContextProperty("paneParent", this);
+  mQml->setContextProperty("cppParent", this);
 
-  // create root object for the UI
-  AbstractPane* root = mQml->createRootObject<AbstractPane>();
+  // Create root object for the UI.
+  mRoot = mQml->createRootObject<AbstractPane>();
 
+  // Set created root object as a scene.
+  mAppUI->GetApplication()->setScene(mRoot);
 
-  // set created root object as a scene
-  mAppUI->GetApplication()->setScene(root);
-
-
-  mContactsListView = root->findChild<ListView*>("contactList");
-  if(mContactsListView != NULL) {
-    qDebug() << "SA[RootPane::RootPane] List view not found";
-  }
-
-  mForeignWindow = root->findChild<ForeignWindowControl*>("foreignWindow");
-  if(mForeignWindow == NULL) {
-    qDebug() << "SA[RootPane::RootPane] Foreign window not found";
-    return;
-  }
+  mContactsListView = mRoot->findChild<ListView*>("listViewContacts");
+  mForeignWindow = mRoot->findChild<ForeignWindowControl*>("foreignWindow");
 
   LayoutUpdateHandler* handler = LayoutUpdateHandler::create(mForeignWindow).onLayoutFrameChanged(
     this,
     SLOT(onLayoutFrameChanged(const QRectF &)));
   mVideoWindowSize = handler->layoutFrame();
 
-  NavigationPane* navPanel = root->findChild<NavigationPane*>("navPanel");
-  if(navPanel != NULL) {
-    mLoginPane = new LoginPane(mAppUI->GetSession(), this);
-  }
-
   std::string peerFile = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerFile();
   std::string secret = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerSecretFile();
-
 
   if(peerFile.size() > 0 && secret.size() > 0) {
     bool success = mAppUI->GetSession()->GetAccount()->Relogin(peerFile, secret);
@@ -88,10 +80,15 @@ RootPane::~RootPane()
 }
 
 //-----------------------------------------------------------------
-void RootPane::OnLoginClick(QObject* navigationPaneObj)
+void RootPane::OnLoginClick()
 {
-  NavigationPane* navigationPane = qobject_cast<NavigationPane*>(navigationPaneObj);
-  mLoginPane->OnLoginClick(navigationPane);
+  mAppUI->GetSession()->GetIdentity()->SetLoginUIDelegate(mThisDelegates);
+
+  std::string uri = mAppUI->GetSession()->GetIdentityURI();
+  mAppUI->GetSession()->GetIdentity()->BeginLogin(uri);
+  mLoginWebView = mRoot->findChild<WebView*>("webViewLogin");
+  mLoginWebView->storage()->clearCache();
+  mLoginWebView->setUrl(QUrl("https://app-light.hookflash.me/outer.html"));
 }
 
 //-----------------------------------------------------------------
@@ -219,6 +216,65 @@ void RootPane::AddContactsToUI()
   mContactsListView->setDataModel(mContactModel);
 }
 
+//-----------------------------------------------------------------
+void RootPane::LoginNavigateTo(const std::string& url)
+{
+  mLoginWebView->setUrl(QUrl(url.c_str()));
+}
+
+//-----------------------------------------------------------------
+void RootPane::LoginCallJavaScript(const std::string& js)
+{
+  mLoginJsToEvaluateWhenPageLoaded = js;
+  if(mLoginPageHasLoaded) {
+    LoginCallJavaScriptAfterPageLoad();
+  }
+}
+
+//-----------------------------------------------------------------
+void RootPane::ContactsNavigateTo(const std::string& url)
+{
+  if(!mContactsWebView) {
+    mContactsWebView = mRoot->findChild<WebView*>("webViewContacts");
+  }
+
+  mContactsWebView->setUrl(QUrl(url.c_str()));
+}
+
+//-----------------------------------------------------------------
+void RootPane::ContactsCallJavaScript(const std::string& js)
+{
+  mContactsJsToEvaluateWhenPageLoaded = js;
+  if(mContactsPageHasLoaded) {
+    ContactsCallJavaScriptAfterPageLoad();
+  }
+}
+
+//-----------------------------------------------------------------
+void RootPane::LoginCallJavaScriptAfterPageLoad()
+{
+  qDebug() << "********* RootPane::LoginCallJavaScriptAfterPageLoad = " << mLoginJsToEvaluateWhenPageLoaded.c_str();
+
+  QString jsq(mLoginJsToEvaluateWhenPageLoaded.c_str());
+  mLoginJsToEvaluateWhenPageLoaded.clear();
+  bool status = mLoginWebView->evaluateJavaScript(jsq);
+}
+
+//-----------------------------------------------------------------
+void RootPane::ContactsCallJavaScriptAfterPageLoad()
+{
+  qDebug() << "********* RootPane::ContactsCallJavaScriptAfterPageLoad = " << mContactsJsToEvaluateWhenPageLoaded.c_str();
+
+  if(!mContactsWebView) {
+    mContactsWebView = mRoot->findChild<WebView*>("webViewContacts");
+  }
+
+  QString jsq(mContactsJsToEvaluateWhenPageLoaded.c_str());
+  mContactsJsToEvaluateWhenPageLoaded.clear();
+  bool status = mContactsWebView->evaluateJavaScript(jsq);
+}
+
+//-----------------------------------------------------------------
 void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
 {
   mAppUI->GetSession()->GetContactsManager()->handleIdentityLookupResult(lookup->getIdentities());
@@ -230,6 +286,7 @@ void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr loo
   mContactPeerFilePublicLookup = hookflash::core::IContactPeerFilePublicLookup::create(mThisDelegates, contactList);
 }
 
+//-----------------------------------------------------------------
 // IContactPeerFilePublicLookupDelegate
 void RootPane::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup)
 {

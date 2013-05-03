@@ -12,8 +12,8 @@ namespace hookflash {
     class ILoginUIDelegate {
     public:
       virtual ~ILoginUIDelegate() {}
-      virtual void NavigateTo(const std::string& url) = 0;
-      virtual void CallJavaScript(const std::string& js) = 0;
+      virtual void LoginNavigateTo(const std::string& url) = 0;
+      virtual void LoginCallJavaScript(const std::string& js) = 0;
     };
 
     //-------------------------------------------------------------------------

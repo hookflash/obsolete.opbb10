@@ -4,6 +4,33 @@
 <context>
     <name>main</name>
     <message>
+        <source>Contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Raise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Call</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Home</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type a message to send</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main-old</name>
+    <message>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -24,6 +51,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Call</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -33,10 +64,6 @@
     </message>
     <message>
         <source>Tab 3 content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Call</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
