@@ -3,7 +3,6 @@
 #include "userIdentity.h"
 #include "applicationui.h"
 #include "rootPane.h"
-#include "loginPane.h"
 #include "contactsManager.h"
 #include "contact.h"
 

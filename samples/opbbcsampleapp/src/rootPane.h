@@ -11,9 +11,10 @@
 
 #include <hookflash/core/IIdentityLookup.h>
 #include <hookflash/core/IContactPeerFilePublicLookup.h>
-#include <userIdentity.h>
 
 #include "types.h"
+
+#include "userIdentity.h"
 
 #include "video_render_bb_impl.h"
 #include "bb_window_wrapper.h"
@@ -46,7 +47,6 @@ namespace hookflash {
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
-        LoginPane* GetLoginPane() { return mLoginPane; }
 
         void LoginNavigateTo(const std::string& url);
         void LoginCallJavaScript(const std::string& js);
@@ -76,7 +76,6 @@ namespace hookflash {
         std::string mContactsJsToEvaluateWhenPageLoaded;
 
         ApplicationUI* mAppUI;
-        LoginPane* mLoginPane;
         bb::cascades::QmlDocument* mQml;
         bb::cascades::AbstractPane* mRoot;
         bb::cascades::ForeignWindowControl* mForeignWindow;

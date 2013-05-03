@@ -1,6 +1,5 @@
 #include "rootPane.h"
 #include "session.h"
-#include "loginPane.h"
 #include "applicationui.h"
 #include "session.h"
 #include "account.h"
