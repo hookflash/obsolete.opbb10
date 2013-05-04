@@ -16,6 +16,7 @@
 #include <bb/cascades/ListView>
 #include <bb/data/JsonDataAccess>
 #include <bb/cascades/WebStorage>
+#include <bb/cascades/WebLoadStatus>
 #include <QDebug>
 #include <QTimer>
 #include <iostream>
@@ -36,7 +37,12 @@ RootPane::RootPane(ApplicationUI* appUI) :
     mQml(NULL),
     mCallWindowIsOpen(false),
     mLoginPageHasLoaded(false),
-    mContactsPageHasLoaded(false)
+    mContactsPageHasLoaded(false),
+    mRoot(NULL),
+    mForeignWindow(NULL),
+    mLoginWebView(NULL),
+    mContactsWebView(NULL),
+    mContactsListView(NULL)
 {
   mThisDelegates = RootPaneDelegatesPtr(new RootPaneDelegates(this));
 
@@ -79,33 +85,126 @@ RootPane::~RootPane()
 }
 
 //-----------------------------------------------------------------
-void RootPane::OnLoginClick()
+void RootPane::BeginLogin()
 {
+  mLoginWebView = mRoot->findChild<WebView*>("webViewLogin");
+  mLoginWebView->storage()->clearCache();
+
   mAppUI->GetSession()->GetIdentity()->SetLoginUIDelegate(mThisDelegates);
 
   std::string uri = mAppUI->GetSession()->GetIdentityURI();
   mAppUI->GetSession()->GetIdentity()->BeginLogin(uri);
-  mLoginWebView = mRoot->findChild<WebView*>("webViewLogin");
-  mLoginWebView->storage()->clearCache();
   mLoginWebView->setUrl(QUrl("https://app-light.hookflash.me/outer.html"));
 }
 
 //-----------------------------------------------------------------
-void RootPane::OnOnLoadingChanged(int status, QString url)
+bool RootPane::OnLoginNavigationRequested(QUrl url)
 {
-  qDebug() << "***************** RootPane::OnLoginClick";
+  QString urlFull = url.toString();
+  qDebug() << "******** OnNavigationRequested = " << urlFull;
+
+  QString methodValue = url.queryItemValue("method");
+  if(methodValue.length() != 0) {
+    if(methodValue.indexOf("notifyClient", 0) == 0) {
+      std::string fullDataAsStdString = methodValue.toUtf8().constData();
+      std::string dataAsStdString = fullDataAsStdString.substr(strlen("notifyClient;data="));
+
+      mAppUI->GetSession()->GetIdentity()->OnNotifyClient(dataAsStdString);
+      return true; // Cancel
+    }
+    else if(methodValue.indexOf("proccessMyFBProfile", 0) == 0) {
+      std::string fullDataAsStdString = methodValue.toUtf8().constData();
+      std::string dataAsStdString = fullDataAsStdString.substr(strlen("proccessMyFBProfile;data="));
+
+      mAppUI->GetSession()->GetAccount()->ProcessMyFBProfile(dataAsStdString);
+      return true; // Cancel
+    }
+    else {
+      qDebug() << "**** LoginPane::OnNavigationRequested did not process method type = " << methodValue;
+      return true;
+    }
+  }
+  else {
+    QString urlFull = url.toString();
+    std::string urlAsStdString = urlFull.toUtf8().constData();
+    return mAppUI->GetSession()->GetIdentity()->OnWebBrowserPageNavigation(urlAsStdString);
+  }
+}
+
+//-----------------------------------------------------------------
+void RootPane::OnLoginLoadingChanged(int status, QString url)
+{
+  if(WebLoadStatus::Succeeded == status) {
+    mLoginPageHasLoaded = true;
+    if(mLoginJsToEvaluateWhenPageLoaded.size() > 0) {
+      LoginCallJavaScriptAfterPageLoad();
+    }
+  }
+  qDebug() << "*** OnLoadChanged = " << url;
 }
 
 
 //-----------------------------------------------------------------
-void RootPane::OnCallWindowOpened(QObject* callPageObj)
+bool RootPane::OnContactsNavigationRequested(QUrl url)
+{
+  QString urlFull = url.toString();
+  qDebug() << "******** OnNavigationRequested = " << urlFull;
+
+  QString methodValue = url.queryItemValue("method");
+  if(methodValue.length() != 0) {
+    if(methodValue.indexOf("proccessFbFriends", 0) == 0) {
+      QString fullData = methodValue.mid(strlen("proccessFbFriends;data="));
+
+      ProcessFbFriends(fullData);
+      return true; // Cancel
+    }
+    else {
+      qDebug() << "*** RootPane::OnNavigationRequested did not process method type = " << methodValue;
+      return true;
+    }
+  }
+  else {
+    QString urlFull = url.toString();
+    std::string urlAsStdString = urlFull.toUtf8().constData();
+    return mAppUI->GetSession()->GetIdentity()->OnWebBrowserPageNavigation(urlAsStdString);
+  }
+}
+
+//-----------------------------------------------------------------
+void RootPane::OnContactsLoadingChanged(int status, QString url)
+{
+  if(WebLoadStatus::Succeeded == status) {
+    mContactsPageHasLoaded = true;
+    if(mContactsJsToEvaluateWhenPageLoaded.size() > 0) {
+      ContactsCallJavaScriptAfterPageLoad();
+    }
+  }
+
+  qDebug() << "*** OnLoadChanged = " << url;
+}
+
+
+//-----------------------------------------------------------------
+void RootPane::OnVideoCallWindowOpened()
 {
   mCallWindowIsOpen = true;
   if(!mVideoRenderer && !mVideoWindowSize.isNull()) {
     CreateVideoRenderer();
   }
+  else {
+    // TODO:    // UnpauseVideoRenderer();
+  }
 }
 
+//-----------------------------------------------------------------
+void RootPane::OnVideoCallWindowClosed()
+{
+  mCallWindowIsOpen = false;
+  if(mVideoRenderer) {
+// TODO:  // PauseVideoRenderer();
+  }
+}
+#if 0
 //-----------------------------------------------------------------
 void RootPane::OnMediaTestButton1Click()
 {
@@ -159,6 +258,7 @@ void RootPane::OnMediaTestButton2Click()
   mediaEngine->stopVideoCapture();
 
 }
+#endif
 
 //-----------------------------------------------------------------
 void RootPane::ProcessFbFriends(const QString& data)
@@ -231,8 +331,26 @@ void RootPane::LoginCallJavaScript(const std::string& js)
 }
 
 //-----------------------------------------------------------------
+void RootPane::LoginMakeBrowserWindowVisible()
+{
+  QObject* container = mRoot->findChild<QObject*>("containerWebView");
+  qDebug() << "*** RootPane::LoginMakeBrowserWindowVisible";
+  QMetaObject::invokeMethod(container, "showBrowser",  Qt::DirectConnection);
+  QMetaObject::invokeMethod(container, "setLabelText",  Qt::DirectConnection, Q_ARG(QString, "Loading..."));
+}
+
+//-----------------------------------------------------------------
+void RootPane::LoginHideBrowserAfterLogin()
+{
+  QObject* container = mRoot->findChild<QObject*>("containerWebView");
+  QMetaObject::invokeMethod(container, "setLabelText",  Qt::DirectConnection, Q_ARG(QString, "Processing..."));
+  QMetaObject::invokeMethod(container, "hideBrowser",  Qt::DirectConnection);
+}
+
+//-----------------------------------------------------------------
 void RootPane::ContactsNavigateTo(const std::string& url)
 {
+  qDebug() << "*** RootPane::ContactsNavigateTo to " << url.c_str();
   if(!mContactsWebView) {
     mContactsWebView = mRoot->findChild<WebView*>("webViewContacts");
   }
@@ -310,10 +428,24 @@ void RootPane::CreateVideoRenderer() {
   const char* windowId = windowIdQ.toAscii();
 
   mVideoRenderer = boost::shared_ptr<webrtc::BlackberryWindowWrapper>(
-		  new webrtc::BlackberryWindowWrapper(windowId,
-				  	  	  	  	  	  	  	   groupId,
-											   mVideoWindowSize.width(),
-											   mVideoWindowSize.height()));
+      new webrtc::BlackberryWindowWrapper(windowId,
+                                       groupId,
+                         mVideoWindowSize.width(),
+                         mVideoWindowSize.height()));
+}
+
+//-----------------------------------------------------------------
+void RootPane::LoginSuccessful() {
+  QObject* tabbedPaneMain = mRoot->findChild<QObject*>("tabbedPaneMain");
+  QMetaObject::invokeMethod(tabbedPaneMain, "loginSuccessful",  Qt::DirectConnection);
+
+  ContactsNavigateTo(mAppUI->GetSession()->GetContactsURL());
+}
+
+//-----------------------------------------------------------------
+void RootPane::LoginFailed() {
+  QObject* tabbedPaneMain = mRoot->findChild<QObject*>("tabbedPaneMain");
+  QMetaObject::invokeMethod(tabbedPaneMain, "loginFailed",  Qt::DirectConnection);
 }
 
 //-----------------------------------------------------------------

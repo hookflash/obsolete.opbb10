@@ -14,6 +14,8 @@ namespace hookflash {
       virtual ~ILoginUIDelegate() {}
       virtual void LoginNavigateTo(const std::string& url) = 0;
       virtual void LoginCallJavaScript(const std::string& js) = 0;
+      virtual void LoginMakeBrowserWindowVisible() = 0;
+      virtual void LoginHideBrowserAfterLogin() = 0;
     };
 
     //-------------------------------------------------------------------------
@@ -35,6 +37,7 @@ namespace hookflash {
       void SetLoginUIDelegate(boost::shared_ptr<ILoginUIDelegate> delegate) { mLoginUIDelegate = delegate; }
       bool OnWebBrowserPageNavigation(const std::string& url);
       void OnWaitingToMakeBrowserWindowVisible();
+      void OnWaitingLoginCompleteBrowserRedirection();
       void OnWaitingAssociation();
 
       // Called by IdentityDelegate...

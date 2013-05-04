@@ -67,8 +67,13 @@ bool UserIdentity::OnWebBrowserPageNavigation(const std::string& url)
 
 void UserIdentity::OnWaitingToMakeBrowserWindowVisible()
 {
-  // TODO: mLoginUIDelegate->MakeBrowserWindowVisible();
+  mLoginUIDelegate->LoginMakeBrowserWindowVisible();
   mOpIdentity->notifyBrowserWindowVisible();
+}
+
+void UserIdentity::OnWaitingLoginCompleteBrowserRedirection()
+{
+  mLoginUIDelegate->LoginHideBrowserAfterLogin();
 }
 
 void UserIdentity::OnWaitingToLoadBrowserWindow()
@@ -101,6 +106,9 @@ void UserIdentity::onIdentityStateChanged(hookflash::core::IIdentityPtr identity
   }
   else if(state == IIdentity::IdentityState_WaitingToMakeBrowserWindowVisible) {
     OnWaitingToMakeBrowserWindowVisible();
+  }
+  else if(state == IIdentity::IdentityState_WaitingLoginCompleteBrowserRedirection) {
+    OnWaitingLoginCompleteBrowserRedirection();
   }
   else if(state == IIdentity::IdentityState_WaitingAssociation) {
     OnWaitingAssociation();

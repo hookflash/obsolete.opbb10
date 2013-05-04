@@ -3,6 +3,7 @@ import bb.cascades 1.0
 
 TabbedPane {
     id: tabbedPaneMain
+    objectName: "tabbedPaneMain"
     showTabsOnActionBar: true
     property variant selectedUserId
     property variant selectedFullName
@@ -17,6 +18,13 @@ TabbedPane {
         // don't forget to enable screen rotation in bar-bescriptor.xml (Application->Orientation->Auto-orient)
         OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.All;
         sheetStartup.open();
+    }
+    function loginSuccessful() {
+        tabbedPaneMain.activePane = pageContacts;
+        tabbedPaneMain.remove(tabStartup);
+    }
+    function loginFailed() {
+        navigationPaneStartup.pop();
     }
     Tab {
         id: tabStartup
@@ -54,7 +62,7 @@ TabbedPane {
                             console.log("*** sheetWebView: closing");
                             var page = pageWebViewCompDef.createObject();
                             navigationPaneStartup.push(page);
-                            cppParent.OnLoginClick();
+                            cppParent.BeginLogin();
                         }
                         topMargin: 150.0
                         horizontalAlignment: HorizontalAlignment.Center
@@ -70,6 +78,25 @@ TabbedPane {
                     id: pageWebView
                     Container {
                         id: containerWebView
+                        objectName: "containerWebView"
+                        topPadding: 200.0
+                        function showBrowser() {
+                            console.log("*** containerWebView::showBrowser");
+                            activityIndicatorWebView.visible = false;
+                            labelLoading.visible = false;
+                            // buttonShowWebView.visible = false;
+                            scrollViewLogin.visible = true;
+                        }
+                        function hideBrowser() {
+                            console.log("*** containerWebView::hideBrowser");
+                            activityIndicatorWebView.visible = true;
+                            labelLoading.visible = true;
+                            // buttonShowWebView.visible = true;
+                            scrollViewLogin.visible = true;
+                        }
+                        function setLabelText(txt) {
+                            labelLoading.text = txt;
+                        }
                         Label {
                             id: labelLoading
                             text: "Loading"
@@ -95,23 +122,53 @@ TabbedPane {
                             translationY: 440.0
                         }
 
-                        Button {
-                            id: buttonShowWebView
-                            text: "Show WebView"
-                            onClicked: {
-                                console.log("*** sheetWebView: showing webView");
-                                activityIndicatorWebView.visible = false;
-                                labelLoading.visible = false;
-                                buttonShowWebView.visible = false;
-                                webViewLogin.visible = true;
-                            }
-                        }
-                        WebView {
-                            id: webViewLogin
-                            objectName: "webViewLogin"
+                        //Button {
+                        //    id: buttonShowWebView
+                        //    text: "Show WebView"
+                        //    onClicked: {
+                        //        console.log("*** sheetWebView: showing webView");
+                        //        activityIndicatorWebView.visible = false;
+                        //        labelLoading.visible = false;
+                        //        buttonShowWebView.visible = false;
+                        //        webViewLogin.visible = true;
+                        //    }
+                        //}
+                        ScrollView {
+                            id: scrollViewLogin
+                            objectName: "scrollViewLogin"
+                            scrollViewProperties.scrollMode: ScrollMode.Both
+                            scrollViewProperties.maxContentScale: 2.0
                             visible: false
+                            WebView {
+                                id: webViewLogin
+                                objectName: "webViewLogin"
+                                url: "https://app-light.hookflash.me/outer.html"
+                                settings.customHttpHeaders: {
+                                    "Pragma": "no-cache"
+                                }
+                                onNavigationRequested: {
+                                    var cancel = cppParent.OnLoginNavigationRequested(request.url);
+                                    if (cancel) {
+                                        request.action = WebNavigationRequestAction.Ignore;
+                                    } else {
+                                        request.action = WebNavigationRequestAction.Accept;
+                                    }
+                                }
+                                onLoadingChanged: {
+                                    cppParent.OnLoginLoadingChanged(loadRequest.status, loadRequest.url);
+                                }
 
-                        }
+                                function callPageJavaScriptFunction(functionName, args) {
+                                    value = functionName + '("' + args + '")';
+                                    return webView.evaluateJavaScript(value);
+                                }
+
+                                touchPropagationMode: TouchPropagationMode.Full
+                                visible: true
+                                verticalAlignment: VerticalAlignment.Top
+
+                            } // WebView
+                        } // ScrollView
                     }
                     actions: [
                         ActionItem {
@@ -156,6 +213,25 @@ TabbedPane {
                         id: webViewContacts
                         objectName: "webViewContacts"
                         visible: false
+                        settings.customHttpHeaders: {
+                            "Pragma": "no-cache"
+                        }
+                        onNavigationRequested: {
+                            var cancel = cppParent.OnContactsNavigationRequested(request.url);
+                            if (cancel) {
+                                request.action = WebNavigationRequestAction.Ignore;
+                            } else {
+                                request.action = WebNavigationRequestAction.Accept;
+                            }
+                        }
+                        onLoadingChanged: {
+                            cppParent.OnContactsLoadingChanged(loadRequest.status, loadRequest.url);
+                        }
+
+                        function callPageJavaScriptFunction(functionName, args) {
+                            value = functionName + '("' + args + '")';
+                            return webView.evaluateJavaScript(value);
+                        }
 
                     }
                     ListView {
@@ -339,7 +415,7 @@ TabbedPane {
         id: tabVideo
         title: qsTr("Call")
         onTriggered: {
-            paneParent.OnCallWindowOpened(callTab);
+            cppParent.OnCallWindowOpened(callTab);
         }
         imageSource: "asset:///images/videocall.png"
         Page {

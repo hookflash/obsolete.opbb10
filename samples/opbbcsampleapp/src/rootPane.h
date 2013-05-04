@@ -34,13 +34,22 @@ namespace hookflash {
         RootPane(ApplicationUI* appUI);
         virtual ~RootPane();
 
-        Q_INVOKABLE void OnLoginClick();
-        Q_INVOKABLE void OnOnLoadingChanged(int status, QString url);
+        // The user clicks the sign-in button.
+        Q_INVOKABLE void BeginLogin();
 
-        Q_INVOKABLE void OnCallWindowOpened(QObject* callPageObj);
+        // The login web view is about to navigate to this URL. Return true to cancel the navigation.
+        Q_INVOKABLE bool OnLoginNavigationRequested(QUrl url);
 
-        Q_INVOKABLE void OnMediaTestButton1Click();
-        Q_INVOKABLE void OnMediaTestButton2Click();
+        // The login loading state changed. The status is 0 for starting, 1 for success, 2 for failure.
+        Q_INVOKABLE void OnLoginLoadingChanged(int status, QString url);
+
+        // As per above, but these are for the contacts webview used for accessing contact info.
+        Q_INVOKABLE bool OnContactsNavigationRequested(QUrl url);
+        Q_INVOKABLE void OnContactsLoadingChanged(int status, QString url);
+
+        // The video/voice window is opened/visible or closed/hidden
+        Q_INVOKABLE void OnVideoCallWindowOpened();
+        Q_INVOKABLE void OnVideoCallWindowClosed();
 
         void ProcessFbFriends(const QString& data);
         void AddContactsToUI();
@@ -50,9 +59,14 @@ namespace hookflash {
 
         void LoginNavigateTo(const std::string& url);
         void LoginCallJavaScript(const std::string& js);
+        void LoginMakeBrowserWindowVisible();
+        void LoginHideBrowserAfterLogin();
 
         void ContactsNavigateTo(const std::string& url);
         void ContactsCallJavaScript(const std::string& js);
+
+        void LoginSuccessful();
+        void LoginFailed();
 
     protected:
         // IIdentityLookupDelegate
@@ -109,6 +123,8 @@ namespace hookflash {
 
       virtual void LoginNavigateTo(const std::string& url) { if (!mOuter) return; mOuter->LoginNavigateTo(url); }
       virtual void LoginCallJavaScript(const std::string& js) { if (!mOuter) return; mOuter->LoginCallJavaScript(js); }
+      virtual void LoginMakeBrowserWindowVisible() { if (!mOuter) return; mOuter->LoginMakeBrowserWindowVisible(); }
+      virtual void LoginHideBrowserAfterLogin() { if (!mOuter) return; mOuter->LoginHideBrowserAfterLogin(); }
 
     private:
       RootPane* mOuter; // Bare pointer - this is owned by QT
