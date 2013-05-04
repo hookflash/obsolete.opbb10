@@ -68,10 +68,12 @@ RootPane::RootPane(ApplicationUI* appUI) :
   std::string peerFile = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerFile();
   std::string secret = mAppUI->GetSession()->GetAccount()->ReadPrivatePeerSecretFile();
 
+  // If the peer files exist then go straigth to logged in state.
   if(peerFile.size() > 0 && secret.size() > 0) {
     bool success = mAppUI->GetSession()->GetAccount()->Relogin(peerFile, secret);
     if(success) {
-      // TODO: Don't show login screen;
+      QObject* tabbedPaneMain = mRoot->findChild<QObject*>("tabContacts");
+      QMetaObject::invokeMethod(tabbedPaneMain, "loginSuccessful",  Qt::DirectConnection);
     }
   }
 
@@ -336,14 +338,14 @@ void RootPane::LoginMakeBrowserWindowVisible()
   QObject* container = mRoot->findChild<QObject*>("containerWebView");
   qDebug() << "*** RootPane::LoginMakeBrowserWindowVisible";
   QMetaObject::invokeMethod(container, "showBrowser",  Qt::DirectConnection);
-  QMetaObject::invokeMethod(container, "setLabelText",  Qt::DirectConnection, Q_ARG(QString, "Loading..."));
 }
 
 //-----------------------------------------------------------------
 void RootPane::LoginHideBrowserAfterLogin()
 {
   QObject* container = mRoot->findChild<QObject*>("containerWebView");
-  QMetaObject::invokeMethod(container, "setLabelText",  Qt::DirectConnection, Q_ARG(QString, "Processing..."));
+  QVariant msg = "Processing Login...";
+  QMetaObject::invokeMethod(container, "setLabelText",  Qt::DirectConnection, Q_ARG(QVariant, msg));
   QMetaObject::invokeMethod(container, "hideBrowser",  Qt::DirectConnection);
 }
 

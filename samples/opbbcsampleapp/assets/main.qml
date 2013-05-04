@@ -3,7 +3,6 @@ import bb.cascades 1.0
 
 TabbedPane {
     id: tabbedPaneMain
-    objectName: "tabbedPaneMain"
     showTabsOnActionBar: true
     property variant selectedUserId
     property variant selectedFullName
@@ -18,13 +17,6 @@ TabbedPane {
         // don't forget to enable screen rotation in bar-bescriptor.xml (Application->Orientation->Auto-orient)
         OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.All;
         sheetStartup.open();
-    }
-    function loginSuccessful() {
-        tabbedPaneMain.activePane = pageContacts;
-        tabbedPaneMain.remove(tabStartup);
-    }
-    function loginFailed() {
-        navigationPaneStartup.pop();
     }
     Tab {
         id: tabStartup
@@ -86,13 +78,15 @@ TabbedPane {
                             labelLoading.visible = false;
                             // buttonShowWebView.visible = false;
                             scrollViewLogin.visible = true;
+                            webViewLogin.visible = true;
                         }
                         function hideBrowser() {
                             console.log("*** containerWebView::hideBrowser");
                             activityIndicatorWebView.visible = true;
                             labelLoading.visible = true;
                             // buttonShowWebView.visible = true;
-                            scrollViewLogin.visible = true;
+                            webViewLogin.visible = false;
+                            scrollViewLogin.visible = false;
                         }
                         function setLabelText(txt) {
                             labelLoading.text = txt;
@@ -142,6 +136,7 @@ TabbedPane {
                             WebView {
                                 id: webViewLogin
                                 objectName: "webViewLogin"
+                                visible: false
                                 url: "https://app-light.hookflash.me/outer.html"
                                 settings.customHttpHeaders: {
                                     "Pragma": "no-cache"
@@ -164,7 +159,6 @@ TabbedPane {
                                 }
 
                                 touchPropagationMode: TouchPropagationMode.Full
-                                visible: true
                                 verticalAlignment: VerticalAlignment.Top
 
                             } // WebView
@@ -176,9 +170,9 @@ TabbedPane {
                             ActionBar.placement: ActionBarPlacement.OnBar
 
                             onTriggered: {
-
-                                tabbedPaneMain.activePane = pageContacts;
-                                tabbedPaneMain.remove(tabStartup);
+                                tabContacts.loginSuccessful();
+                                //tabbedPaneMain.activePane = pageContacts;
+                                //tabbedPaneMain.remove(tabStartup);
                             }
                         }
                     ] // actions
@@ -189,9 +183,20 @@ TabbedPane {
     }
     Tab {
         id: tabContacts
-        title: qsTr("Contacts")
         objectName: "tabContacts"
+        title: qsTr("Contacts")
         imageSource: "asset:///images/contacts.png"
+        function loginSuccessful() {
+            console.log("*** tabContacts::loginSuccessful")
+            navigationPaneStartup.pop();
+            tabbedPaneMain.activePane = pageContacts;
+            tabbedPaneMain.activeTab = tabContacts;
+            tabbedPaneMain.remove(tabStartup);
+        }
+        function loginFailed() {
+            console.log("*** tabContacts::loginFailed")
+            navigationPaneStartup.pop();
+        }
         NavigationPane {
             id: navigationPaneContacts
             Page {
@@ -206,7 +211,6 @@ TabbedPane {
                         }
                     }
                 ]
-                objectName: "tabContactsPage"
                 Container {
                     id: containerContacts
                     WebView {
