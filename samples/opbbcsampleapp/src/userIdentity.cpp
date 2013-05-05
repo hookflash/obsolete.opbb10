@@ -73,7 +73,8 @@ void UserIdentity::OnWaitingToMakeBrowserWindowVisible()
 
 void UserIdentity::OnWaitingLoginCompleteBrowserRedirection()
 {
-  mLoginUIDelegate->LoginHideBrowserAfterLogin();
+///////////// NOT HERE
+///////////// mLoginUIDelegate->LoginHideBrowserAfterLogin();
 }
 
 void UserIdentity::OnWaitingToLoadBrowserWindow()
@@ -86,6 +87,13 @@ void UserIdentity::OnWaitingToLoadBrowserWindow()
 
 void UserIdentity::OnWaitingAssociation()
 {
+  mLoginUIDelegate->LoginHideBrowserAfterLogin();
+  mSession->GetAccount()->Login();
+}
+
+void UserIdentity::OnWaitingReady()
+{
+  mLoginUIDelegate->LoginHideBrowserAfterLogin();
   mSession->GetAccount()->Login();
 }
 
@@ -112,6 +120,9 @@ void UserIdentity::onIdentityStateChanged(hookflash::core::IIdentityPtr identity
   }
   else if(state == IIdentity::IdentityState_WaitingAssociation) {
     OnWaitingAssociation();
+  }
+  else if(state == IIdentity::IdentityState_Ready) {
+    OnWaitingReady();
   }
 }
 

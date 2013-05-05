@@ -71,7 +71,6 @@ TabbedPane {
                     Container {
                         id: containerWebView
                         objectName: "containerWebView"
-                        topPadding: 200.0
                         function showBrowser() {
                             console.log("*** containerWebView::showBrowser");
                             activityIndicatorWebView.visible = false;
@@ -100,6 +99,7 @@ TabbedPane {
                             textStyle.textAlign: TextAlign.Center
                             textStyle.color: Color.Gray
                             horizontalAlignment: HorizontalAlignment.Center
+                            topMargin: 200.0
                         }
                         ActivityIndicator {
                             id: activityIndicatorWebView
@@ -113,7 +113,7 @@ TabbedPane {
                             topMargin: 0.0
                             topPadding: 0.0
                             translationX: 0.0
-                            translationY: 440.0
+                            translationY: 140.0
                         }
 
                         //Button {
@@ -132,6 +132,7 @@ TabbedPane {
                             objectName: "scrollViewLogin"
                             scrollViewProperties.scrollMode: ScrollMode.Both
                             scrollViewProperties.maxContentScale: 2.0
+/////////////////////////////                            visible: false
                             visible: false
                             WebView {
                                 id: webViewLogin
@@ -142,6 +143,7 @@ TabbedPane {
                                     "Pragma": "no-cache"
                                 }
                                 onNavigationRequested: {
+                                    console.log("*** Login webview"+request.url);
                                     var cancel = cppParent.OnLoginNavigationRequested(request.url);
                                     if (cancel) {
                                         request.action = WebNavigationRequestAction.Ignore;
@@ -164,18 +166,18 @@ TabbedPane {
                             } // WebView
                         } // ScrollView
                     }
-                    actions: [
-                        ActionItem {
-                            title: "Debug Success"
-                            ActionBar.placement: ActionBarPlacement.OnBar
-
-                            onTriggered: {
-                                tabContacts.loginSuccessful();
-                                //tabbedPaneMain.activePane = pageContacts;
-                                //tabbedPaneMain.remove(tabStartup);
-                            }
-                        }
-                    ] // actions
+                    //actions: [
+                    //    ActionItem {
+                    //        title: "Debug Success"
+                    //        ActionBar.placement: ActionBarPlacement.OnBar
+                    // 
+                    //        onTriggered: {
+                    //            tabContacts.loginSuccessful();
+                    //            //tabbedPaneMain.activePane = pageContacts;
+                    //            //tabbedPaneMain.remove(tabStartup);
+                    //        }
+                    //    }
+                    //] // actions
                 } // Page
             } // ComponentDefinition
         ]
@@ -221,6 +223,7 @@ TabbedPane {
                             "Pragma": "no-cache"
                         }
                         onNavigationRequested: {
+                            console.log("*** Contacts webview" + request.url);
                             var cancel = cppParent.OnContactsNavigationRequested(request.url);
                             if (cancel) {
                                 request.action = WebNavigationRequestAction.Ignore;
@@ -342,6 +345,7 @@ TabbedPane {
                                 navigationPaneContacts.pop();
                                 tabbedPaneMain.activePane = pageText;
                                 tabbedPaneMain.activeTab = tabText;
+                                pageText.setNewTextingTarget(tabbedPaneMain.selectedUserId);
                             }
                         }
                     }
@@ -360,6 +364,10 @@ TabbedPane {
             id: pageText
             objectName: "pageText"
             actionBarVisibility: ChromeVisibility.Visible
+            property variant currentTextUserId
+            function setNewTextingTarget(userId) {
+                pageText.currentTextUserId = userId;
+            }
             Container {
                 Container {
                     background: Color.Black
@@ -406,9 +414,10 @@ TabbedPane {
 
                         onTextChanged: {
                             if (text.length > 0) {
-                                _btController.chatManager.sendSPPMessage(text);
-                                textInput.text = ""
                             }
+                        }
+                        input.onSubmitted: {
+                            cppParent.SendTextMessage(pageText.currentTextUserId, text);
                         }
                     }
                 } // Container

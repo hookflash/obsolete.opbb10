@@ -42,7 +42,9 @@ RootPane::RootPane(ApplicationUI* appUI) :
     mForeignWindow(NULL),
     mLoginWebView(NULL),
     mContactsWebView(NULL),
-    mContactsListView(NULL)
+    mContactsListView(NULL),
+    mArrayContactsModel(NULL),
+    mGroupContactsModel(NULL)
 {
   mThisDelegates = RootPaneDelegatesPtr(new RootPaneDelegates(this));
 
@@ -206,6 +208,18 @@ void RootPane::OnVideoCallWindowClosed()
 // TODO:  // PauseVideoRenderer();
   }
 }
+
+//-----------------------------------------------------------------
+bool RootPane::SendTextMessage(QString currentTextUserId, QString text) {
+  AccountPtr account = mAppUI->GetSession()->GetAccount();
+  ContactPtr contact = account->GetContactByFacebookID((const char*) currentTextUserId.toUtf8().data());
+  if(contact) {
+    account->SendMessageTo(contact, (const char*) text.toUtf8().data());
+    return true;
+  }
+  return false;
+}
+
 #if 0
 //-----------------------------------------------------------------
 void RootPane::OnMediaTestButton1Click()
@@ -282,39 +296,29 @@ void RootPane::ProcessFbFriends(const QString& data)
 //-----------------------------------------------------------------
 void RootPane::AddContactsToUI()
 {
-  // Create the data model, specifying sorting keys of "firstName" and "lastName"
-  mContactModel = new GroupDataModel(QStringList() << "fullName");
+  if(!mArrayContactsModel) {
+    // Create the data model, specifying sorting keys of "firstName" and "lastName"
+    mGroupContactsModel = new GroupDataModel(QStringList() << "fullName" << "pictureUrl");
+    mArrayContactsModel = new ArrayDataModel();
 
-  // Create a JsonDataAccess object and load the .json file. The
-  // QDir::currentPath() function returns the current working
-  // directory for the app.
-//  JsonDataAccess jda;
-//  QVariant list = jda.loadFromBuffer(data);
+    const ContactsManager::ContactVector& contacts = mAppUI->GetSession()->GetContactsManager()->GetContactVector();
+    int size = contacts.size();
 
-  // Insert the data into the data model. Because the root of the .json file
-  // is an array, a QVariant(QVariantList) is returned from load(). You can
-  // provide a QVariantList to a data model directly by using insertList().
-
-  const ContactsManager::ContactVector& contacts = mAppUI->GetSession()->GetContactsManager()->GetContactVector();
-  int size = contacts.size();
-
-  // TODO: use iterator
-  for(int i= 0; i<size; i++) {
-    if(contacts.at(i)->GetContact()) {
-      QVariantMap itemMap;
-      itemMap["id"] = contacts.at(i)->GetIdentityURI().c_str();
-      itemMap["fullName"] = contacts.at(i)->GetFullName().c_str();
-      itemMap["pictureUrl"] = contacts.at(i)->GetPictureURL().c_str();
-      mContactModel->insert(itemMap);
+    // TODO: use iterator
+    for(int i= 0; i<size; i++) {
+      if(contacts.at(i)->GetContact()) {
+        QVariantMap itemMap;
+        itemMap["id"] = contacts.at(i)->GetIdentityURI().c_str();
+        itemMap["fullName"] = contacts.at(i)->GetFullName().c_str();
+        itemMap["pictureUrl"] = contacts.at(i)->GetPictureURL().c_str();
+        mGroupContactsModel->insert(itemMap);
+        mArrayContactsModel->append(itemMap);
+      }
     }
+
+  //  mContactsListView->setDataModel(mContactModel);
+    mContactsListView->setDataModel(mArrayContactsModel);
   }
-
-  int n = mContactModel->size();
-
-  // Set the data model for the list view
-//  mContactsListView->resetDataModel();
-//  model->
-  mContactsListView->setDataModel(mContactModel);
 }
 
 //-----------------------------------------------------------------

@@ -7,6 +7,7 @@
 #include <bb/cascades/WebView>
 #include <bb/cascades/ForeignWindowControl>
 #include <bb/cascades/ListView>
+#include <bb/cascades/ArrayDataModel>
 #include <bb/cascades/GroupDataModel>
 
 #include <hookflash/core/IIdentityLookup.h>
@@ -50,6 +51,8 @@ namespace hookflash {
         // The video/voice window is opened/visible or closed/hidden
         Q_INVOKABLE void OnVideoCallWindowOpened();
         Q_INVOKABLE void OnVideoCallWindowClosed();
+
+        Q_INVOKABLE bool SendTextMessage(QString currentTextUserId, QString text);
 
         void ProcessFbFriends(const QString& data);
         void AddContactsToUI();
@@ -99,7 +102,8 @@ namespace hookflash {
         boost::shared_ptr<webrtc::BlackberryWindowWrapper> mVideoRenderer;
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;
-        bb::cascades::GroupDataModel* mContactModel;
+        bb::cascades::ArrayDataModel* mArrayContactsModel;
+        bb::cascades::GroupDataModel* mGroupContactsModel;
 
         hookflash::core::IIdentityLookupPtr mIdentityLookup;
         hookflash::core::IContactPeerFilePublicLookupPtr mContactPeerFilePublicLookup;

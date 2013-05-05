@@ -39,6 +39,7 @@ namespace hookflash {
       void OnWaitingToMakeBrowserWindowVisible();
       void OnWaitingLoginCompleteBrowserRedirection();
       void OnWaitingAssociation();
+      void OnWaitingReady();
 
       // Called by IdentityDelegate...
       void OnWaitingToLoadBrowserWindow();
