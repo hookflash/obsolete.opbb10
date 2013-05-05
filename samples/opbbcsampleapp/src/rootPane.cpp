@@ -320,7 +320,7 @@ void RootPane::AddContactsToUI()
     }
 
   //  mContactsListView->setDataModel(mContactModel);
-    mContactsListView->setDataModel(mArrayContactsModel);
+    mContactsListView->setDataModel(mGroupContactsModel);
   }
 }
 
@@ -445,16 +445,16 @@ void RootPane::CreateVideoRenderer() {
 
 //-----------------------------------------------------------------
 void RootPane::LoginSuccessful() {
-  QObject* tabbedPaneMain = mRoot->findChild<QObject*>("tabbedPaneMain");
-  QMetaObject::invokeMethod(tabbedPaneMain, "loginSuccessful",  Qt::DirectConnection);
+  QObject* tabContacts = mRoot->findChild<QObject*>("tabContacts");
+  QMetaObject::invokeMethod(tabContacts, "loginSuccessful",  Qt::DirectConnection);
 
   ContactsNavigateTo(mAppUI->GetSession()->GetContactsURL());
 }
 
 //-----------------------------------------------------------------
 void RootPane::LoginFailed() {
-  QObject* tabbedPaneMain = mRoot->findChild<QObject*>("tabbedPaneMain");
-  QMetaObject::invokeMethod(tabbedPaneMain, "loginFailed",  Qt::DirectConnection);
+  QObject* tabContacts = mRoot->findChild<QObject*>("tabContacts");
+  QMetaObject::invokeMethod(tabContacts, "loginFailed",  Qt::DirectConnection);
 }
 
 //-----------------------------------------------------------------

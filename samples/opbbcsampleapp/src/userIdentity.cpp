@@ -88,12 +88,12 @@ void UserIdentity::OnWaitingToLoadBrowserWindow()
 void UserIdentity::OnWaitingAssociation()
 {
   mLoginUIDelegate->LoginHideBrowserAfterLogin();
+  mSession->GetAccount()->Login();
 }
 
 void UserIdentity::OnWaitingReady()
 {
   mLoginUIDelegate->LoginHideBrowserAfterLogin();
-  mSession->GetAccount()->Login();
 }
 
 void UserIdentity::OnMessageForInnerBrowserWindowFrame(const std::string& message)

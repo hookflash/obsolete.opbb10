@@ -244,8 +244,7 @@ TabbedPane {
                     ListView {
                         id: listViewContacts
                         objectName: "listViewContacts"
-                        dataModel: XmlDataModel {
-                            source: "asset:///models/contactModel.xml"
+                        dataModel: GroupDataModel {
                         }
                         listItemComponents: [
                             ListItemComponent {
