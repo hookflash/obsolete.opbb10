@@ -269,7 +269,7 @@ void Account::HandleMessageFrom(
   ZS_THROW_INVALID_ARGUMENT_IF(!contact)
   ZS_THROW_INVALID_ARGUMENT_IF(!message)
 
-  // TODO: wire up
+  GetSession()->GetAppUI()->GetRootPane()->ShowNewMessage(contact, message);
 }
 
 

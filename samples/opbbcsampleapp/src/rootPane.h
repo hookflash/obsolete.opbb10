@@ -71,6 +71,8 @@ namespace hookflash {
         void LoginSuccessful();
         void LoginFailed();
 
+        void ShowNewMessage(ContactPtr contact, const char* message);
+
     protected:
         // IIdentityLookupDelegate
         virtual void onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup);

@@ -23,7 +23,7 @@ LIBS += -L../../../../op/hookflash-libs/pcre/PCRE/qnx/arm/a.le.v7/ -lpcre
 LIBS += -L../../../../op/hookflash-libs/bbBoost/bin.v2/libs/date_time/build/qcc/debug/architecture-arm/link-static/target-os-qnxnto/threading-multi -lboost_date_time
 LIBS += -L../../../../op/hookflash-libs/bbBoost/bin.v2/libs/thread/build/qcc/debug/architecture-arm/link-static/target-os-qnxnto/threading-multi -lboost_thread
 LIBS += -L../../../../op/hookflash-libs/bbBoost/bin.v2/libs/system/build/qcc/debug/architecture-arm/link-static/target-os-qnxnto/threading-multi -lboost_system
-LIBS += -lcamapi -laudio_manager -lasound -lcurl -lsocket -lbps -lm -lc -lcpp -lstdc++ -ljpeg -lGLESv2 -lEGL -lscreen -lbbdata
+LIBS += -lcamapi -laudio_manager -lasound -lcurl -lsocket -lbps -lm -lc -lcpp -lstdc++ -ljpeg -lGLESv2 -lEGL -lscreen -lbbdata -lbbsystem
 
 include(config.pri)
 

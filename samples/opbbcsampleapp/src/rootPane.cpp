@@ -17,6 +17,8 @@
 #include <bb/data/JsonDataAccess>
 #include <bb/cascades/WebStorage>
 #include <bb/cascades/WebLoadStatus>
+#include <bb/system/SystemToast>
+
 #include <QDebug>
 #include <QTimer>
 #include <iostream>
@@ -26,6 +28,7 @@
 
 using namespace bb::cascades;
 using namespace bb::data;
+using namespace bb::system;
 using namespace hookflash::blackberry;
 
 //-----------------------------------------------------------------
@@ -452,6 +455,16 @@ void RootPane::LoginSuccessful() {
 void RootPane::LoginFailed() {
   QObject* tabbedPaneMain = mRoot->findChild<QObject*>("tabbedPaneMain");
   QMetaObject::invokeMethod(tabbedPaneMain, "loginFailed",  Qt::DirectConnection);
+}
+
+//-----------------------------------------------------------------
+void RootPane::ShowNewMessage(ContactPtr contact, const char* message) {
+  SystemToast* toast = new SystemToast();
+  SystemUiButton* toastButton = toast->button();
+
+  toast->setBody("message");
+  toastButton->setLabel("View");
+  toast->show();
 }
 
 //-----------------------------------------------------------------
