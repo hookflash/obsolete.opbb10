@@ -167,12 +167,10 @@ void Account::WritePeerFiles()
 
 ContactPtr Account::GetContactByFacebookID(const char *facebookID)
 {
-  String uri = IServiceIdentity::joinURI("facebook.com", facebookID);
-
-  ZS_LOG_DEBUG(log("searching for facebook contact") + ", identity uri=" + uri)
+  ZS_LOG_DEBUG(log("searching for facebook contact") + ", identity uri=" + facebookID)
 
   ContactsManagerPtr contactManager = mSession->GetContactsManager();
-  return contactManager->FindContactByIdentityURI(uri.c_str());
+  return contactManager->FindContactByIdentityURI(facebookID);
 }
 
 ContactPtr Account::GetActiveCallContact()

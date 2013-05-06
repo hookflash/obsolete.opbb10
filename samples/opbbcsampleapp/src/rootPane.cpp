@@ -187,7 +187,10 @@ void RootPane::OnContactsLoadingChanged(int status, QString url)
     }
   }
 
-  qDebug() << "*** OnLoadChanged = " << url;
+  std::string statusString("FAILED");
+  if(0 == status) { statusString = "Started"; }
+  else if(1 == status) { statusString = "Completed with success"; }
+  qDebug() << "*** OnLoadChanged = " << url << " status=" << statusString.c_str();
 }
 
 
@@ -306,6 +309,8 @@ void RootPane::AddContactsToUI()
 
     const ContactsManager::ContactVector& contacts = mAppUI->GetSession()->GetContactsManager()->GetContactVector();
     int size = contacts.size();
+
+    qDebug() << "*** RootPane::AddContactsToUI: " << size << "contacts to import";
 
     // TODO: use iterator
     for(int i= 0; i<size; i++) {
