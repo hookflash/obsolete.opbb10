@@ -102,6 +102,7 @@
     <permission system="true">run_native</permission>
     <permission>access_internet</permission>
     <permission>use_camera</permission>
+    <permission>record_audio</permission>
     <env var="LD_LIBRARY_PATH" value="app/native/lib:/usr/lib/qt4/lib"/>
 
 </qnx>
