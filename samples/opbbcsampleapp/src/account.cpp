@@ -253,10 +253,42 @@ bool Account::SendMessageTo(
 
   ZS_LOG_DEBUG(log("attempting to send message") + ", message=" + text + IContact::toDebugString(coreContact))
 
+  string str(text);
+  if ("ring" == str) {
+    ICallPtr call = GetActiveCall();
+    if (call) {
+      call->ring();
+      return true;
+    }
+  }
+  if ("answer" == str) {
+    ICallPtr call = GetActiveCall();
+    if (call) {
+      call->answer();
+      return true;
+    }
+  }
+  if ("hangup" == str) {
+    ICallPtr call = GetActiveCall();
+    if (call) {
+      call->hangup();
+      return true;
+    }
+  }
+  if ("audio" == str) {
+    PlaceCallTo(contact, true, false);
+    return true;
+  }
+  if ("video" == str) {
+    PlaceCallTo(contact, true, true);
+    return true;
+  }
+
   IConversationThreadPtr useConversation = getOrCreateConversationThreadFor(coreContact);
   ZS_THROW_BAD_STATE_IF(!useConversation)
 
   useConversation->sendMessage(hookflash::stack::IHelper::randomString(32), "text/x-application-hookflash-message-text", text);
+  return true;
 }
 
 void Account::HandleMessageFrom(
