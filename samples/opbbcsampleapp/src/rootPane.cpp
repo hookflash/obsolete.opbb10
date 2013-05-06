@@ -217,6 +217,7 @@ void RootPane::OnVideoCallWindowClosed()
 
 //-----------------------------------------------------------------
 bool RootPane::SendTextMessage(QString currentTextUserId, QString text) {
+
   AccountPtr account = mAppUI->GetSession()->GetAccount();
   ContactPtr contact = account->GetContactByFacebookID((const char*) currentTextUserId.toUtf8().data());
   if(contact) {
@@ -464,10 +465,11 @@ void RootPane::LoginFailed() {
 
 //-----------------------------------------------------------------
 void RootPane::ShowNewMessage(ContactPtr contact, const char* message) {
+  qDebug() << "*********************** RootPane::ShowNewMessage";
   SystemToast* toast = new SystemToast();
   SystemUiButton* toastButton = toast->button();
 
-  toast->setBody("message");
+  toast->setBody(message);
   toastButton->setLabel("View");
   toast->show();
 }

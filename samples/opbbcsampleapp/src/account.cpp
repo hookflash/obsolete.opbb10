@@ -264,6 +264,7 @@ void Account::HandleMessageFrom(
     const char *message
     )
 {
+  qDebug() << "************************** Account::HandleMessageFrom";
   ZS_THROW_INVALID_ARGUMENT_IF(!contact)
   ZS_THROW_INVALID_ARGUMENT_IF(!message)
 
