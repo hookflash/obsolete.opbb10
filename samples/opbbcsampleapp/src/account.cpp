@@ -256,7 +256,7 @@ bool Account::SendMessageTo(
   IConversationThreadPtr useConversation = getOrCreateConversationThreadFor(coreContact);
   ZS_THROW_BAD_STATE_IF(!useConversation)
 
-  useConversation->sendMessage(hookflash::stack::IHelper::randomString(32), "text/plain", text);
+  useConversation->sendMessage(hookflash::stack::IHelper::randomString(32), "text/x-application-hookflash-message-text", text);
 }
 
 void Account::HandleMessageFrom(
