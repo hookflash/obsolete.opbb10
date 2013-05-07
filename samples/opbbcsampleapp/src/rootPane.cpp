@@ -195,6 +195,26 @@ void RootPane::OnContactsLoadingChanged(int status, QString url)
 
 
 //-----------------------------------------------------------------
+bool RootPane::StartCall(QString currentRemoteUserId, bool hasVideo)
+{
+  AccountPtr account = mAppUI->GetSession()->GetAccount();
+  ContactPtr contact = account->GetContactByFacebookID((const char*) currentRemoteUserId.toUtf8().data());
+  if(contact) {
+	account->PlaceCallTo(contact, true, hasVideo);
+	return true;
+  }
+  return false;
+}
+
+//-----------------------------------------------------------------
+void RootPane::EndCall()
+{
+  AccountPtr account = mAppUI->GetSession()->GetAccount();
+  if(account)
+	  account->GetActiveCall()->hangup(hookflash::core::ICall::CallClosedReason_None);
+}
+
+//-----------------------------------------------------------------
 void RootPane::OnVideoCallWindowOpened()
 {
   mCallWindowIsOpen = true;

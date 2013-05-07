@@ -324,6 +324,7 @@ TabbedPane {
                                 navigationPaneContacts.pop();
                                 tabbedPaneMain.activePane = pageVideo;
                                 tabbedPaneMain.activeTab = tabVideo;
+                                pageVideo.setNewRemoteTarget(tabbedPaneMain.selectedUserId, true);
                             }
                         }
                         Button {
@@ -334,6 +335,7 @@ TabbedPane {
                                 navigationPaneContacts.pop();
                                 tabbedPaneMain.activePane = pageVideo;
                                 tabbedPaneMain.activeTab = tabVideo;
+                                pageVideo.setNewRemoteTarget(tabbedPaneMain.selectedUserId, false);
                             }
                         }
                         Button {
@@ -427,11 +429,17 @@ TabbedPane {
         id: tabVideo
         title: qsTr("Call")
         onTriggered: {
-            cppParent.OnCallWindowOpened(callTab);
         }
         imageSource: "asset:///images/videocall.png"
         Page {
             id: pageVideo
+            property variant remoteUserId
+            property bool hasVideo
+            function setNewRemoteTarget(userId, hasVideo) {
+                pageVideo.remoteUserId = userId;
+                pageVideo.hasVideo = hasVideo;
+                cppParent.StartCall(pageVideo.remoteUserId, pageVideo.hasVideo);
+            }
             onCreationCompleted: {
             }
             Container {
@@ -441,6 +449,7 @@ TabbedPane {
                     visible: true
                     horizontalAlignment: HorizontalAlignment.Fill
                     verticalAlignment: VerticalAlignment.Fill
+                    
                 }
             }
             titleBar: TitleBar {
@@ -451,7 +460,9 @@ TabbedPane {
                 dismissAction: ActionItem {
                     title: "End"
                     onTriggered: {
-
+                        tabbedPaneMain.activePane = navigationPaneContacts;
+                        tabbedPaneMain.activeTab = tabContacts;
+                        cppParent.EndCall();
                     }
                 }
 

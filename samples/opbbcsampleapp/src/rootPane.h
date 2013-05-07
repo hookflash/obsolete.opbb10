@@ -53,12 +53,15 @@ namespace hookflash {
         Q_INVOKABLE void OnVideoCallWindowClosed();
 
         Q_INVOKABLE bool SendTextMessage(QString currentTextUserId, QString text);
+        Q_INVOKABLE bool StartCall(QString currentRemoteUserId, bool hasVideo);
+        Q_INVOKABLE void EndCall();
 
         void ProcessFbFriends(const QString& data);
         void AddContactsToUI();
 
         ApplicationUI* GetApplicationUI() { return mAppUI; }
         bb::cascades::QmlDocument* GetQmlDocument() { return mQml; }
+        boost::shared_ptr<webrtc::BlackberryWindowWrapper> GetRenderWindow() { return mVideoRenderer; }
 
         void LoginNavigateTo(const std::string& url);
         void LoginCallJavaScript(const std::string& js);

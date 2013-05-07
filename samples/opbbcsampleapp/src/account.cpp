@@ -219,6 +219,12 @@ bool Account::PlaceCallTo(
   IConversationThreadPtr useConversation = getOrCreateConversationThreadFor(coreContact);
   ZS_THROW_BAD_STATE_IF(!useConversation)
 
+  if(includeVideo)
+  {
+	  hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
+	  mediaEngine->setChannelRenderView(GetSession()->GetAppUI()->GetRootPane()->GetRenderWindow().get());
+  }
+
   mCall = ICall::placeCall(useConversation, coreContact, includeAudio, includeVideo);
 }
 

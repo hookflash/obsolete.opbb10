@@ -25,7 +25,7 @@ ApplicationUI::ApplicationUI(Application *app) : QObject(app), mApp(app)
   // Add a log listener and pipe the output through qDebug.
 //  mLog = boost::shared_ptr<LogDelegate>(new LogDelegate());
 //  zsLib::Log::singleton()->addListener(mLog);
-  ILogger::setLogLevel(ILogger::Trace);
+  ILogger::setLogLevel(ILogger::Basic);
   ILogger::installTelnetLogger(59999, 60, true);
   ILogger::installDebuggerLogger();
 
