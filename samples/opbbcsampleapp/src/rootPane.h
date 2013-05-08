@@ -28,6 +28,8 @@ namespace hookflash {
     class RootPane : public QObject
     {
         Q_OBJECT
+        // The messages that have been sent between local and remote peer
+        Q_PROPERTY(QString chatHistory READ chatHistory NOTIFY chatHistoryChanged)
     public:
         friend class RootPaneDelegates;
 
@@ -53,6 +55,8 @@ namespace hookflash {
         Q_INVOKABLE void OnVideoCallWindowClosed();
 
         Q_INVOKABLE bool SendTextMessage(QString currentTextUserId, QString text);
+        Q_INVOKABLE void IncomingTextMessage(QString incomingText);
+        Q_INVOKABLE void updateChatWindow(const QString msg);
         Q_INVOKABLE bool StartCall(QString currentRemoteUserId, bool hasVideo);
         Q_INVOKABLE void EndCall();
 
@@ -76,6 +80,9 @@ namespace hookflash {
 
         void ShowNewMessage(ContactPtr contact, const char* message);
 
+        // The accessor method of the property
+        QString chatHistory() const;
+
     protected:
         // IIdentityLookupDelegate
         virtual void onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup);
@@ -85,6 +92,9 @@ namespace hookflash {
 
     public Q_SLOTS:
         void onLayoutFrameChanged(const QRectF &layoutFrame);
+    Q_SIGNALS:
+		// The change notification signal of the property
+		void chatHistoryChanged();
 
     private:
         void CreateVideoRenderer();
@@ -112,6 +122,8 @@ namespace hookflash {
 
         hookflash::core::IIdentityLookupPtr mIdentityLookup;
         hookflash::core::IContactPeerFilePublicLookupPtr mContactPeerFilePublicLookup;
+
+        QString mChatHistory;
     };
 
     class RootPaneDelegates : public hookflash::core::IIdentityLookupDelegate,

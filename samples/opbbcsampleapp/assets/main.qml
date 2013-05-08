@@ -383,7 +383,7 @@ TabbedPane {
 
                         backgroundVisible: true
                         editable: false
-                        text: _btController.chatManager.chatHistory
+                        text: cppParent.chatHistory
                     }
                     //! [1]
                 } // Container
@@ -419,6 +419,7 @@ TabbedPane {
                         }
                         input.onSubmitted: {
                             cppParent.SendTextMessage(pageText.currentTextUserId, text);
+                            textInput.text = "";
                         }
                     }
                 } // Container

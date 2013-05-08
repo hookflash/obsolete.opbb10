@@ -364,7 +364,7 @@ void Account::onConversationThreadMessage(
   ContactListPtr contacts = conversationThread->getContacts();
   ZS_THROW_BAD_STATE_IF(!contacts)
 
-  ZS_LOG_DEBUG(log("messsage received") + ", message ID=" + messageID + IConversationThread::toDebugString(conversationThread))
+  ZS_LOG_DEBUG(log("message received") + ", message ID=" + messageID + IConversationThread::toDebugString(conversationThread))
 
   IContactPtr contact;
   String messageTypeIgnored;

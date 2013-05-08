@@ -241,11 +241,29 @@ bool RootPane::SendTextMessage(QString currentTextUserId, QString text) {
   AccountPtr account = mAppUI->GetSession()->GetAccount();
   ContactPtr contact = account->GetContactByFacebookID((const char*) currentTextUserId.toUtf8().data());
   if(contact) {
+	updateChatWindow("Me: " + text);
     account->SendMessageTo(contact, (const char*) text.toUtf8().data());
     return true;
   }
   return false;
 }
+
+//-----------------------------------------------------------------
+void RootPane::IncomingTextMessage(QString incomingText)
+{
+	updateChatWindow(incomingText);
+}
+
+//-----------------------------------------------------------------
+void RootPane::updateChatWindow(const QString msg)
+    {
+        if (mChatHistory.size() > 0)
+        	mChatHistory.append("\n");
+
+        mChatHistory.append(msg);
+
+        emit chatHistoryChanged();
+    }
 
 #if 0
 //-----------------------------------------------------------------
@@ -486,12 +504,24 @@ void RootPane::LoginFailed() {
 //-----------------------------------------------------------------
 void RootPane::ShowNewMessage(ContactPtr contact, const char* message) {
   qDebug() << "*********************** RootPane::ShowNewMessage";
-  SystemToast* toast = new SystemToast();
-  SystemUiButton* toastButton = toast->button();
+//  SystemToast* toast = new SystemToast();
+//  SystemUiButton* toastButton = toast->button();
+//
+//  toast->setBody(message);
+//  toastButton->setLabel("View");
+//  toast->show();
 
-  toast->setBody(message);
-  toastButton->setLabel("View");
-  toast->show();
+  QString mess = message;
+  QString name = contact->GetFullName().c_str();
+
+  QString displayMessage = name + ": "+ mess;
+
+  IncomingTextMessage(displayMessage);
+}
+
+QString RootPane::chatHistory() const
+{
+    return mChatHistory;
 }
 
 //-----------------------------------------------------------------
