@@ -162,6 +162,7 @@ bool RootPane::OnContactsNavigationRequested(QUrl url)
     if(methodValue.indexOf("proccessFbFriends", 0) == 0) {
       QString fullData = methodValue.mid(strlen("proccessFbFriends;data="));
 
+      WriteContacts(fullData);
       ProcessFbFriends(fullData);
       return true; // Cancel
     }
@@ -365,6 +366,10 @@ void RootPane::AddContactsToUI()
 
   //  mContactsListView->setDataModel(mContactModel);
     mContactsListView->setDataModel(mGroupContactsModel);
+
+    QObject* tabContacts = mRoot->findChild<QObject*>("tabContacts");
+    QMetaObject::invokeMethod(tabContacts, "activityLoadingDone",  Qt::DirectConnection);
+
   }
 }
 
@@ -447,12 +452,16 @@ void RootPane::ContactsCallJavaScriptAfterPageLoad()
 //-----------------------------------------------------------------
 void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr lookup)
 {
+	qWarning() << "********* RootPane::onIdentityLookupCompleted   ";
+  //ZS_LOG_DEBUG(log("********* RootPane::onIdentityLookupCompleted") );
   mAppUI->GetSession()->GetContactsManager()->handleIdentityLookupResult(lookup->getIdentities());
   mIdentityLookup.reset();
 
   hookflash::core::ContactList contactList;
   mAppUI->GetSession()->GetContactsManager()->prepareContactListForContactPeerFilePublicLookup(contactList);
 
+  qWarning() << "********* RootPane::IContactPeerFilePublicLookup called   ";
+  //ZS_LOG_DEBUG(log("********* RootPane::IContactPeerFilePublicLookup called") );
   mContactPeerFilePublicLookup = hookflash::core::IContactPeerFilePublicLookup::create(mThisDelegates, contactList);
 }
 
@@ -460,7 +469,13 @@ void RootPane::onIdentityLookupCompleted(hookflash::core::IIdentityLookupPtr loo
 // IContactPeerFilePublicLookupDelegate
 void RootPane::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactPeerFilePublicLookupPtr lookup)
 {
+	qWarning() << "********* RootPane::onContactPeerFilePublicLookupCompleted   ";
+  //ZS_LOG_DEBUG(log("********* RootPane::onContactPeerFilePublicLookupCompleted") );
   AddContactsToUI();
+  qWarning() << "********* RootPane::AddContactsToUI completed   ";
+  //ZS_LOG_DEBUG(log("********* RootPane::AddContactsToUI completed") );
+  int i = 0;
+  i++;
 }
 
 //-----------------------------------------------------------------
@@ -488,11 +503,49 @@ void RootPane::CreateVideoRenderer() {
 }
 
 //-----------------------------------------------------------------
+void RootPane::WriteContacts(QString rawContacts)
+{
+  QString homePath = QDir::homePath();
+  QString contactsPath = homePath+"/contacts.txt";
+
+  QFile contactsFile(contactsPath);
+  contactsFile.open(QIODevice::WriteOnly | QIODevice::Text);
+  QTextStream out(&contactsFile);
+  out << rawContacts;
+  contactsFile.close();
+}
+
+//-----------------------------------------------------------------
+std::string RootPane::ReadContacts()
+{
+  std::string fileContents;
+  QString homePath = QDir::homePath();
+  QString contactsPath = homePath+"/contacts.txt";
+  QFile contactsFile(contactsPath);
+  if (contactsFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QTextStream stream(&contactsFile);
+    QString contents = stream.readAll();
+    fileContents = contents.toUtf8().constData();
+  }
+  contactsFile.close();
+  return fileContents;
+}
+
+
+//-----------------------------------------------------------------
 void RootPane::LoginSuccessful() {
   QObject* tabContacts = mRoot->findChild<QObject*>("tabContacts");
   QMetaObject::invokeMethod(tabContacts, "loginSuccessful",  Qt::DirectConnection);
 
-  ContactsNavigateTo(mAppUI->GetSession()->GetContactsURL());
+  QString storedContacts = ReadContacts().c_str();
+  if (storedContacts.size() > 0)
+  {
+	  ProcessFbFriends(storedContacts);
+  }
+  else
+  {
+	  ContactsNavigateTo(mAppUI->GetSession()->GetContactsURL());
+  }
 }
 
 //-----------------------------------------------------------------

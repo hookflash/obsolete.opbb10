@@ -189,16 +189,25 @@ TabbedPane {
         title: qsTr("Contacts")
         imageSource: "asset:///images/contacts.png"
         function loginSuccessful() {
-            console.log("*** tabContacts::loginSuccessful")
+            console.log("*** tabContacts::loginSuccessful");   
             navigationPaneStartup.pop();
             tabbedPaneMain.activePane = pageContacts;
             tabbedPaneMain.activeTab = tabContacts;
+            if (! myIndicator.running) {
+                // Start the activity here.       
+                myIndicator.start();
+            }
             tabbedPaneMain.remove(tabStartup);
         }
         function loginFailed() {
             console.log("*** tabContacts::loginFailed")
             navigationPaneStartup.pop();
         }
+        // This function is called when the activity loading is done.
+        function activityLoadingDone() {
+            myIndicator.stop();
+        }
+        
         NavigationPane {
             id: navigationPaneContacts
             Page {
@@ -215,7 +224,21 @@ TabbedPane {
                 ]
                 Container {
                     id: containerContacts
-                    WebView {
+                    ActivityIndicator {
+                        id: myIndicator
+                        preferredWidth: 100.0
+                        preferredHeight: 100.0
+                        verticalAlignment: VerticalAlignment.Center
+                        horizontalAlignment: HorizontalAlignment.Center
+                        scaleX: 1.0
+                        scaleY: 1.0
+                        topMargin: 0.0
+                        topPadding: 0.0
+                        translationX: 0.0
+                        translationY: 550.0
+                    }
+
+                        WebView {
                         id: webViewContacts
                         objectName: "webViewContacts"
                         visible: false
@@ -241,6 +264,7 @@ TabbedPane {
                         }
 
                     }
+                    
                     ListView {
                         id: listViewContacts
                         objectName: "listViewContacts"

@@ -75,6 +75,9 @@ namespace hookflash {
         void ContactsNavigateTo(const std::string& url);
         void ContactsCallJavaScript(const std::string& js);
 
+        void WriteContacts(QString rawContacts);
+        std::string ReadContacts();
+
         void LoginSuccessful();
         void LoginFailed();
 
