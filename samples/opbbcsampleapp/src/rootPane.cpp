@@ -26,15 +26,24 @@
 #include <hookflash/core/internal/core_MediaEngine.h>
 #include <hookflash/core/test/TestMediaEngine.h>
 
+#include <zsLib/helpers.h>
+#include <zsLib/Stringize.h>
+
+namespace hookflash { namespace blackberry { ZS_DECLARE_SUBSYSTEM(hookflash_blackberry) } }
+
 using namespace bb::cascades;
 using namespace bb::data;
 using namespace bb::system;
 using namespace hookflash::blackberry;
 
+using zsLib::String;
+using zsLib::Stringize;
+
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 RootPane::RootPane(ApplicationUI* appUI) :
+    mID(zsLib::createPUID()),
     QObject(appUI),
     mAppUI(appUI),
     mQml(NULL),
@@ -91,9 +100,16 @@ RootPane::~RootPane()
   mThisDelegates.reset();
 }
 
+void RootPane::OnPrestartWebkit()
+{
+  ZS_LOG_DEBUG(log("webkit about to load"))
+}
+
 //-----------------------------------------------------------------
 void RootPane::BeginLogin()
 {
+  ZS_LOG_DEBUG(log("webkit loaded"))
+
   mLoginWebView = mRoot->findChild<WebView*>("webViewLogin");
   mLoginWebView->storage()->clearCache();
 
@@ -523,6 +539,12 @@ QString RootPane::chatHistory() const
 {
     return mChatHistory;
 }
+
+String RootPane::log(const char *message) const
+{
+  return String("blackberry::RootPane [") + Stringize<typeof(mID)>(mID).string() + "] " + message;
+}
+
 
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------

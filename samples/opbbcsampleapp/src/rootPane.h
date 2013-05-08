@@ -38,6 +38,9 @@ namespace hookflash {
         virtual ~RootPane();
 
         // The user clicks the sign-in button.
+        Q_INVOKABLE void OnPrestartWebkit();
+
+        // The user clicks the sign-in button.
         Q_INVOKABLE void BeginLogin();
 
         // The login web view is about to navigate to this URL. Return true to cancel the navigation.
@@ -96,10 +99,15 @@ namespace hookflash {
 		// The change notification signal of the property
 		void chatHistoryChanged();
 
+    protected:
+        zsLib::String log(const char *message) const;
+
     private:
         void CreateVideoRenderer();
         void LoginCallJavaScriptAfterPageLoad();
         void ContactsCallJavaScriptAfterPageLoad();
+
+        zsLib::PUID mID;
 
         RootPaneDelegatesPtr mThisDelegates;
         bool mLoginPageHasLoaded;

@@ -52,6 +52,7 @@ TabbedPane {
                         text: "Login through FaceBook"
                         onClicked: {
                             console.log("*** sheetWebView: closing");
+                            cppParent.OnPrestartWebkit();
                             var page = pageWebViewCompDef.createObject();
                             navigationPaneStartup.push(page);
                             cppParent.BeginLogin();
