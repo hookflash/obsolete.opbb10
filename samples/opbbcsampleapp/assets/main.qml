@@ -49,7 +49,7 @@ TabbedPane {
                         horizontalAlignment: HorizontalAlignment.Center
                     }
                     Button {
-                        text: "Login through FaceBook"
+                        text: "Login with Facebook"
                         onClicked: {
                             console.log("*** sheetWebView: closing");
                             cppParent.OnPrestartWebkit();
@@ -93,7 +93,7 @@ TabbedPane {
                         }
                         Label {
                             id: labelLoading
-                            text: "Loading"
+                            text: "Contacting Facebook..."
                             textFormat: TextFormat.Plain
                             textStyle.base: SystemDefaults.TextStyles.BigText
                             textStyle.fontSize: FontSize.Default
@@ -114,7 +114,7 @@ TabbedPane {
                             topMargin: 0.0
                             topPadding: 0.0
                             translationX: 0.0
-                            translationY: 140.0
+                            translationY: 500.0
                         }
 
                         //Button {
@@ -207,10 +207,12 @@ TabbedPane {
         // This function is called when the activity loading is done.
         function activityLoadingDone() {
             myIndicator.stop();
+            labelContacts.visible = false;
         }
         
         NavigationPane {
             id: navigationPaneContacts
+            objectName: "navigationPaneContacts"
             Page {
                 id: pageContacts
                 actions: [
@@ -225,6 +227,17 @@ TabbedPane {
                 ]
                 Container {
                     id: containerContacts
+                    Label {
+                        id: labelContacts
+                        text: "Loading contacts..."
+                        textFormat: TextFormat.Plain
+                        textStyle.base: SystemDefaults.TextStyles.BigText
+                        textStyle.fontSize: FontSize.Default
+                        textStyle.textAlign: TextAlign.Center
+                        textStyle.color: Color.Gray
+                        horizontalAlignment: HorizontalAlignment.Center
+                        topMargin: 200.0
+                    }
                     ActivityIndicator {
                         id: myIndicator
                         preferredWidth: 100.0
@@ -236,7 +249,7 @@ TabbedPane {
                         topMargin: 0.0
                         topPadding: 0.0
                         translationX: 0.0
-                        translationY: 550.0
+                        translationY: 500.0
                     }
 
                         WebView {
@@ -336,7 +349,7 @@ TabbedPane {
                             textFormat: TextFormat.Plain
                             textStyle.textAlign: TextAlign.Center
                             topMargin: 0.0
-                            textStyle.fontSize: FontSize.Medium
+                            textStyle.fontSize: FontSize.XLarge
                             bottomMargin: 0.0
                         }
                         Button {
@@ -426,6 +439,7 @@ TabbedPane {
                         textStyle {
                             base: SystemDefaults.TextStyles.SubtitleText
                             fontWeight: FontWeight.Bold
+                            fontSize: FontSize.Medium
                             color: Color.Yellow
                         }
 
@@ -477,12 +491,14 @@ TabbedPane {
     Tab {
         id: tabVideo
         title: qsTr("Call")
+        objectName: "tabVideo"
         enabled: false
         onTriggered: {
         }
         imageSource: "asset:///images/videocall.png"
         Page {
             id: pageVideo
+            objectName: "pageVideo"
             property variant remoteUserId
             property bool hasVideo
             function setNewRemoteTarget(userId, hasVideo) {

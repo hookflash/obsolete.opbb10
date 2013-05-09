@@ -231,7 +231,28 @@ bool Account::PlaceCallTo(
 void Account::HandleCallState(hookflash::core::ICall::CallStates state)
 {
   // TODO: wire up
+	if(state == hookflash::core::ICall::CallState_Preparing)
+	{
+		return;
+	}
+	else
+	{
+		if (!mCall)
+		{
+			GetSession()->GetAppUI()->GetRootPane()->OnCallEnded();
+			return;
+		}
+		ContactsManagerPtr contactManager = mSession->GetContactsManager();
+		ContactPtr callerContact = contactManager->FindContactBy(mCall->getCaller());
+		ContactPtr calleeContact = contactManager->FindContactBy(mCall->getCallee());
 
+	    if (!callerContact && !calleeContact) {
+		  ZS_LOG_WARNING(Detail, log("message received but contact was not found in contacts manager"))
+		  return;
+	    }
+
+		GetSession()->GetAppUI()->GetRootPane()->HandleCall(callerContact, calleeContact, ICall::toString(state));
+	}
   // WARNING: if call is hanging up/hung up no active user/call will be present
 }
 
@@ -444,10 +465,14 @@ void Account::onCallStateChanged(hookflash::core::ICallPtr call, hookflash::core
   switch (state) {
     case ICall::CallState_None:           break;
     case ICall::CallState_Preparing:      break;
-    case ICall::CallState_Incoming:       break;
+    case ICall::CallState_Incoming:
+    	mCall->ring();
+    	break;
     case ICall::CallState_Placed:         break;
     case ICall::CallState_Early:          break;
-    case ICall::CallState_Ringing:        break;
+    case ICall::CallState_Ringing:
+    	//mCall->answer();
+    	break;
     case ICall::CallState_Ringback:       break;
     case ICall::CallState_Open:           break;
     case ICall::CallState_Active:         break;

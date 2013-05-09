@@ -11,6 +11,7 @@
 #include <bb/cascades/GroupDataModel>
 #include <bb/cascades/Tab>
 #include <bb/cascades/TabbedPane>
+#include <bb/system/SystemDialog>
 
 #include <hookflash/core/IIdentityLookup.h>
 #include <hookflash/core/IContactPeerFilePublicLookup.h>
@@ -64,6 +65,8 @@ namespace hookflash {
         Q_INVOKABLE void updateChatWindow(const QString msg);
         Q_INVOKABLE bool StartCall(QString currentRemoteUserId, bool hasVideo);
         Q_INVOKABLE void EndCall();
+        Q_INVOKABLE void OnCallEnded();
+        Q_INVOKABLE void HandleCall(ContactPtr caller, ContactPtr callee, const char* state);
 
         void ProcessFbFriends(const QString& data);
         void AddContactsToUI();
@@ -88,6 +91,7 @@ namespace hookflash {
 
         void ShowNewMessage(ContactPtr contact, const char* message);
 
+
         // The accessor method of the property
         QString chatHistory() const;
 
@@ -100,6 +104,7 @@ namespace hookflash {
 
     public Q_SLOTS:
         void onLayoutFrameChanged(const QRectF &layoutFrame);
+        void onDialogFinished(bb::system::SystemUiResult::Type type);
     Q_SIGNALS:
 		// The change notification signal of the property
 		void chatHistoryChanged();
@@ -132,6 +137,8 @@ namespace hookflash {
         bool mCallWindowIsOpen;
         bb::cascades::ArrayDataModel* mArrayContactsModel;
         bb::cascades::GroupDataModel* mGroupContactsModel;
+
+        ContactPtr mRemoteCallContact;
 
         hookflash::core::IIdentityLookupPtr mIdentityLookup;
         hookflash::core::IContactPeerFilePublicLookupPtr mContactPeerFilePublicLookup;

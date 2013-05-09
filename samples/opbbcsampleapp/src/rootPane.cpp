@@ -12,12 +12,14 @@
 #include <bb/cascades/NavigationPane>
 #include <bb/cascades/Control>
 #include <bb/cascades/Window>
+#include <bb/cascades/TitleBar>
 #include <bb/cascades/LayoutUpdateHandler>
 #include <bb/cascades/ListView>
 #include <bb/data/JsonDataAccess>
 #include <bb/cascades/WebStorage>
 #include <bb/cascades/WebLoadStatus>
 #include <bb/system/SystemToast>
+
 
 #include <QDebug>
 #include <QTimer>
@@ -228,7 +230,21 @@ void RootPane::EndCall()
 {
   AccountPtr account = mAppUI->GetSession()->GetAccount();
   if(account)
-	  account->GetActiveCall()->hangup(hookflash::core::ICall::CallClosedReason_None);
+	  account->GetActiveCall()->hangup(hookflash::core::ICall::CallClosedReason_User);
+}
+
+//-----------------------------------------------------------------
+void RootPane::OnCallEnded()
+{
+	bb::cascades::Tab* tabContacts = mRoot->findChild<bb::cascades::Tab*>("tabContacts");
+	bb::cascades::Tab* tabVideo = mRoot->findChild<bb::cascades::Tab*>("tabVideo");
+			  //QMetaObject::invokeMethod(tabContacts, "activityLoadingDone",  Qt::DirectConnection);
+
+	bb::cascades::TabbedPane* tabbedPaneMain = (bb::cascades::TabbedPane*)mRoot;
+	bb::cascades::NavigationPane* navigationPaneContacts = mRoot->findChild<bb::cascades::NavigationPane*>("navigationPaneContacts");
+	tabbedPaneMain->setActivePane(navigationPaneContacts);
+	tabbedPaneMain->setActiveTab(tabContacts);
+	tabVideo->setEnabled(false);
 }
 
 //-----------------------------------------------------------------
@@ -439,7 +455,7 @@ void RootPane::LoginMakeBrowserWindowVisible()
 void RootPane::LoginHideBrowserAfterLogin()
 {
   QObject* container = mRoot->findChild<QObject*>("containerWebView");
-  QVariant msg = "Processing Login...";
+  QVariant msg = "Creating user profile... ";
   QMetaObject::invokeMethod(container, "setLabelText",  Qt::DirectConnection, Q_ARG(QVariant, msg));
   QMetaObject::invokeMethod(container, "hideBrowser",  Qt::DirectConnection);
 }
@@ -527,6 +543,34 @@ void RootPane::onLayoutFrameChanged(const QRectF &layoutFrame) {
 }
 
 //-----------------------------------------------------------------
+void RootPane::onDialogFinished(bb::system::SystemUiResult::Type type) {
+	if (type == bb::system::SystemUiResult::ConfirmButtonSelection)
+	{
+		mAppUI->GetSession()->GetAccount()->GetActiveCall()->answer();
+
+	    bb::cascades::Tab* tabVideo = mRoot->findChild<bb::cascades::Tab*>("tabVideo");
+		  //QMetaObject::invokeMethod(tabContacts, "activityLoadingDone",  Qt::DirectConnection);
+		if (tabVideo->isEnabled() == false)
+		{
+			bb::cascades::TabbedPane* tabbedPaneMain = (bb::cascades::TabbedPane*)mRoot;
+			bb::cascades::Page* pageVideo = mRoot->findChild<bb::cascades::Page*>("pageVideo");
+			tabbedPaneMain->setActivePane(pageVideo);
+			tabbedPaneMain->setActiveTab(tabVideo);
+			tabVideo->setEnabled(true);
+			QString mess = " - Call In Progress";
+			QString body = mRemoteCallContact->GetFullName().c_str();
+			pageVideo->titleBar()->setTitle(body + mess);
+			//QDeclarativeProperty::write(pageVideo, "currentTextUserId", incomingTextUserId);
+
+		}
+	}
+	else if (type == bb::system::SystemUiResult::CancelButtonSelection)
+	{
+		mAppUI->GetSession()->GetAccount()->GetActiveCall()->hangup();
+	}
+}
+
+//-----------------------------------------------------------------
 void RootPane::CreateVideoRenderer() {
   QString groupIdQ = mForeignWindow->windowGroup();
   const char* groupId = groupIdQ.toAscii();
@@ -610,6 +654,80 @@ void RootPane::ShowNewMessage(ContactPtr contact, const char* message) {
   QString displayMessage = name + ": "+ mess;
 
   IncomingTextMessage(id, displayMessage);
+}
+
+//-----------------------------------------------------------------
+void RootPane::HandleCall(ContactPtr caller, ContactPtr callee, const char* state) {
+  qDebug() << "*********************** RootPane::HandleCall";
+
+//  bb::cascades::Tab* tabVideo = mRoot->findChild<bb::cascades::Tab*>("tabVideo");
+//  	//QMetaObject::invokeMethod(tabContacts, "activityLoadingDone",  Qt::DirectConnection);
+//  	if (tabVideo->isEnabled() == false)
+//  	{
+//  		bb::cascades::TabbedPane* tabbedPaneMain = (bb::cascades::TabbedPane*)mRoot;
+//  		bb::cascades::Page* pageVideo = mRoot->findChild<bb::cascades::Page*>("pageVideo");
+//  		tabbedPaneMain->setActivePane(pageVideo);
+//  		tabbedPaneMain->setActiveTab(tabVideo);
+//  		tabVideo->setEnabled(true);
+//  		//QDeclarativeProperty::write(pageVideo, "currentTextUserId", incomingTextUserId);
+//
+//  //		QGenericArgument Argument;
+//  //		QVariant Var = tabbedPaneMain->property("selectedUserId");
+//  //		if (Var.isValid())
+//  //		{
+//  //		  Argument = QGenericArgument(Var.typeName(), Var.data());
+//  //		}
+//  //		QMetaObject::invokeMethod(pageText, "setNewTextingTarget", Qt::DirectConnection, Argument);
+//  		//pageText->setNewTextingTarget(tabbedPaneMain.selectedUserId);
+//
+//  	}
+  if (caller)
+  {
+	  mRemoteCallContact = caller;
+  }
+  else if (callee)
+  {
+	  mRemoteCallContact = callee;
+  }
+
+  if ( !strcmp (state, "incoming"))
+  {
+  	SystemDialog *dialog = new SystemDialog("Answer",
+  											"Reject");
+
+  	dialog->setTitle("Incoming call");
+
+  	QString mess = "Caller - ";
+  	//QString name = contact->GetFullName().c_str();
+  	QString body = mess + mRemoteCallContact->GetFullName().c_str();
+  	dialog->setBody( body);
+
+  	dialog->setProperty("horizontalAlignment", bb::cascades::HorizontalAlignment::Center);
+  	dialog->setProperty("verticalAlignment", bb::cascades::VerticalAlignment::Center);
+
+  	bool success = connect(dialog,
+  	        SIGNAL(finished(bb::system::SystemUiResult::Type)),
+  	        this,
+  	        SLOT(onDialogFinished(bb::system::SystemUiResult::Type)));
+
+	if (success) {
+		// Signal was successfully connected.
+		// Now show the dialog box in your UI.
+
+		dialog->show();
+	} else {
+		// Failed to connect to signal.
+		dialog->deleteLater();
+	}
+  }
+
+//  QString mess = message;
+//  QString name = contact->GetFullName().c_str();
+//  QString id = contact->GetIdentityURI().c_str();
+//
+//  QString displayMessage = name + ": "+ mess;
+//
+//  IncomingTextMessage(id, displayMessage);
 }
 
 QString RootPane::chatHistory() const
