@@ -266,8 +266,31 @@ bool RootPane::SendTextMessage(QString currentTextUserId, QString text) {
 }
 
 //-----------------------------------------------------------------
-void RootPane::IncomingTextMessage(QString incomingText)
+void RootPane::IncomingTextMessage(QString incomingTextUserId, QString incomingText)
 {
+
+	bb::cascades::Tab* tabText = mRoot->findChild<bb::cascades::Tab*>("tabText");
+	//QMetaObject::invokeMethod(tabContacts, "activityLoadingDone",  Qt::DirectConnection);
+	if (tabText->isEnabled() == false)
+	{
+		bb::cascades::TabbedPane* tabbedPaneMain = (bb::cascades::TabbedPane*)mRoot;
+		bb::cascades::Page* pageText = mRoot->findChild<bb::cascades::Page*>("pageText");
+		tabbedPaneMain->setActivePane(pageText);
+		tabbedPaneMain->setActiveTab(tabText);
+		tabText->setEnabled(true);
+		QDeclarativeProperty::write(pageText, "currentTextUserId", incomingTextUserId);
+
+//		QGenericArgument Argument;
+//		QVariant Var = tabbedPaneMain->property("selectedUserId");
+//		if (Var.isValid())
+//		{
+//		  Argument = QGenericArgument(Var.typeName(), Var.data());
+//		}
+//		QMetaObject::invokeMethod(pageText, "setNewTextingTarget", Qt::DirectConnection, Argument);
+		//pageText->setNewTextingTarget(tabbedPaneMain.selectedUserId);
+
+	}
+
 	updateChatWindow(incomingText);
 }
 
@@ -582,10 +605,11 @@ void RootPane::ShowNewMessage(ContactPtr contact, const char* message) {
 
   QString mess = message;
   QString name = contact->GetFullName().c_str();
+  QString id = contact->GetIdentityURI().c_str();
 
   QString displayMessage = name + ": "+ mess;
 
-  IncomingTextMessage(displayMessage);
+  IncomingTextMessage(id, displayMessage);
 }
 
 QString RootPane::chatHistory() const

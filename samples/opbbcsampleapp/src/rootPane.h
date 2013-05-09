@@ -9,6 +9,8 @@
 #include <bb/cascades/ListView>
 #include <bb/cascades/ArrayDataModel>
 #include <bb/cascades/GroupDataModel>
+#include <bb/cascades/Tab>
+#include <bb/cascades/TabbedPane>
 
 #include <hookflash/core/IIdentityLookup.h>
 #include <hookflash/core/IContactPeerFilePublicLookup.h>
@@ -58,7 +60,7 @@ namespace hookflash {
         Q_INVOKABLE void OnVideoCallWindowClosed();
 
         Q_INVOKABLE bool SendTextMessage(QString currentTextUserId, QString text);
-        Q_INVOKABLE void IncomingTextMessage(QString incomingText);
+        Q_INVOKABLE void IncomingTextMessage(QString incomingTextUserId, QString incomingText);
         Q_INVOKABLE void updateChatWindow(const QString msg);
         Q_INVOKABLE bool StartCall(QString currentRemoteUserId, bool hasVideo);
         Q_INVOKABLE void EndCall();

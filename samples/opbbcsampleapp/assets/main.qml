@@ -16,7 +16,7 @@ TabbedPane {
         // enable layout to adapt to the device rotation
         // don't forget to enable screen rotation in bar-bescriptor.xml (Application->Orientation->Auto-orient)
         OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.All;
-        sheetStartup.open();
+        //sheetStartup.open();
     }
     Tab {
         id: tabStartup
@@ -349,6 +349,7 @@ TabbedPane {
                                 navigationPaneContacts.pop();
                                 tabbedPaneMain.activePane = pageVideo;
                                 tabbedPaneMain.activeTab = tabVideo;
+                                tabVideo.enabled = true;
                                 pageVideo.setNewRemoteTarget(tabbedPaneMain.selectedUserId, true);
                             }
                         }
@@ -360,6 +361,7 @@ TabbedPane {
                                 navigationPaneContacts.pop();
                                 tabbedPaneMain.activePane = pageVideo;
                                 tabbedPaneMain.activeTab = tabVideo;
+                                tabVideo.enabled = true;
                                 pageVideo.setNewRemoteTarget(tabbedPaneMain.selectedUserId, false);
                             }
                         }
@@ -371,6 +373,7 @@ TabbedPane {
                                 navigationPaneContacts.pop();
                                 tabbedPaneMain.activePane = pageText;
                                 tabbedPaneMain.activeTab = tabText;
+                                tabText.enabled = true;
                                 pageText.setNewTextingTarget(tabbedPaneMain.selectedUserId);
                             }
                         }
@@ -384,7 +387,7 @@ TabbedPane {
         id: tabText
         title: qsTr("Text")
         objectName: "tabText"
-        enabled: true
+        enabled: false
         imageSource: "asset:///images/chat.png"
         Page {
             id: pageText
@@ -393,6 +396,26 @@ TabbedPane {
             property variant currentTextUserId
             function setNewTextingTarget(userId) {
                 pageText.currentTextUserId = userId;
+            }
+            titleBar: TitleBar {
+                id: messageBar
+                title: tabbedPaneMain.selectedFullName
+                visibility: ChromeVisibility.Visible
+
+//                dismissAction: ActionItem {
+//                    title: "End"
+//                    onTriggered: {
+//                        tabbedPaneMain.activePane = navigationPaneContacts;
+//                        tabbedPaneMain.activeTab = tabContacts;
+//                        cppParent.EndCall();
+//                    }
+//                }
+//
+//                acceptAction: ActionItem {
+//                    title: "Mute"
+//                    onTriggered: {
+//                    }
+//                }
             }
             Container {
                 Container {
@@ -454,6 +477,7 @@ TabbedPane {
     Tab {
         id: tabVideo
         title: qsTr("Call")
+        enabled: false
         onTriggered: {
         }
         imageSource: "asset:///images/videocall.png"
@@ -488,15 +512,16 @@ TabbedPane {
                     onTriggered: {
                         tabbedPaneMain.activePane = navigationPaneContacts;
                         tabbedPaneMain.activeTab = tabContacts;
+                        tabVideo.enabled = false;
                         cppParent.EndCall();
                     }
                 }
 
-                acceptAction: ActionItem {
-                    title: "Mute"
-                    onTriggered: {
-                    }
-                }
+//                acceptAction: ActionItem {
+//                    title: "Mute"
+//                    onTriggered: {
+//                    }
+//                }
             }
         }
     }
