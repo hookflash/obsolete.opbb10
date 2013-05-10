@@ -5,12 +5,6 @@ Thank you for downloading Hookflash's Open Peer BlackBerry 10 SDK (QNX based) - 
 
 These are instructions for building the OpenPeer shared library for Blackberry. This assumes Mac (and probably works on Linux) but issues may come up on Windows.
 
-
-<br/>
-
-
-
-
 ## Download the NDK ##
 - The IDE, compliers, etc for Blackberry can be downloaded from http://developer.blackberry.com/native/download/.
 - The simulator can also be downloaded but we have had poor success with it. Far better to have a real device.
