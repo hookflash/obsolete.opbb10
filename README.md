@@ -18,7 +18,7 @@ Currently you need two projects "op" and "opbb10". "op" is using the 20121212-js
 There is a special version of boost that was built by Blackberry. It is found in the OP github repository: https://github.com/openpeer/opbb10.
 Building is done from the command line. Instructions for building the library are found on the github page: https://github.com/blackberry/Boost. Search for "Build Instructions". Or, try the following (assuming Mac and the NDK is installed in Applications)
     source /Applications/bbndk/bbndk-env.sh
-    code cd opbb10/hookflash-libs/boost/rim-build
+    cd opbb10/hookflash-libs/boost/rim-build
     ./build.sh install static
 
 The HF libraries (core, stack, service) will be looking for this in the op/hookflash-libs/bbBoost directory, which should exist as symbolic links if you cloned the repo from github.
