@@ -220,6 +220,13 @@ bool RootPane::StartCall(QString currentRemoteUserId, bool hasVideo)
   AccountPtr account = mAppUI->GetSession()->GetAccount();
   ContactPtr contact = account->GetContactByFacebookID((const char*) currentRemoteUserId.toUtf8().data());
   if(contact) {
+	bb::cascades::Tab* tabVideo = mRoot->findChild<bb::cascades::Tab*>("tabVideo");
+	bb::cascades::TabbedPane* tabbedPaneMain = (bb::cascades::TabbedPane*)mRoot;
+	bb::cascades::Page* pageVideo = mRoot->findChild<bb::cascades::Page*>("pageVideo");
+
+	QString mess = " - Starting Call";
+	QString body = contact->GetFullName().c_str();
+	pageVideo->titleBar()->setTitle(body + mess);
 	account->PlaceCallTo(contact, true, hasVideo);
 	return true;
   }
@@ -561,9 +568,9 @@ void RootPane::onDialogFinished(bb::system::SystemUiResult::Type type) {
 			tabbedPaneMain->setActivePane(pageVideo);
 			tabbedPaneMain->setActiveTab(tabVideo);
 			tabVideo->setEnabled(true);
-			QString mess = " - Call In Progress";
-			QString body = mRemoteCallContact->GetFullName().c_str();
-			pageVideo->titleBar()->setTitle(body + mess);
+//			QString mess = " - Call In Progress";
+//			QString body = mRemoteCallContact->GetFullName().c_str();
+//			pageVideo->titleBar()->setTitle(body + mess);
 			//QDeclarativeProperty::write(pageVideo, "currentTextUserId", incomingTextUserId);
 
 		}
