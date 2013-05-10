@@ -204,10 +204,20 @@ TabbedPane {
             console.log("*** tabContacts::loginFailed")
             navigationPaneStartup.pop();
         }
+        function refreshContacts() {
+            console.log("*** tabContacts::refreshContacts");
+            if (! myIndicator.running) {
+                // Start the activity here.       
+                myIndicator.start();
+                labelContacts.visible = true;
+                listViewContacts.enabled = false;
+            }
+        }
         // This function is called when the activity loading is done.
         function activityLoadingDone() {
             myIndicator.stop();
             labelContacts.visible = false;
+            listViewContacts.enabled = true;
         }
         
         NavigationPane {
@@ -215,7 +225,19 @@ TabbedPane {
             objectName: "navigationPaneContacts"
             Page {
                 id: pageContacts
-                actions: [
+                titleBar: TitleBar {
+                    id: refreshContacts
+                    title: "Contacts"
+                    visibility: ChromeVisibility.Visible
+
+                    acceptAction: ActionItem {
+                        title: "Refresh"
+                        onTriggered: {
+                            cppParent.RefreshFacebookContacts();
+                        }
+                    }
+                }
+                    actions: [
                     // define the actions for tab here
                     ActionItem {
                         title: qsTr("Raise")
@@ -249,7 +271,7 @@ TabbedPane {
                         topMargin: 0.0
                         topPadding: 0.0
                         translationX: 0.0
-                        translationY: 500.0
+                        translationY: 350.0
                     }
 
                         WebView {

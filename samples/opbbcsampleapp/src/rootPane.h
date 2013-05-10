@@ -67,6 +67,7 @@ namespace hookflash {
         Q_INVOKABLE void EndCall();
         Q_INVOKABLE void OnCallEnded();
         Q_INVOKABLE void HandleCall(ContactPtr caller, ContactPtr callee, const char* state);
+        Q_INVOKABLE void RefreshFacebookContacts();
 
         void ProcessFbFriends(const QString& data);
         void AddContactsToUI();
@@ -135,6 +136,7 @@ namespace hookflash {
         boost::shared_ptr<webrtc::BlackberryWindowWrapper> mVideoRenderer;
         QRectF mVideoWindowSize;
         bool mCallWindowIsOpen;
+        bool mShouldRefreshContacts;
         bb::cascades::ArrayDataModel* mArrayContactsModel;
         bb::cascades::GroupDataModel* mGroupContactsModel;
 

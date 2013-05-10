@@ -52,6 +52,7 @@ RootPane::RootPane(ApplicationUI* appUI) :
     mCallWindowIsOpen(false),
     mLoginPageHasLoaded(false),
     mContactsPageHasLoaded(false),
+    mShouldRefreshContacts(false),
     mRoot(NULL),
     mForeignWindow(NULL),
     mLoginWebView(NULL),
@@ -397,8 +398,10 @@ void RootPane::ProcessFbFriends(const QString& data)
 //-----------------------------------------------------------------
 void RootPane::AddContactsToUI()
 {
-  if(!mArrayContactsModel) {
+  if(!mArrayContactsModel || mShouldRefreshContacts) {
     // Create the data model, specifying sorting keys of "firstName" and "lastName"
+	mShouldRefreshContacts = false;
+
     mGroupContactsModel = new GroupDataModel(QStringList() << "fullName" << "pictureUrl");
     mArrayContactsModel = new ArrayDataModel();
 
@@ -636,6 +639,17 @@ void RootPane::LoginSuccessful() {
 void RootPane::LoginFailed() {
   QObject* tabContacts = mRoot->findChild<QObject*>("tabContacts");
   QMetaObject::invokeMethod(tabContacts, "loginFailed",  Qt::DirectConnection);
+}
+
+//-----------------------------------------------------------------
+void RootPane::RefreshFacebookContacts()
+{
+	QObject* tabContacts = mRoot->findChild<QObject*>("tabContacts");
+	QMetaObject::invokeMethod(tabContacts, "refreshContacts",  Qt::DirectConnection);
+
+	mShouldRefreshContacts = true;
+
+	ContactsNavigateTo(mAppUI->GetSession()->GetContactsURL());
 }
 
 //-----------------------------------------------------------------

@@ -113,6 +113,8 @@ void ContactsManager::AddContactsFromJSON(const std::string& json)
   if (!document) return;
 
   ElementPtr unknownEl = document->getFirstChildElement();
+
+  mContacts.clear();
   while (unknownEl) {
     ElementPtr idEl = unknownEl->findFirstChildElement("id");
     ElementPtr fullNameEl = unknownEl->findFirstChildElement("fullName");

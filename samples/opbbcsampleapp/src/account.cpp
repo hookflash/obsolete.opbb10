@@ -221,8 +221,8 @@ bool Account::PlaceCallTo(
 
   if(includeVideo)
   {
-	  hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
-	  mediaEngine->setChannelRenderView(GetSession()->GetAppUI()->GetRootPane()->GetRenderWindow().get());
+//	  hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
+//	  mediaEngine->setChannelRenderView(GetSession()->GetAppUI()->GetRootPane()->GetRenderWindow().get());
   }
 
   mCall = ICall::placeCall(useConversation, coreContact, includeAudio, includeVideo);
