@@ -10,6 +10,8 @@
 
 #include <zsLib/Log.h>
 
+//#include <hookflash/core/internal/core_MediaEngine.h>
+
 namespace hookflash { namespace blackberry { ZS_DECLARE_SUBSYSTEM(hookflash_blackberry) } }
 
 using namespace bb::cascades;
@@ -26,11 +28,15 @@ ApplicationUI::ApplicationUI(Application *app) : QObject(app), mApp(app)
 //  mLog = boost::shared_ptr<LogDelegate>(new LogDelegate());
 //  zsLib::Log::singleton()->addListener(mLog);
   ILogger::setLogLevel(ILogger::Basic);
+  ILogger::setLogLevel("hookflash_webrtc", ILogger::Detail);
   ILogger::installTelnetLogger(59999, 60, true);
   ILogger::installDebuggerLogger();
 
   mSession = Session::CreateInstance(this);
   mRootPane = new RootPane(this);
+//
+//	  hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
+//	  mediaEngine->startVideoCapture();
 }
 
 //-------------------------------------------------------------------------

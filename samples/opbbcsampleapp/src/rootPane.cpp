@@ -538,7 +538,8 @@ void RootPane::onLayoutFrameChanged(const QRectF &layoutFrame) {
   if(!mVideoRenderer) {
     mVideoWindowSize = layoutFrame;
     CreateVideoRenderer();
-//    OnMediaTestButton1Click();
+    hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
+    mediaEngine->setChannelRenderView(mVideoRenderer.get());
   }
 }
 
