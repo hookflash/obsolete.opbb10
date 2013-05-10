@@ -735,7 +735,26 @@ void RootPane::HandleCall(ContactPtr caller, ContactPtr callee, const char* stat
 		dialog->deleteLater();
 	}
   }
+  else if ( !strcmp (state, "ringing") || !strcmp (state, "ringback"))
+  {
+	bb::cascades::Tab* tabVideo = mRoot->findChild<bb::cascades::Tab*>("tabVideo");
+	bb::cascades::TabbedPane* tabbedPaneMain = (bb::cascades::TabbedPane*)mRoot;
+	bb::cascades::Page* pageVideo = mRoot->findChild<bb::cascades::Page*>("pageVideo");
 
+	QString mess = " - Ringing";
+	QString body = mRemoteCallContact->GetFullName().c_str();
+	pageVideo->titleBar()->setTitle(body + mess);
+  }
+  else if ( !strcmp (state, "open"))
+  {
+    bb::cascades::Tab* tabVideo = mRoot->findChild<bb::cascades::Tab*>("tabVideo");
+	bb::cascades::TabbedPane* tabbedPaneMain = (bb::cascades::TabbedPane*)mRoot;
+	bb::cascades::Page* pageVideo = mRoot->findChild<bb::cascades::Page*>("pageVideo");
+
+	QString mess = " - In Progress";
+	QString body = mRemoteCallContact->GetFullName().c_str();
+	pageVideo->titleBar()->setTitle(body + mess);
+  }
 //  QString mess = message;
 //  QString name = contact->GetFullName().c_str();
 //  QString id = contact->GetIdentityURI().c_str();
