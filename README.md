@@ -17,13 +17,13 @@ Currently you need two projects "op" and "opbb10". "op" is using the 20121212-js
 ## Building Boost ##
 There is a special version of boost that was built by Blackberry. It is found in the OP github repository: https://github.com/openpeer/opbb10.
 Building is done from the command line. Instructions for building the library are found on the github page: https://github.com/blackberry/Boost. Search for "Build Instructions". Or, try the following (assuming Mac and the NDK is installed in Applications)
-    source /Applications/bbndk/bbndk-env.sh
-    cd opbb10/hookflash-libs/boost/rim-build
-    ./build.sh install static
+    'source /Applications/bbndk/bbndk-env.sh'
+    'cd opbb10/hookflash-libs/boost/rim-build'
+    './build.sh install static'
 
 The HF libraries (core, stack, service) will be looking for this in the op/hookflash-libs/bbBoost directory, which should exist as symbolic links if you cloned the repo from github.
 If they do not for any reason, you will need to create a symbolic link in a shell and linking using...
-    ln -s opbb10/hookflash-libs/boost/ op/hookflash-libs/bbBoost
+    'ln -s opbb10/hookflash-libs/boost/ op/hookflash-libs/bbBoost'
 
 ## PCRE - the regular expression library for BB ##
 Boost regular expressions crash on the Blackberry. Instead of trying to fix the crash the PCRE regular expression library was added ot the opbb10 branch. This needs to be built.
