@@ -17,24 +17,24 @@ Currently you need two projects "op" and "opbb10". "op" is using the 20121212-js
 ## Building Boost ##
 There is a special version of boost that was built by Blackberry. It is found in the OP github repository: https://github.com/openpeer/opbb10.
 Building is done from the command line. Instructions for building the library are found on the github page: https://github.com/blackberry/Boost. Search for "Build Instructions". Or, try the following (assuming Mac and the NDK is installed in Applications)
-//Code source /Applications/bbndk/bbndk-env.sh
-//Code cd opbb10/hookflash-libs/boost/rim-build
-//Code ./build.sh install static
+    source /Applications/bbndk/bbndk-env.sh
+    code cd opbb10/hookflash-libs/boost/rim-build
+    ./build.sh install static
 
 The HF libraries (core, stack, service) will be looking for this in the op/hookflash-libs/bbBoost directory, which should exist as symbolic links if you cloned the repo from github.
 If they do not for any reason, you will need to create a symbolic link in a shell and linking using...
-//Code ln -s opbb10/hookflash-libs/boost/ op/hookflash-libs/bbBoost
+    ln -s opbb10/hookflash-libs/boost/ op/hookflash-libs/bbBoost
 
 ## PCRE - the regular expression library for BB ##
 Boost regular expressions crash on the Blackberry. Instead of trying to fix the crash the PCRE regular expression library was added ot the opbb10 branch. This needs to be built.
 Type the following commands (assuming Mac and the NDK is installed in Applications)
 
-//Code source /Applications/bbndk/bbndk-env.sh
-//Code cd opbb10/hookflash-libs/pcre/PCRE/qnx
-//Code make
+    source /Applications/bbndk/bbndk-env.sh
+    cd opbb10/hookflash-libs/pcre/PCRE/qnx
+    make
 
 Note that the library needs to have a symbolic link too just like bbBoost added (unless cloned from github in which case it should already exist).
-ln -s opbb10/hookflash-libs/pcre/ op/hookflash-libs/pcre
+    ln -s opbb10/hookflash-libs/pcre/ op/hookflash-libs/pcre
 
 ## Adding libraries to the .BAR file ##
 The .bar file is a zip file (renamed to .bar) that contains the files and directory structure of the application. Note that libraries are added via the .pro file (Cascades does things differently from native BB). But adding it to the pro does not add it to the BAR file.
