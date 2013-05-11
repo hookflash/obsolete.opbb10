@@ -47,6 +47,38 @@ Shared objects (aka libraries) are added via the bar-descriptor.xml file. Openin
 Go to Launch Pad -> bbndk (other) -> qde
 Load the workspace: op/hookflash-core/projects/bb
 
+## Import OP projects ##
+Select Import from Momentics IDE
+Import following projects from "op/hookflash-core/projects/bb":
+  - bbcryptopp
+  - bbhfcore
+  - bbhfservices
+  - bbhfstack
+  - bbudns
+  - bbzsLib
+  - common_audio
+  - common_video
+  - modules
+  - system_wrappers
+  - video_engine
+  - voice_engine
+  - vpx
+  - yuv
+
+## Import OPBB10 sample app ##
+Select Import from Momentics IDE
+Import following project from "opbb10/samples/":
+  - opbbcsampleapp
+
+## Building the sample application ##
+Select Device-Debug configuration for all projects in workspace
+Build only OP projects
+Build Sample app project
+
+*Please note that OP projects MUST be built before sample application, in order to link correctly 
+
+## Running the sample application ##
+Select Run/Debug from Momentics IDE and run your application on the BB10 device
 
 <br />
 <br />
