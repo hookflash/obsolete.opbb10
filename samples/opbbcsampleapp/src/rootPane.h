@@ -92,6 +92,9 @@ namespace hookflash {
 
         void ShowNewMessage(ContactPtr contact, const char* message);
 
+        bool IsIncomingCall();
+        void SetIncomingCall(bool flag);
+
 
         // The accessor method of the property
         QString chatHistory() const;
@@ -125,6 +128,8 @@ namespace hookflash {
         std::string mLoginJsToEvaluateWhenPageLoaded;
         bool mContactsPageHasLoaded;
         std::string mContactsJsToEvaluateWhenPageLoaded;
+
+        bool mIsIncomingCall;
 
         ApplicationUI* mAppUI;
         bb::cascades::QmlDocument* mQml;

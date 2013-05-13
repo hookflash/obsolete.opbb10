@@ -53,6 +53,7 @@ RootPane::RootPane(ApplicationUI* appUI) :
     mLoginPageHasLoaded(false),
     mContactsPageHasLoaded(false),
     mShouldRefreshContacts(false),
+    mIsIncomingCall(false),
     mRoot(NULL),
     mForeignWindow(NULL),
     mLoginWebView(NULL),
@@ -227,12 +228,22 @@ bool RootPane::StartCall(QString currentRemoteUserId, bool hasVideo)
 	QString mess = " - Starting Call";
 	QString body = contact->GetFullName().c_str();
 	pageVideo->titleBar()->setTitle(body + mess);
+	SetIncomingCall(false);
 	account->PlaceCallTo(contact, true, hasVideo);
 	return true;
   }
   return false;
 }
 
+bool RootPane::IsIncomingCall()
+{
+	return mIsIncomingCall;
+}
+
+void RootPane::SetIncomingCall(bool flag)
+{
+	mIsIncomingCall = flag;
+}
 //-----------------------------------------------------------------
 void RootPane::EndCall()
 {
@@ -435,6 +446,8 @@ void RootPane::AddContactsToUI()
     QObject* tabContacts = mRoot->findChild<QObject*>("tabContacts");
     QMetaObject::invokeMethod(tabContacts, "activityLoadingDone",  Qt::DirectConnection);
 
+    CreateVideoRenderer();
+
   }
 }
 
@@ -545,9 +558,10 @@ void RootPane::onContactPeerFilePublicLookupCompleted(hookflash::core::IContactP
 
 //-----------------------------------------------------------------
 void RootPane::onLayoutFrameChanged(const QRectF &layoutFrame) {
-  if(!mVideoRenderer) {
-    mVideoWindowSize = layoutFrame;
-    CreateVideoRenderer();
+  mVideoWindowSize = layoutFrame;
+  if(!mVideoRenderer || !mIsIncomingCall) {
+    //mVideoWindowSize = layoutFrame;
+    //CreateVideoRenderer();
     hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
     mediaEngine->setChannelRenderView(mVideoRenderer.get());
   }
@@ -714,6 +728,11 @@ void RootPane::HandleCall(ContactPtr caller, ContactPtr callee, const char* stat
 
   if ( !strcmp (state, "incoming"))
   {
+
+	SetIncomingCall(true);
+	hookflash::core::IMediaEnginePtr mediaEngine = hookflash::core::IMediaEngine::singleton();
+	mediaEngine->setChannelRenderView(mVideoRenderer.get());
+
   	SystemDialog *dialog = new SystemDialog("Answer",
   											"Reject");
 
