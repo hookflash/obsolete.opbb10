@@ -280,7 +280,7 @@ bool Account::SendMessageTo(
 
   ZS_LOG_DEBUG(log("attempting to send message") + ", message=" + text + IContact::toDebugString(coreContact))
 
-  string str(text);
+  std::string str(text);
   if ("ring" == str) {
     ICallPtr call = GetActiveCall();
     if (call) {

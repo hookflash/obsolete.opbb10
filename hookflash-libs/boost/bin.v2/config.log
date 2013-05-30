@@ -2,7 +2,7 @@
 ...updating 1 target...
 qcc.link bin.v2/libs/regex/build/qcc/debug/architecture-x86/target-os-qnxnto/has_icu
 bin.v2/libs/regex/build/qcc/debug/architecture-x86/target-os-qnxnto/has_icu_test.o: In function `main':
-/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost/libs/regex/build/has_icu_test.cpp:24: undefined reference to `u_charFromName'
+/Users/morosev/Repos_upgrade/opbb10/hookflash-libs/boost/libs/regex/build/has_icu_test.cpp:24: undefined reference to `u_charFromName'
 cc: /Applications/bbndk/host_10_1_0_132/darwin/x86/usr/bin/ntox86-ld error 1
 
     "$QNX_HOST/usr/bin/QCC" "-Vgcc_ntox86_gpp"    -o "bin.v2/libs/regex/build/qcc/debug/architecture-x86/target-os-qnxnto/has_icu" "bin.v2/libs/regex/build/qcc/debug/architecture-x86/target-os-qnxnto/has_icu_test.o"   -lm -gstabs+ -L$QNX_TARGET/x86/usr/lib -L$QNX_TARGET/x86/lib
@@ -13,7 +13,7 @@ cc: /Applications/bbndk/host_10_1_0_132/darwin/x86/usr/bin/ntox86-ld error 1
 ...updating 1 target...
 qcc.link bin.v2/libs/locale/build/qcc/debug/architecture-x86/target-os-qnxnto/has_iconv
 bin.v2/libs/locale/build/qcc/debug/architecture-x86/target-os-qnxnto/has_iconv_libc_obj.o: In function `main':
-/Users/lawrence.gunn/Documents/opbb10/hookflash-libs/boost/libs/locale/src/../build/has_iconv.cpp:12: undefined reference to `libiconv_open'
+/Users/morosev/Repos_upgrade/opbb10/hookflash-libs/boost/libs/locale/src/../build/has_iconv.cpp:12: undefined reference to `libiconv_open'
 cc: /Applications/bbndk/host_10_1_0_132/darwin/x86/usr/bin/ntox86-ld error 1
 
     "$QNX_HOST/usr/bin/QCC" "-Vgcc_ntox86_gpp"    -o "bin.v2/libs/locale/build/qcc/debug/architecture-x86/target-os-qnxnto/has_iconv" "bin.v2/libs/locale/build/qcc/debug/architecture-x86/target-os-qnxnto/has_iconv_libc_obj.o"   -lm -gstabs+ -L$QNX_TARGET/x86/usr/lib -L$QNX_TARGET/x86/lib

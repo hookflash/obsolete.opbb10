@@ -34,15 +34,15 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/zsLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/cryptopp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../hookflash-libs/boost}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/video_engine/include/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/system_wrappers/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/video_engine/include/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/system_wrappers/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/blackberry}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/voice_engine/include/}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1703448671" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -87,15 +87,15 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/zsLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/cryptopp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../hookflash-libs/boost}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/video_engine/include/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/system_wrappers/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/video_engine/include/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/system_wrappers/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/blackberry}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/voice_engine/include/}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.54720674" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -140,15 +140,15 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/zsLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/cryptopp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../hookflash-libs/boost}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/video_engine/include/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/system_wrappers/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/video_engine/include/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/system_wrappers/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/blackberry}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/voice_engine/include/}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.793375174" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -193,15 +193,15 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/zsLib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/cryptopp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../hookflash-libs/boost}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/voice_engine/main/interface/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/video_engine/include/}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source/blackberry}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/system_wrappers/interface}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/src/modules/video_render/main/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/video_engine/include/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/system_wrappers/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/modules/video_render/blackberry}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/opbbcsampleapp/../../../op/hookflash-libs/webRTC/webrtc/voice_engine/include/}&quot;"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.831728296" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>

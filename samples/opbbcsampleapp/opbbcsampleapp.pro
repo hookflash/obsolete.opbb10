@@ -15,6 +15,7 @@ LIBS += -L../../../../op/hookflash-core/projects/bb/bbWebRTCLibs/jpeg/Device-Deb
 LIBS += -L../../../../op/hookflash-core/projects/bb/bbWebRTCLibs/yuv/Device-Debug -lyuv
 LIBS += -L../../../../op/hookflash-core/projects/bb/bbWebRTCLibs/vpx/Device-Debug -lvpx
 LIBS += -L../../../../op/hookflash-core/projects/bb/bbWebRTCLibs/system_wrappers/Device-Debug -lsystem_wrappers
+LIBS += -L../../../../op/hookflash-core/projects/bb/bbWebRTCLibs/channel_transport/Device-Debug -lchannel_transport
 
 LIBS += -L../../../../op/hookflash-core/projects/bb/bbcryptopp/Device-Debug -lbbcryptopp
 LIBS += -L../../../../op/hookflash-core/projects/bb/bbudns/Device-Debug -lbbudns
