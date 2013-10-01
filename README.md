@@ -12,7 +12,7 @@ These are instructions for building the OpenPeer shared library for Blackberry. 
 ## Clone Libraries ##
 Currently you need two projects "op" and "opbb10". "op" is using the 20121212-json-provisioning (temporarily) and "opbb10" is using master. Both must be located at the same directory level. Clone the repos as follows:
 - git clone git@github.com:openpeer/opbb10.git
-- git clone git@github.com:openpeer/op.git -b 20121212-json-provisioning
+- git clone git@github.com:openpeer/op-old.git op -b 20121212-json-provisioning
 
 ## Building Boost ##
 There is a special version of boost that was built by Blackberry. It is found in the OP github repository: https://github.com/openpeer/opbb10.
